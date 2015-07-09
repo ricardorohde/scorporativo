@@ -56,8 +56,8 @@ $route['translate_uri_dashes'] = FALSE;
 $route['admin'] = "admin/login";
 $route['admin/(.*)/adicionar'] = "admin/$1/gerenciar/novo";
 $route['admin/(.*)/alterar/(.*)'] = "admin/$1/gerenciar/alterar/$2";
-$route['admin/(.*)/addfoto'] = "admin/$1/gerenciarfoto/novo";
-$route['admin/(.*)/addfoto/(.*)'] = "admin/$1/gerenciarfoto/novo/$2";
-$route['admin/(.*)/altfoto/(.*)/(.*)'] = "admin/$1/gerenciarfoto/alterar/$2/$3";
+$route['admin/(.*)/add_imagem'] = "admin/$1/gerenciar_imagem/novo";
+$route['admin/(.*)/add_imagem/(.*)'] = "admin/$1/gerenciar_imagem/novo/$2";
+$route['admin/(.*)/alt_imagem/(.*)/(.*)'] = "admin/$1/gerenciar_imagem/alterar/$2/$3";
 
 $route['gerasenha/(.*)'] = "gerasenha/index/$1";

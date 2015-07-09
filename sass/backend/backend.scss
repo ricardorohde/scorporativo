@@ -1,0 +1,46 @@
+/*
+Backend Site amplitur.com.br
+By Guilherme Müller
+http://guilhermemuller.com.br
+contato@guilhermemuller.com.br
+*/
+
+//
+//-- Variáveis
+//
+
+//cores
+$color-base: #333333;
+$color-highlight: #2E6935;
+
+//
+//-- Mixins
+//
+
+
+
+//
+//-- Placeholders
+//
+
+
+
+//
+//-- Imports
+//
+
+@import "../scorporativo";
+
+@import "tipografia";
+
+@import "icones";
+
+@import "estrutura";
+
+@import "modulos";
+
+@import "forms";
+
+@import "tabelas";
+
+@import "../grades";

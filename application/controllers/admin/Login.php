@@ -1,0 +1,47 @@
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
+
+class Login extends MY_Controller {
+
+	function __construct() {
+		parent::__construct();
+		$this->load->model('Session','sess');
+		$this->load->model('Auth','auth');
+		
+		//$this->output->enable_profiler(TRUE);
+	}
+	
+	function index($redirect = null) {		
+		$this->load->library('form_validation');
+		$this->form_validation->set_error_delimiters('','<br>');
+		
+		$this->form_validation->set_rules('login','Login','trim|required');
+		$this->form_validation->set_rules('senha','Senha','trim|required');
+		
+		if ($this->form_validation->run()) {
+			if($this->auth->check_credentials()) {
+				$this->auth->do_login(array('redirect' => $redirect));
+				return true;
+			} else {
+				$data['erro'] = 'Usuário ou senha inválidos.';
+			}
+		} else {
+			if($this->sess->check_session(array('close' => false, 'level' => 'admin'))) {
+				redirect('admin/home');
+				return;
+			}
+		}
+		
+		$data['msg'] = $this->session->userdata('msg');		
+		$this->session->unset_userdata('msg');
+		
+		$this->_render('backend/login',$data);
+	}
+	
+	function logout() {
+		$this->sess->close(array('redirect' => false));
+		
+		$this->_render('backend/logout');
+	}
+}
+
+?>

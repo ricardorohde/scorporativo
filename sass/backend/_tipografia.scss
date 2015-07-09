@@ -1,0 +1,87 @@
+//
+//-- Tipografia e Cores
+//
+
+body {
+	font-size: 1em;
+	background: #F2F2F2;
+}
+
+body, input, select, textarea, button {
+	font-family: "Open Sans", sans-serif;
+	font-weight: 300;
+}
+
+/* links */
+
+a:link {
+	color: #2E6935;
+}
+
+a:visited {
+	color: #43964D;
+}
+
+a:hover {
+	text-decoration: none;
+}
+
+a:focus {
+	
+}
+
+a:active {
+	color: #000000;
+}
+
+/* títulos */
+
+h1, h2, h3, h4, h5, h6 {
+	margin-bottom: 1rem;
+}
+
+h1 {
+	font-size: 2em;
+}
+
+h2 {
+	font-size: 1.5em;
+}
+
+h3 {
+	font-size: 1.17em;
+	margin-top: 1em;
+	border-bottom: 1px dotted #CCC;
+	padding-bottom: 0.2em;
+}
+
+h4 {
+	font-size: 1em;
+}
+
+h5 {
+	font-size: 0.83em;
+}
+
+h6 {
+	font-size: 0.75em;
+}
+
+/* outras tags de texto */
+
+p {
+	font-size: 1em;
+	line-height: 1.4em;
+	margin-bottom: 1.5em;
+}
+
+/* hr */
+
+hr {
+	display: block;
+	height: 1px;
+	border: 0;
+	border-top: 1px solid #CCC;
+	margin: 1em 0;
+	padding: 0;
+}

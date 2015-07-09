@@ -33,7 +33,7 @@
 
 <!-- JavaScripts -->
 <script src="<?=base_url()?>js/vendor/jquery-1.11.3.min.js"></script>
-<script src="js/frontend/main.js"></script>
+<script src="<?=base_url()?>js/frontend/main.js"></script>
 
 <?php if($_SERVER['HTTP_HOST'] == 'localhost'): ?>
 <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->

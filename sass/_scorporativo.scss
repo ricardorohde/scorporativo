@@ -1,0 +1,160 @@
+@charset "UTF-8";
+// Produto Site Corporativo - CSS Base
+// Autor: Guilherme Müller
+// http://guilhermemuller.com.br
+// contato@guilhermemuller.com.br
+
+//
+//-- Estilos Reset
+//
+
+// always force a scrollbar in non-IE
+html { overflow-y: scroll; }
+// reset de margens
+* { margin: 0; padding: 0; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }
+// nenhum estilo de lista
+ul { list-style: none; }
+// nenhuma borda em imagens e fieldsets
+a img, fieldset { border: 0;}
+// títulos sem negrito
+h1, h2, h3, h4, h5, h6 { font-weight: normal; }
+// imagens se adaptam a containers
+img { max-width: 100%; }
+// propriedade display para elementos HTML5 em navegadores antigos
+article,aside,details,figcaption,figure,footer,header,hgroup,nav,section,summary,main { display: block; }
+// correções no ajuste de texto no IE 6/7 e iOS
+html { font-size: 100%; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+// padronização de outline
+a:focus { outline: thin dotted; }
+// melhor legibilidade no hover e active dos links
+a:active, a:hover { outline: 0; }
+// correções no estilo bold
+b, strong { font-weight: bold; }
+// padronização da tag
+small { font-size: 80%; }
+// correções nas tags sub e sup
+sub, sup { font-size: 75%; line-height: 0; position: relative; vertical-align: baseline; }
+sup { top: -0.5em; }
+sub { bottom: -0.25em; }
+// melhor qualidade de imagem no IE 7, retira espaços entre imagens
+img { -ms-interpolation-mode: bicubic; vertical-align: middle; }
+// correções na tag legend
+legend { border: 0; padding: 0; white-space: normal; *margin-left: -7px; }
+// padronização das tags
+button, input, select, textarea { font-size: 100%; vertical-align: baseline; *vertical-align: middle; }
+// correção de uma inconsistência no FF
+button, input { line-height: normal; }
+// tira a barra de rolagem padrão no IE. melhor alinhamento / apenas resize na vertical 
+textarea { overflow: auto; vertical-align: top; resize: vertical; }
+// retira espaços das tabelas
+table { border-collapse: collapse; border-spacing: 0; }
+
+//
+//-- Classes Complementares
+//
+
+// classes finalizadoras de floats 
+
+.grupo:before,
+.grupo:after {
+	content: " "; // 1 
+	display: table; // 2 
+}
+
+.grupo:after {
+	clear: both;
+}
+
+// para IE 6/7 
+
+.grupo {
+	*zoom: 1;
+}
+
+// classes de flutuação geral 
+.f-esq {
+	float: left;
+}
+
+.f-dir {
+	float: right;
+}
+
+// classes de alinhamento padrão 
+.a-centro, .tabela .a-centro {
+	text-align: center;
+}
+
+.a-esq, .tabela .a-esq {
+	text-align: left;
+}
+
+.a-dir, .tabela .a-dir {
+	text-align: right;
+}
+
+// Substituição por imagem 
+
+.ir {
+	background-color: transparent;
+	border: 0;
+	overflow: hidden;
+	// IE 6/7 fallback 
+	*text-indent: -9999px;
+}
+
+.ir:before {
+	content: "";
+	display: block;
+	width: 0;
+	height: 100%;
+}
+
+// Esconde de leitores de tela e navegadores 
+
+.esconde {
+	display: none !important;
+	visibility: hidden;
+}
+
+.esconde-texto {
+	text-indent: 200%;
+	overflow: hidden;
+}
+
+// Esconde apenas visualmente, mas mantém para leitores de tela: h5bp.com/v 
+
+.esconde-vis {
+	border: 0;
+	clip: rect(0 0 0 0);
+	height: 1px;
+	margin: -1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
+	width: 1px;
+}
+
+// Deixa o elemento escondido aparecer quando focado com o teclado: h5bp.com/p 
+
+.esconde-vis.focavel:active,
+.esconde-vis.focavel:focus {
+	clip: auto;
+	height: auto;
+	margin: 0;
+	overflow: visible;
+	position: static;
+	width: auto;
+}
+
+//
+//-- Formulários base
+//
+
+label, select, button {
+	cursor: pointer;
+}
+
+select option {
+	padding-right: 1em;
+}

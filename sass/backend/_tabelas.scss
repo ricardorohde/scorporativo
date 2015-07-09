@@ -1,0 +1,99 @@
+/*
+-- Tabelas
+*/
+
+.tabela {
+	border-spacing: 0;
+	width: 100%;
+	margin-bottom: 1.5em;
+	font-size: 0.875em;
+	font-weight: normal;
+
+	input {
+		width: auto;
+	}
+
+	th {
+		text-align: center;
+		background: #171717;
+		font-size: 1em;
+		font-weight: normal;
+		color: #EEE;
+		padding: 0.5em;
+	}
+
+	td {
+		border-bottom: 1px solid #CCC;
+		font-size: 0.875em;
+		padding: 0.5em;
+		text-align: center;
+	}
+
+	tr:nth-child(odd) td {
+		background: #F0F0F0;
+	}
+
+	.status {
+		text-transform: uppercase;
+	}
+
+	a:link {
+		text-decoration: none;
+	}
+
+	a:hover {
+		text-decoration: underline;
+	}
+
+	tr.tr-selec td {
+		background: #FFC;
+	}
+
+	.tr-total td {
+		text-align: right;
+		color: #FFF;
+		background: #333;
+		font-size: 110%;
+	}
+
+	.td-w1 {
+		width: 6%;
+	}
+
+	.td-opcoes {
+		width: 20%;
+	}
+
+	tr.status-pendente td {
+		background: #FFC;
+	}
+
+	tr.status-confirmado td {
+		background: #d1ffd1;
+	}
+
+	tr.status-cancelado td {
+		background: #ffd1d1;
+	}
+
+	tr.status-enviado td {
+		background: #e2e7ff;
+	}
+
+	tr.status-troca td {
+		background: #fff4e2;
+	}
+
+	tr.status-devolvido td {
+		background: #fcd3ff;
+	}
+
+	tr.status-entregue td {
+		background: #006309;
+		color: #FFF;
+	}
+
+	tr.status-entregue td a {
+		color: #FFF;
+	}
+}

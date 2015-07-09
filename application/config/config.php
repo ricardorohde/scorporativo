@@ -34,7 +34,7 @@ $config['site_title'] = 'Site Corporativo';
 //código que representa o nome do site
 $config['site_cod'] = 'scorporativo';
 //salt estático utilizado para gerar senhas
-$config['static_salt'] = 'f89734908yfu9hq64g63-46=ot05=w7-b57rtpui2905>><4y30298fiudoiw83449959599kks02lsppow';
+$config['static_salt'] = 'f89734908yfu9hq64g63-46=ot05=w7-b57rtpui2905>><4y30298fiudoiw83449959599sppow';
 //prefixo de tabelas
 $config['_prefix'] = 'sc_';
 //domínio
