@@ -111,7 +111,7 @@ class MY_Model extends CI_Model {
 		return $this->add_admin(true,$id,$adata);
 	}
 	
-	function add_foto($img_data, $id_item, $update = false, $id_foto = null) {
+	function add_imagem($img_data, $id_item, $update = false, $id_imagem = null) {
 		$tipo = $this->input->post('tipo');
 		
 		//colocamos a(s) imagem(s)
@@ -141,7 +141,7 @@ class MY_Model extends CI_Model {
 		}
 		
 		if($update) {
-			$where = "id=$id_foto";
+			$where = "id=$id_imagem";
 			$str = $this->db->update_string('imagens',$data,$where);
 		} else {
 			//ordem para jogar lá para o final
@@ -159,8 +159,8 @@ class MY_Model extends CI_Model {
 	//$id: integer
 	//$all: true / false
 	//$destructive: true / false
-	//$tipo: tipo da foto (obj_tipo)
-	function del_imagens($args = array()) {
+	//$tipo: tipo da imagem (obj_tipo)
+	function excluir_imagens($args = array()) {
 		$all = false;
 		$destructive = true;
 
@@ -180,7 +180,7 @@ class MY_Model extends CI_Model {
 		}
 
 		if($query->num_rows() < 1) {
-			//nenhuma foto para excluir
+			//nenhuma imagem para excluir
 			return true;
 		}
 
@@ -252,15 +252,15 @@ class MY_Model extends CI_Model {
 		return $this->get_entries($params);
 	}
 	
-	function get_imagem($id_foto = null) {
-		if(empty($id_foto)) {
+	function get_imagem($id_imagem = null) {
+		if(empty($id_imagem)) {
 			return false;
 		}
 		
 		$params = array(
 						'select' => '*',
 						'from' => 'imagens',
-						'where' => "id=$id_foto",
+						'where' => "id=$id_imagem",
 						'single' => true
 						);
 		

@@ -6,14 +6,18 @@ class Home extends MY_Controller {
 	{
 		parent::__construct();
 
+		//$sdata = $this->session->all_userdata();
+		//die(print_r($sdata));
+
 		$this->load->model('Session','sess');
-		$this->sess->check_session(array('close' => true,'level' => 'admin'));
+		$this->sess->check_session(array('close' => true,'tipo' => 'admin'));
 		
 		//$this->output->enable_profiler(TRUE);
 	}
 	
 	function index() {
-		$this->_render('backend/home',$data);
+		$this->_set_title("Home");
+		$this->_render('backend/home');
 	}
 }
 

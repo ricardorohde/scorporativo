@@ -1,9 +1,9 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-function findActive($needle, $args = array()) {
+function find_active($needle, $args = array()) {
 	$haystack = null;
-	$onlyclass = false;
+	$only_class = false;
 
 	extract($args);
 
@@ -22,7 +22,7 @@ function findActive($needle, $args = array()) {
 	//print $haystack;
 	
 	if(strstr($haystack,$needle)) {
-		if($onlyclass) {
+		if($only_class) {
 			return 'ativo';
 		} else {
 			return 'class="ativo"';

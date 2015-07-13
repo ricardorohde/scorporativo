@@ -11,19 +11,7 @@ contato@guilhermemuller.com.br
 
 //cores
 $color-base: #333333;
-$color-highlight: #2E6935;
-
-//
-//-- Mixins
-//
-
-
-
-//
-//-- Placeholders
-//
-
-
+$color-highlight: #F60;
 
 //
 //-- Imports
@@ -44,3 +32,5 @@ $color-highlight: #2E6935;
 @import "tabelas";
 
 @import "../grades";
+
+@import "../gradients"

@@ -24,8 +24,11 @@ class MY_Controller extends CI_Controller {
 		
 		//Título padrão
 		$this->data['site_title'] = $this->config->item('site_title');
+
+		//Session model
+		$this->load->model("Session",'sess');
 		
-		if($this->session->userdata('logged') && $this->session->userdata('level') == 'admin') {
+		if($this->sess->check_session(array('close' => false, 'tipo' => 'admin'))) {
 			//ADM defaults
 			$this->template = array();
 			$this->template['crud_home'] = 'templates/backend/crud_home';
@@ -43,11 +46,17 @@ class MY_Controller extends CI_Controller {
 		extract($args);
 
 		$title = $value;
+		if($this->uri->segment(1) == 'admin') {
+			$config_title = "Administrativo";
+		} else {
+			$config_title = $this->config->item('site_title');
+		}
+
 		if(isset($complete) && $complete == true) {
 			if(isset($inverse) && $inverse == true) {
-				$title = $this->config->item('site_title') . ' &ndash; ' . $title;
+				$title = $config_title . ' &ndash; ' . $title;
 			} else {
-				$title .= ' &ndash; ' . $this->config->item('site_title');
+				$title .= ' &ndash; ' . $config_title;
 			}
 		}
 
@@ -104,9 +113,9 @@ class MY_Controller extends CI_Controller {
 	}
 	
 	//páginas ADM
-	
+
 	function index() {
-		if(!$this->session->userdata('logged') || $this->session->userdata('level') != 'admin') {
+		if(!$this->sess->check_session(array('close' => false, 'tipo' => 'admin'))) {
 			return false;
 		}
 		
@@ -114,20 +123,20 @@ class MY_Controller extends CI_Controller {
 	}
 	
 	function home() {
-		if(!$this->session->userdata('logged') || $this->session->userdata('level') != 'admin') {
+		if(!$this->sess->check_session(array('close' => false, 'tipo' => 'admin'))) {
 			return false;
 		}
 		
-		$data['entries'] = $this->obj->getAll($this->args);
+		$data['entries'] = $this->obj->get_all($this->args);
 		$data['current'] = $this->obj->current;
-		$data['perpage'] = $this->obj->perpage;
+		$data['perpage'] = $this->obj->per_page;
 		
-		if(isset($this->obj->totalrows)) {		
-			$config = $this->_setpagination($this->obj->totalrows, $this->obj->perpage);
+		if(isset($this->obj->total_rows)) {		
+			$config = $this->_set_pagination($this->obj->total_rows, $this->obj->per_page);
 			$this->pagination->initialize($config);
 		}
 		
-		$data['totalrows'] = $this->obj->totalrows;
+		$data['totalrows'] = $this->obj->total_rows;
 		$data['msg'] = $this->session->userdata('msg');		
 		$this->session->unset_userdata('msg');
 		
@@ -135,33 +144,33 @@ class MY_Controller extends CI_Controller {
 	}
 	
 	function gerenciar($acao = 'novo',$id = null) {
-		if(!$this->session->userdata('logged') || $this->session->userdata('level') != 'admin') {
+		if(!$this->sess->check_session(array('close' => false, 'tipo' => 'admin'))) {
 			return false;
 		}
 		
 		if($acao != 'novo' && $acao != 'alterar') {
-			$this->_gohome();
+			$this->_go_home();
 			return false;
 		}
 		
 		if($acao == 'alterar' && ($id == null || !is_numeric($id))) {
 			$this->session->set_userdata('msg', 'Id d'.$this->artigo.' '.$this->cskw.' inválida.');
-			$this->_gohome();
+			$this->_go_home();
 			return false;
 		}
 		
 		if($acao == 'alterar') {
 			$this->itemId = $id;
-			$this->object = $this->obj->getById($id);
+			$this->object = $this->obj->get_by_id($id);
 		}
 		
 		$this->acao = $acao;
 		
 		$this->_formsetup();
 		
-		$data['redirect'] = $this->_getredirect();
+		$data['redirect'] = $this->_get_redirect();
 		
-		if ($this->val->run() == FALSE) {
+		if ($this->form_validation->run() == FALSE) {
 			$data['msg'] = $this->session->userdata('msg');
 			$this->session->unset_userdata('msg');
 			
@@ -169,8 +178,8 @@ class MY_Controller extends CI_Controller {
 			$data['id'] = $id;
 			$this->_render($this->template['crud_form'],$data);
 		} else {
-			$this->load->model('upload_model','up');
-			$this->load->model('imagens_model','img');
+			$this->load->model('Upload','up');
+			$this->load->model('Imagens','img');
 			
 			$adata = array();
 			
@@ -196,13 +205,13 @@ class MY_Controller extends CI_Controller {
 			if(!empty($redirect)) {
 				redirect($redirect);
 			} else {
-				$this->_gohome();
+				$this->_go_home();
 			}
 		}
 	}
 	
-	function del($id = null) {
-		if(!$this->session->userdata('logged') || $this->session->userdata('level') != 'admin') {
+	function excluir($id = null) {
+		if(!$this->sess->check_session(array('close' => false, 'tipo' => 'admin'))) {
 			return false;
 		}
 
@@ -210,17 +219,17 @@ class MY_Controller extends CI_Controller {
 			return false;
 		}
 		
-		if($this->obj->del($id)) {
+		if($this->obj->excluir($id)) {
 			$this->session->set_userdata('msg', ucfirst($this->cskw).' excluíd'.$this->artigo.'.');
 		} else {
 			$this->session->set_userdata('msg', 'Erro ao excluir '.$this->artigo.' '.$this->cskw.'. '.mysql_error());
 		}
 		
-		$this->_goback();
+		$this->_go_back();
 	}
 
-	function del_varios() {
-		if(!$this->session->userdata('logged') || $this->session->userdata('level') != 'admin') {
+	function excluir_varios() {
+		if(!$this->sess->check_session(array('close' => false, 'tipo' => 'admin'))) {
 			return false;
 		}
 
@@ -238,7 +247,7 @@ class MY_Controller extends CI_Controller {
 	}
 	
 	function imagens($id = null) {
-		if(!$this->session->userdata('logged') || $this->session->userdata('level') != 'admin') {
+		if(!$this->sess->check_session(array('close' => false, 'tipo' => 'admin'))) {
 			return false;
 		}
 
@@ -246,9 +255,9 @@ class MY_Controller extends CI_Controller {
 			
 		}
 
-		$data['redirect'] = $this->_getredirect();
+		$data['redirect'] = $this->_get_redirect();
 
-		$data['o'] = $this->obj->getById($id);
+		$data['o'] = $this->obj->get_by_id($id);
 		if(isset($data['o']->nome)) {
 			$data['nome'] = $data['o']->nome;
 		} else if(isset($data['o']->codigo)) {
@@ -262,7 +271,7 @@ class MY_Controller extends CI_Controller {
 		$this->args['id'] = $id;
 		$this->args['tipo'] = $this->cskw;
 
-		$data['imagens'] = $this->obj->getimagens($this->args);
+		$data['imagens'] = $this->obj->get_imagens($this->args);
 		
 		$data['msg'] = $this->session->userdata('msg');
 		$this->session->unset_userdata('msg');
@@ -274,35 +283,35 @@ class MY_Controller extends CI_Controller {
 	}
 	
 	function gerenciar_foto($acao = 'novo', $iditem = null, $idfoto = null) {
-		if(!$this->session->userdata('logged') || $this->session->userdata('level') != 'admin') {
+		if(!$this->sess->check_session(array('close' => false, 'tipo' => 'admin'))) {
 			return false;
 		}
 		
 		if(!is_numeric($iditem)) {
-			$this->_gohome();
+			$this->_go_home();
 			return false;
 		}
 		
-		$this->load->library('form_validation','','val');
+		$this->load->library('form_validation');
 		$this->acao = $acao;
 		
-		$this->val->set_error_delimiters('', '<br>');
-		$this->val->set_rules('imagem','Foto','');
-		$this->val->set_rules('legenda','Legenda','');
-		$this->val->set_rules('link','Link','prep_url');
-		$this->val->set_rules('categoria','Categoria','');
+		$this->form_validation->set_error_delimiters('', '<br>');
+		$this->form_validation->set_rules('imagem','Foto','');
+		$this->form_validation->set_rules('legenda','Legenda','');
+		$this->form_validation->set_rules('link','Link','prep_url');
+		$this->form_validation->set_rules('categoria','Categoria','');
 		
 		if($acao == 'alterar') {
 			$data['foto'] = $this->obj->getFotoById($idfoto);
-			$this->val->set_value_default('legenda',$data['foto']->legenda);
-			$this->val->set_value_default('link',$data['foto']->link);
-			$this->val->set_value_default('categoria',$data['foto']->categoria_id);
+			$this->form_validation->set_value_default('legenda',$data['foto']->legenda);
+			$this->form_validation->set_value_default('link',$data['foto']->link);
+			$this->form_validation->set_value_default('categoria',$data['foto']->categoria_id);
 		}
 		
-		$data['redirect'] = $this->_getredirect();
+		$data['redirect'] = $this->_get_redirect();
 		
-		if ($this->val->run() == FALSE) {
-			$o = $this->obj->getById($iditem);
+		if ($this->form_validation->run() == FALSE) {
+			$o = $this->obj->get_by_id($iditem);
 			$data['o'] = $o;
 			if(isset($data['o']->nome)) {
 				$data['nome'] = $data['o']->nome;
@@ -320,8 +329,9 @@ class MY_Controller extends CI_Controller {
 			
 			$this->_render($this->template['crud_imagens_form'],$data);
 		} else {
-			$this->load->model('imagens_model','img');
-			$this->load->model('upload_model','up');
+			$this->load->model('Imagens','img');
+			$this->load->model('Upload','up');
+
 			$adata = array();
 			$adata['a1'] = $this->up->upload();
 			//$data['a2'] = $this->up->upload('imagem2');
@@ -344,18 +354,18 @@ class MY_Controller extends CI_Controller {
 		}
 	}
 	
-	function del_imagem($id, $destructive = 'true') {
-		if(!$this->session->userdata('logged') || $this->session->userdata('level') != 'admin') {
+	function excluir_imagem($id, $destructive = 'true') {
+		if(!$this->sess->check_session(array('close' => false, 'tipo' => 'admin'))) {
 			return false;
 		}
 		
-		if($this->obj->delimgs(array('id' => $id,'destructive' => $destructive))) {
+		if($this->obj->excluir_imagens(array('id' => $id,'destructive' => $destructive))) {
 			$this->session->set_userdata('msg', 'Foto excluída.');
 		} else {
 			$this->session->set_userdata('msg', 'Erro ao excluir a foto: '.mysql_error());
 		}
 		
-		$this->_goback();
+		$this->_go_back();
 	}
 	
 	function _get_redirect($args = array()) {
@@ -371,7 +381,7 @@ class MY_Controller extends CI_Controller {
 			} else {
 				$sessreferer = $this->session->userdata('adm_referer');
 				if(!$sessreferer) {
-					if($this->session->userdata('level') == 'admin') {
+					if($this->session->userdata('tipo') == 'admin') {
 						$redirect = site_url("admin/$this->kw");
 					} else {
 						$redirect = site_url("$this->kw");
@@ -390,7 +400,7 @@ class MY_Controller extends CI_Controller {
 	}
 
 	function _go_home() {
-		if(!$this->session->userdata('logged') || $this->session->userdata('level') != 'admin') {
+		if(!$this->sess->check_session(array('close' => false, 'tipo' => 'admin'))) {
 			return false;
 		}
 		
@@ -405,7 +415,7 @@ class MY_Controller extends CI_Controller {
 		if(isset($_SERVER['HTTP_REFERER'])) {
 			$referrer = $_SERVER['HTTP_REFERER'];
 		} else {
-			$this->_gohome();
+			$this->_go_home();
 			return false;
 		}
 		
@@ -413,7 +423,7 @@ class MY_Controller extends CI_Controller {
 	}
 	
 	function reorder_imagens() {
-		if(!$this->session->userdata('logged') || $this->session->userdata('level') != 'admin') {
+		if(!$this->sess->check_session(array('close' => false, 'tipo' => 'admin'))) {
 			return false;
 		}
 		
@@ -421,7 +431,7 @@ class MY_Controller extends CI_Controller {
 	}
 	
 	function reorder($filtros = null) {
-		if(!$this->session->userdata('logged') || $this->session->userdata('level') != 'admin') {
+		if(!$this->sess->check_session(array('close' => false, 'tipo' => 'admin'))) {
 			return false;
 		}
 
@@ -437,7 +447,7 @@ class MY_Controller extends CI_Controller {
 	}
 	
 	function reorder_ajax() {
-		if(!$this->session->userdata('logged') || $this->session->userdata('level') != 'admin') {
+		if(!$this->sess->check_session(array('close' => false, 'tipo' => 'admin'))) {
 			return false;
 		}
 

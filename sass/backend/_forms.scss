@@ -1,0 +1,156 @@
+//
+//-- Forms
+//
+
+//estilos base
+
+label, select, button {
+	cursor: pointer;
+}
+
+select option {
+	padding-right: 1em;
+}
+
+.campo {
+	margin-bottom: 0.5em;
+
+	label {
+		display: block;
+		font-size: 1em;
+		margin-bottom: 0.2em;
+
+		span {
+			font-style: italic;
+			font-size: 0.8em;
+			color: #666;
+		}
+
+		abbr {
+			color: #C00;
+			font-size: 1.25em;
+			height: 0.8em;
+			overflow: hidden;
+			display: inline-block;
+			text-decoration: none;
+			border: 0;
+		}
+	}
+
+	label.checkbox {
+		display: inline-block;
+		margin-right: 1em;
+		margin-bottom: 1em;
+		font-size: 0.875em;
+
+		input {
+			display: inline-block;
+			vertical-align: middle;
+		}
+	}
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="number"],
+input[type="url"],
+input[type="password"],
+select,
+textarea
+{
+	display: inline-block;
+	padding: 0.2em;
+	border: 1px solid #CCC;
+	width: 100%;
+	box-shadow: 2px 2px 2px rgba(0,0,0,0.15);
+
+	&:focus {
+		background: #FFC;
+	}
+}
+
+//botões
+
+.botao {
+	font-size: 1.25em;
+	text-align: center;
+	display: inline-block;
+	border: 0;
+	padding: 0.3em 0.7em;
+	background: #6D9B24;
+	color: #FFF;
+	box-shadow: 2px 2px 2px rgba(0,0,0,0.15);
+	text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+
+	&:hover {
+		
+	}
+
+	&:active {
+		box-shadow: inset -2px -2px 2px rgba(0,0,0,0.15);
+		text-shadow: -1px -1px 1px rgba(0,0,0,0.5);
+	}
+
+	&.botao-submit {
+		background: #F60;
+		margin-top: 1em;
+
+		&:hover {
+			text-shadow: 1px -1px 1px rgba(0,0,0,0.5);
+			background: #F90;
+		}
+	}
+
+	&.botao-filtros {
+		margin: 0;
+		margin-top: 1.65em;
+		font-size: 1em;
+		background: #666;
+		padding: 0.2em 0.7em;
+	}
+}
+
+//mensagens
+
+.mensagem {
+	background: #F90;
+	color: #FFF;
+	padding: 0.5em 1em;
+	margin-bottom: 1em;
+	font-weight: normal;
+	box-shadow: 3px 3px 3px rgba(0,0,0,0.2);
+
+	&.mensagem-erro {
+		background: #900;
+	}
+
+	&.mensagem-info {
+		background: #329FFF;
+	}
+}
+
+/* filtros */
+
+.filtros {
+	padding: 0.7em 0;
+	font-size: 0.875em;
+	border-top: 1px dashed #CCC;
+	border-bottom: 1px dashed #CCC;
+	margin: 1em 0;
+
+	input {
+		width: auto;
+	}
+
+	.campo {
+		margin-right: 1%;
+	}
+}
+
+//estilos específicos
+
+.form-login {
+	max-width: 30%;
+	margin: 0 auto;
+}

@@ -27,7 +27,7 @@
 	}
 
 	&:hover span {
-		color: #f36123;
+		color: $color-highlight;
 	}
 
 	img {
@@ -74,7 +74,7 @@
 	clear: both;
 
 	ul {
-		background: #333;
+		background: $color-base;
 		width: 100%;
 		margin: 0;
 	}
@@ -127,7 +127,7 @@
 		}
 
 		&.ativo {
-			background: #2E6935;
+			background: $color-highlight;
 		}
 	}
 }

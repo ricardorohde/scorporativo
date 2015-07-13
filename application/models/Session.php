@@ -8,21 +8,25 @@ class Session extends MY_Model {
 	
 	//args:
 	//$close: true/false
-	//$level: string
+	//$tipo: string
 	function check_session($args = array()) {
+		//die(print_r($this->session->userdata()));
+
 		extract($args);
 
-		if(!isset($level)) {
+		if(!isset($tipo)) {
 			exit('nível não especificado.');
 		}
 		
 		$user_id = $this->session->userdata('id');
 		//echo "userid: $user_id<br>";
 
+		//die(print_r($this->session->userdata()));
+
 		if(!is_numeric($user_id)) {
 			if($close) {
 				//die('erro8');
-				$this->close(array('redirect' => true,'dest' => $level));
+				$this->close(array('redirect' => true,'dest' => $tipo));
 			} else {
 				//die('erro3');
 				return false;
@@ -31,20 +35,20 @@ class Session extends MY_Model {
 		
 		$session_id = $this->session->userdata('session_id');
 		$user_ip = $_SERVER['REMOTE_ADDR'];
-		$slevel = $this->session->userdata('level');
-		$slogged = $this->session->userdata('logged');
+		$stipo = $this->session->userdata('tipo');
+		$slogado = $this->session->userdata('logado');
 		
-		if($slogged != TRUE) {
+		if($slogado != TRUE) {
 			if($close) {
 				//die('erro9');
-				$this->close(array('redirect' => true,'dest' => $level));
+				$this->close(array('redirect' => true,'dest' => $tipo));
 			} else {
 				//die('erro1');
 				return false;
 			}
 		}
 		
-		if($level == 'admin') {
+		if($tipo == 'admin') {
 			$query = $this->db->query("SELECT * FROM {$this->_prefix}adm WHERE id=$user_id");
 		} else {
 			$query = $this->db->query("SELECT * FROM {$this->_prefix}usuarios WHERE id=$user_id");
@@ -53,7 +57,7 @@ class Session extends MY_Model {
 		if($query->num_rows() != 1) {
 			if($close) {
 				//die('erro10');
-				$this->close(array('redirect' => true,'dest' => $level));
+				$this->close(array('redirect' => true,'dest' => $tipo));
 			} else {
 				//die('erro2');
 				return false;
@@ -61,7 +65,7 @@ class Session extends MY_Model {
 		}
 		$row = $query->row();
 		
-		/*if($level == 'admin') {
+		/*if($tipo == 'admin') {
 			//database check
 			$this->db->select('ip_address')->from('sessoes')->where('session_id',$session_id);
 			$ipquery = $this->db->get();
@@ -69,7 +73,7 @@ class Session extends MY_Model {
 			if($ipquery->num_rows() < 1) {
 				if($close) {
 					//die('erro11');
-					$this->close(array('redirect' => true,'dest' => $level));
+					$this->close(array('redirect' => true,'dest' => $tipo));
 				} else {
 					//die('erro5');
 					return false;
@@ -80,7 +84,7 @@ class Session extends MY_Model {
 			if ($user_ip != $iprow->ip_address) {
 				if($close) {
 					//die('erro12');
-					$this->close(array('redirect' => true,'dest' => $level));
+					$this->close(array('redirect' => true,'dest' => $tipo));
 				} else {
 					//die('erro4');
 					return false;
@@ -88,10 +92,10 @@ class Session extends MY_Model {
 			}
 		}*/
 		
-		if ($slogged != TRUE || $slevel != $level) {
+		if ($slogado != TRUE || $stipo != $tipo) {
 			if($close) {
 				//die('erro13');
-				$this->close(array('redirect' => true,'dest' => $level));
+				$this->close(array('redirect' => true,'dest' => $tipo));
 			} else {
 				//die('erro6');
 				return false;
@@ -111,13 +115,12 @@ class Session extends MY_Model {
 		extract($args);
 		
 		$array = array('logged' => FALSE,
-					   'level' => null,
+					   'tipo' => null,
 					   'id' => null,
 					   'nome' => null,
-					   'user' => null,
+					   'usuario' => null,
 					   'ip' => null,
-					   'sessid' => null,
-					   'relid' => null,
+					   'rel_id' => null,
 					   'email' => null,
 					   'validado' => null);
 		

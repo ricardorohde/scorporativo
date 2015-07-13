@@ -1,0 +1,78 @@
+//ícones
+.icone, a.icone {
+	display: inline-block;
+	text-decoration: none;
+	font-size: 0.875em;
+	margin-right: 1em;
+	vertical-align: middle;
+
+	&:before {
+		font-family: FontAwesome;
+		margin-right: 0.25em;
+		display: inline-block;
+	}
+
+	&.email:before {
+		content: "\f0e0";
+	}
+
+	&.linkedin:before {
+		content: "\f08c";
+	}
+
+	&.fone:before {
+		content: "\f098";
+	}
+
+	&.adicionar:before {
+		content: "\f0fe";
+	}
+
+	&.alterar:before {
+		content: "\f044";
+	}
+
+	&.excluir:before
+	,&.excluirvarios:before
+	,&.cross:before
+	{
+		content: "\f00d";
+	}
+
+	&.switch:before
+	,&.reordenar:before {
+		content: "\f074";
+	}
+
+	&.detalhes:before {
+		content: "\f022";
+	}
+
+	&.imprimir {
+		float: right;
+	}
+
+	&.imprimir:before {
+		content: "\f02f";
+	}
+
+	&.compress:before {
+		content: "\f1c6";
+	}
+
+	&.duplicar:before {
+		content: "\f0c5";
+	}
+
+	&.fotos:before {
+		content: "\f03e";
+	}
+
+	&.transf:before {
+		content: "\f07e";
+	}
+}
+
+a.icone:hover {
+	text-decoration: underline;
+}

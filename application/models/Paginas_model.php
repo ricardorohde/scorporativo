@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Paginas extends MY_Model {
+class Paginas_model extends MY_Model {
 
 	function __construct() {
         parent::__construct();
@@ -62,7 +62,7 @@ class Paginas extends MY_Model {
 		return $this->get_entries($params);
 	}
 	
-	function add_admin($update = false, $id = null) {
+	function add_adm($update = false, $id = null) {
 		
 		$this->load->helper('str');
 		

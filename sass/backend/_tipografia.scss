@@ -15,11 +15,11 @@ body, input, select, textarea, button {
 /* links */
 
 a:link {
-	color: #2E6935;
+	color: $color-highlight;
 }
 
 a:visited {
-	color: #43964D;
+	color: darken($color-highlight,15%);
 }
 
 a:hover {

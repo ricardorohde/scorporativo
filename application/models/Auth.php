@@ -6,25 +6,18 @@ class Auth extends MY_Model {
         parent::__construct();
     }
 	
-	function check_credentials() {
-		$tipo = $this->input->post('tipo');
+	function check_credentials($tipo = 'cliente') {
 		$login = strtolower(trim($this->input->post('login')));
 		$senha = trim($this->input->post('senha'));
 		
 		if($tipo == 'admin') {
-			$str = "SELECT login, senha, salt
+			$str = "SELECT login, nome, senha, salt
 					FROM {$this->_prefix}adm
 					WHERE login='$login'";
 		} else {
-			$str = "SELECT rel_id, email, senha, senha_antiga, ativo
+			$str = "SELECT rel_id, email, senha, ativo
 					FROM {$this->_prefix}usuarios
-					WHERE (email='$login' OR login='$login')";
-
-			if($tipo == 'cliente') {
-				$str .= " AND (tipo='cliente' || tipo='agencia') ";
-			} else {
-				 $str .= " AND tipo='$tipo' ";
-			}
+					WHERE (email='$login' OR login='$login') AND tipo='$tipo'";
 		}
 		$query = $this->db->query($str);
 		
@@ -51,32 +44,19 @@ class Auth extends MY_Model {
 			//verifica se usuário está bloqueado ou não
 			if($row->ativo == '0') {
 				//cadastro bloqueado
-				$this->session->set_userdata('erro','Seu cadastro encontra-se em processo de liberação. Caso não seja liberado nas próximas 72 horas, favor entrar em contato pelo e-mail atendimento@amplitur.com.br.');
+				$this->session->set_userdata('erro','Seu cadastro está bloqueado.');
 				return false;
 			}
 
-			$this->load->library('Encryption');
-			$this->load->library('Oldencryption');
+			$static_salt = $this->config->item('static_salt');
+			$hashed_password = sha1($row->salt.$senha.$static_salt);
 
-			//$static_salt = $this->config->item('static_salt_old');
-			$dehashed_password = $this->encryption->decrypt($row->senha);
-
-			//die($dehashed_password);
-			if(!$row->senha && $row->senha_antiga) {
-				//existe senha antiga -- redirecionar para conferência de cadastro
-				$chave = sha1($login);
-				$this->session->set_userdata('loginconf',$login);
-				$this->session->set_userdata('idconf',$row->rel_id);
-
-				redirect("cadastro/conferencia/$chave");
-				return;
-			}
-			if($dehashed_password === $senha) {
+			if($hashed_password !== $row->senha) {
+				$this->session->set_userdata('erro','Usuário ou senha inválidos.');
+				return false;
+			} else {
 				//login com sucesso
 				return true;
-			} else {
-				//senha inválida
-				return false;
 			}
 		}
 	}
@@ -84,9 +64,10 @@ class Auth extends MY_Model {
 	//args:
 	//$redirect: string
 	function do_login($args = array()) {
+		$tipo = 'cliente'; // padrão
+
 		extract($args);
 		
-		$tipo = $this->input->post('tipo');
 		$usuario = strtolower(trim($this->input->post('login')));
 		$sessid = $this->session->userdata('session_id');
 		$ip = $_SERVER['REMOTE_ADDR'];
@@ -121,7 +102,7 @@ class Auth extends MY_Model {
 		if($tipo != 'admin') {
 			$array['rel_id'] = $row->rel_id;
 			$array['email'] = $row->email;
-			$array['tipo'] = $row->tipo; // coloca cliente ou agencia
+			$array['tipo'] = $row->tipo;
 
 			//se não for admin, pegamos último acesso também
 			$query = $this->db->query("SELECT data FROM {$this->_prefix}acessos WHERE usuario='$usuario' ORDER BY data DESC LIMIT 1");
