@@ -66,7 +66,7 @@ class MY_Controller extends CI_Controller {
 	function _render($page = null, $data = array(), $template = null) {
 		if($this->uri->segment(1) != 'admin') {
 			//pegamos as seções
-			$this->load->model('Paginas','pag');
+			$this->load->model('Paginas_model','pag');
 			$this->data['secoesmenu'] = $this->pag->get_all(array('ativo' => 1, 'menu' => 1));
 			
 			$this->data['rodapeesq'] = $this->pag->get_by_cod('rodapeesq');

@@ -16,7 +16,37 @@
 <div class="site">
 
 	<header class="site-cabecalho" role="banner">
+		<a class="site-logo" href="<?=site_url()?>">
+			<img src="<?=base_url()?>imagens/estrutura/<?=$this->config->item('arquivo_logo')?>" alt="Voltar para a página inicial - <?=$this->config->item('site_title')?>">
+		</a>
 		
+		<div class="usuario-meta">
+			<?php if($this->session->userdata('logado') && $this->session->userdata('tipo') == 'cliente'): ?>
+
+			<?=$this->session->userdata('nome')?> | <a href="<?=site_url('minha_conta')?>">Minha Conta</a> | <a href="<?=site_url('sessoes/logout')?>">Sair</a>
+
+			<?php else: ?>
+			Olá visitante, <a href="<?=site_url('sessoes/login')?>">faça o login</a> ou <a href="<?=site_url('cadastro')?>">cadastre-se</a>
+			<?php endif; ?>
+		</div>
+
+		<nav class="menu-principal" role="navigation">
+			<?php if(isset($secoesmenu) && $secoesmenu): ?>
+			<ul class="grupo">
+				<?php foreach($secoesmenu as $row): ?>
+				<li>
+					<a <?=find_active($row->codigo,$this->uri->segment(1,'home'))?>  href="<?=site_url($row->codigo)?>">
+						<?=$row->nome?>
+					</a>
+				</li>
+				<?php endforeach; ?>
+			</ul>
+			<?php else: ?>
+			<p>
+				Menu não disponível.
+			</p>
+			<?php endif; ?>
+		</nav>
 	</header>
 	
 	<main class="site-conteudo" role="main">
@@ -26,7 +56,26 @@
 	</main>
 
 	<footer class="site-rodape" role="contentinfo">
+		<div class="grupo">
+			<div class="rodape-esq grid2-1">
+				<?php if(isset($rodapeesq)): ?>
+				<?=$rodapeesq->texto?>
+				<?php endif; ?>
+			</div>
+			<div class="rodape-dir grid2-1 ultima a-dir">
+				<?php if(isset($rodapedir)): ?>
+				<?=$rodapedir->texto?>
+				<?php endif; ?>
+			</div>
+		</div>
 		
+		<div class="grupo">
+			<small class="copyright">
+				&copy; <?=date('Y')?> <?=$this->config->item('site_title')?>. Todos os direitos reservados.
+			</small>
+
+			<a title="Desenvolvido por Guilherme Müller" rel="external" href="http://guilhermemuller.com.br" class="credito-gm"><img src="http://guilhermemuller.com.br/imagens/pas_azul.png"></a>
+		</div>
 	</footer>
 	
 </div>

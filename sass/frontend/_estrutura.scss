@@ -1,0 +1,90 @@
+//
+//-- Estrutura
+//
+
+.site {
+	max-width: 60em;
+	min-width: 20em;
+	margin: 2em auto;
+}
+
+// cabeçalho
+
+.site-logo {
+	display: block;
+	float: left;
+	margin: 1em 0;
+
+	img {
+		display: block;
+		margin: 0 auto;
+	}
+}
+
+.usuario-meta {
+	float: right;
+	background: $color-base;
+	box-shadow: 2px 2px 2px rgba(0,0,0,0.2);
+	padding: 0.5em 1em;
+	font-size: 0.815em;
+	margin: 1em 0;
+	color: #FFF;
+
+	a {
+		color: #FFF;
+	}
+}
+
+// menu principal
+
+.menu-principal {
+	background: $color-base;
+	clear: both;
+
+	li {
+		float: left;
+	}
+
+	a {
+		display: block;
+		text-decoration: none;
+		padding: 0.5em 1em;
+		color: #FFF;
+
+		&:hover, &.ativo {
+			background: #FFF;
+			color: $color-base;
+		}
+	}
+}
+
+// conteúdo
+
+.site-conteudo {
+	background: #FFF;
+	padding: 1.5em;
+}
+
+// rodapé
+
+.site-rodape {
+	background: $color-base-bg;
+	padding: 0.5em 1em;
+}
+
+.copyright {
+	float: left;
+	display: block;
+	font-size: 0.625em;
+}
+
+.credito-gm {
+	float: right;
+	display: block;
+	opacity: 0.5;
+	transition: opacity 0.2s ease;
+
+	&:hover {
+		opacity: 1;
+	}
+}

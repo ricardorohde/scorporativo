@@ -1,11 +1,15 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-function find_active($needle, $args = array()) {
+function find_active($needle, $args) {
 	$haystack = null;
 	$only_class = false;
 
-	extract($args);
+	if(is_array($args)) {
+		extract($args);
+	} else {
+		$haystack = $args;
+	}
 
 	if($haystack == null) {
 		if(isset($_SERVER['PATH_INFO'])) {

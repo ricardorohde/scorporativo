@@ -1,0 +1,40 @@
+/*
+SASS Frontend
+Por Guilherme Müller
+http://guilhermemuller.com.br
+contato@guilhermemuller.com.br
+*/
+
+//
+//-- Variáveis
+//
+
+//cores
+$color-site-bg: #F2F2F2;
+$color-base: #174A88;
+$color-base-light: lighten($color-base,20%);
+$color-base-bg: lighten($color-base,60%);
+$color-base-dark: darken($color-base,20%);
+$color-compl: adjust-hue($color-base, 180deg);
+
+//
+//-- Imports
+//
+
+@import "breakpoints";
+
+@import "../scorporativo";
+
+@import "tipografia";
+
+@import "estrutura";
+
+@import "modulos";
+
+@import "forms";
+
+@import "tabelas";
+
+@import "../grades";
+
+@import "../gradients"
