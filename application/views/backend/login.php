@@ -7,8 +7,6 @@
 		<?php if(isset($msg)) echo $msg; ?>
 	</div>
 	<?php endif; ?>
-	
-	<?php print_r($this->session->userdata()); ?>
 
 	<?=form_open(current_url())?>
 	

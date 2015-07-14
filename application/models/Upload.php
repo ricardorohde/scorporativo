@@ -1,4 +1,4 @@
-<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Upload extends My_Model {
 	
@@ -6,7 +6,16 @@ class Upload extends My_Model {
         parent::__construct();
     }
 	
-	function upload($campo = 'imagem', $path = 'imagens/temp/', $types = 'jpg|gif|png', $maxsize = 10000, $maxwidth = 10000, $maxheight = 10000, $encrypt = true) {
+	function upload($args = array()) {
+		$campo = 'imagem';
+		$path = 'imagens/temp/';
+		$types = 'jpg|gif|png';
+		$max_size = 10000;
+		$max_width = 10000;
+		$max_height = 10000;
+		$encrypt = true;
+
+		extract($args);
 		
 		if(empty($_FILES[$campo]['name'])) {
 			return;
@@ -17,9 +26,9 @@ class Upload extends My_Model {
 		}
 		$config['upload_path'] = $path;
 		$config['allowed_types'] = $types;
-		$config['max_size']	= $maxsize;
-		$config['max_width']  = $maxwidth;
-		$config['max_height']  = $maxheight;
+		$config['max_size']	= $max_size;
+		$config['max_width']  = $max_width;
+		$config['max_height']  = $max_height;
 			
 		$this->load->library('upload', $config);
 		

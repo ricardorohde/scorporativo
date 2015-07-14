@@ -1,3 +1,7 @@
+<p>
+	<a href="<?=$redirect?>">&laquo; Voltar</a>
+</p>
+
 <h1>
 	<?php if($acao == 'novo'): ?>
 	Adicionar
@@ -26,11 +30,11 @@
 		<?php $this->load->view("backend/$this->kw/form"); ?>
 		
 		<?php if($acao == 'novo'): ?>
-		<button name="submit" class="botao submit">
+		<button name="submit" class="botao botao-submit">
 			Cadastrar
 		</button>
 		<?php else: ?>
-		<button name="submit" class="botao submit">
+		<button name="submit" class="botao botao-submit">
 			Alterar
 		</button>
 		<?php endif; ?>

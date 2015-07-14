@@ -4,7 +4,7 @@ class Login extends MY_Controller {
 
 	function __construct() {
 		parent::__construct();
-		$this->load->model('Session','sess');
+		
 		$this->load->model('Auth','auth');
 		
 		//$this->output->enable_profiler(TRUE);

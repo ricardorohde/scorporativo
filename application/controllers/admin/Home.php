@@ -2,14 +2,12 @@
 
 class Home extends MY_Controller {
 
-	function __construct()
-	{
+	function __construct() {
 		parent::__construct();
 
 		//$sdata = $this->session->all_userdata();
 		//die(print_r($sdata));
 
-		$this->load->model('Session','sess');
 		$this->sess->check_session(array('close' => true,'tipo' => 'admin'));
 		
 		//$this->output->enable_profiler(TRUE);

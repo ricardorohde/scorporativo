@@ -2,11 +2,9 @@
 
 class Categorias extends MY_Controller {
 
-	function __construct()
-	{
+	function __construct() {
 		parent::__construct();
 		
-		$this->load->model('Session','sess');
 		$this->sess->check_session(array('close' => true,'tipo' => 'admin'));
 		
 		$this->cskw = 'categoria';
@@ -26,15 +24,13 @@ class Categorias extends MY_Controller {
 	
 	function home($filtros = null) {
 		//busca
-		$vars = parseQuery($filtros);
+		$vars = parse_query($filtros);
 		$this->args = $vars;
+
+		if(!isset($vars['nivel'])) $vars['nivel'] = 'grupo';
 		
 		$this->data['busca'] = $vars;
 		//end busca
-
-		if(!$vars) {
-			$this->args['nivel'] = 'grupo';
-		}
 
 		$this->data['grupos'] = $this->obj->get_all(array('nivel' => 'grupo'));
 		//$data['linhas'] = $this->obj->get_all(array('nivel' => 'linha'));
@@ -76,7 +72,7 @@ class Categorias extends MY_Controller {
 
 		$queryarr['mae'] = $this->input->post('mae');
 
-		$querystr = buildQuery($queryarr);
+		$querystr = build_query($queryarr);
 		
 		redirect("admin/$this->kw/home/$querystr");
 	}

@@ -56,6 +56,16 @@
 					</a>
 				</li>
 				<li>
+					<a <?=find_active('admin/clientes')?> href="<?=site_url('admin/clientes')?>">
+						Clientes
+					</a>
+				</li>
+				<li>
+					<a <?=find_active('admin/produtos')?> href="<?=site_url('admin/produtos')?>">
+						Produtos
+					</a>
+				</li>
+				<li>
 					<a <?=find_active('admin/categorias')?> href="<?=site_url('admin/categorias')?>">
 						Categorias
 					</a>

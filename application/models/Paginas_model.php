@@ -7,7 +7,7 @@ class Paginas_model extends MY_Model {
     }
 	
 	function get_all($args = array()) {
-		$perpage = 20;
+		$per_page = 20;
 		$editavel = null;
 		
 		extract($args);
@@ -16,7 +16,7 @@ class Paginas_model extends MY_Model {
 						'from' => 'paginas',
 						'orderby' => 'menu ASC, ordem ASC, nome ASC',
 						'where' => '1=1',
-						'perpage' => $perpage
+						'per_page' => $per_page
 						);
 		
 		if(isset($editavel) && is_numeric($editavel)) {

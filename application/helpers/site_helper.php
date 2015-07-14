@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-function find_active($needle, $args) {
+function find_active($needle, $args = null) {
 	$haystack = null;
 	$only_class = false;
 
@@ -34,7 +34,7 @@ function find_active($needle, $args) {
 	}
 }
 
-function buildQuery($queryarr = array()) {
+function build_query($queryarr = array()) {
 	if(!is_array($queryarr)) {
 		return '';
 	}
@@ -51,7 +51,7 @@ function buildQuery($queryarr = array()) {
 	return $querystr;
 }
 
-function parseQuery($querystr = null) {
+function parse_query($querystr = null) {
 	if(!$querystr) {
 		return array();
 	}

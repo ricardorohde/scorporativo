@@ -129,14 +129,14 @@ class MY_Controller extends CI_Controller {
 		
 		$data['entries'] = $this->obj->get_all($this->args);
 		$data['current'] = $this->obj->current;
-		$data['perpage'] = $this->obj->per_page;
+		$data['per_page'] = $this->obj->per_page;
 		
 		if(isset($this->obj->total_rows)) {		
 			$config = $this->_set_pagination($this->obj->total_rows, $this->obj->per_page);
 			$this->pagination->initialize($config);
 		}
 		
-		$data['totalrows'] = $this->obj->total_rows;
+		$data['total_rows'] = $this->obj->total_rows;
 		$data['msg'] = $this->session->userdata('msg');		
 		$this->session->unset_userdata('msg');
 		
@@ -430,7 +430,7 @@ class MY_Controller extends CI_Controller {
 		echo $this->obj->reorder_imagens();
 	}
 	
-	function reorder($filtros = null) {
+	function reordenar($filtros = null) {
 		if(!$this->sess->check_session(array('close' => false, 'tipo' => 'admin'))) {
 			return false;
 		}
