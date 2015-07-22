@@ -25,3 +25,41 @@
 		cursor: move;
 	}
 }
+
+.abas {
+	> ul {
+		list-style: none;
+		margin: 0;
+		margin-bottom: 1em;
+		border-bottom: 1px solid #EEE;
+
+		li {
+			display: inline-block;
+		}
+
+		a {
+			display: block;
+			text-decoration: none;
+			margin-right: 0.5em;
+			padding: 0.3em 0.7em;
+			background: #EEE;
+			border: 1px solid #EEE;
+			color: #666;
+			position: relative;
+			top: 1px;
+			outline: none;
+
+			&:hover {
+				color: #000;
+				text-decoration: underline;
+			}
+
+			&.ativo {
+				background: #FFF;
+				color: #F60;
+				border-bottom-color: #FFF;
+				box-shadow: 2px -2px 3px rgba(0,0,0,0.1);
+			}
+		}
+	}
+}

@@ -1,5 +1,4 @@
-<?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
 
 function find_active($needle, $args = null) {
 	$haystack = null;
@@ -22,9 +21,9 @@ function find_active($needle, $args = null) {
 			$haystack = $_SERVER['PHP_SELF'];
 		}
 	}
-	
+
 	//print $haystack;
-	
+
 	if(strstr($haystack,$needle)) {
 		if($only_class) {
 			return 'ativo';
@@ -55,18 +54,18 @@ function parse_query($querystr = null) {
 	if(!$querystr) {
 		return array();
 	}
-	
+
 	//resolve problema no chrome
 	$querystr = limpa(urldecode($querystr));
 	//print $querystr;
 
 	$array = explode('|',$querystr);
 	$count = count($array);
-	
+
 	if(!$array || $count == 1) {
 		return array();
 	}
-	
+
 	$result = array();
 	for($i = 0; $i < $count; $i++) {
 		if(isset($array[$i])) {
@@ -78,17 +77,17 @@ function parse_query($querystr = null) {
 			$value = urldecode($array[$i+1]);
 		} else {
 			$value = null;
-		}		
+		}
 		if($name == null || $value == null) {
 			continue;
 		}
-		
+
 		$result[$name] = $value;
-		
+
 		$i++;
 	}
 	//print_r($result);
-	
+
 	return $result;
 }
 
@@ -98,5 +97,5 @@ function limpa($str, $args = array()) {
 	$remove = array(',','/','?','.','\\','<','>','%',':',';');
 	$str = str_replace($remove,'',$str);
 
-	return $str;	
+	return $str;
 }
