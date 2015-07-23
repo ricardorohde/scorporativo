@@ -16,7 +16,6 @@
 	<div class="campo grid4-1">
 		<label>Nível <!-- <span>só categoria de produto</span> --></label>
 		<select id="snivel" name="nivel">
-			<option value="">-- Selecione --</option>
 			<option <?=set_select('nivel','grupo')?> value="grupo">1 - Grupo</option>
 			<option <?=set_select('nivel','linha')?> value="linha">2 - Linha</option>
 			<option <?=set_select('nivel','categoria')?> value="categoria">3 - Categoria</option>

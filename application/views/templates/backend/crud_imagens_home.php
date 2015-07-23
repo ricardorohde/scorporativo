@@ -2,7 +2,7 @@
 	<a href="<?=$redirect?>">&laquo; Voltar</a>
 </p>
 
-<h1>Fotos: "<?=$nome?>"</h1>
+<h1>Imagens: "<?=$nome?>"</h1>
 
 <?php if(isset($msg) && !empty($msg)): ?>
 <div class="mensagem"><?=$msg?></div>
@@ -10,17 +10,17 @@
 
 <?php
 if(file_exists("application/views/backend/$this->kw/detalhes.php")) {
-	$this->load->view("backend/$this->kw/menu",array($this->cskw => $o));
+	$this->load->view("backend/$this->kw/menu",array($this->cskw => $item));
 }
 ?>
 
 <p>
-	<a class="icone adicionar" href="<?=site_url("admin/$this->kw/addfoto/$o->id")?>">Adicionar uma foto</a>
+	<a class="icone adicionar" href="<?=site_url("admin/$this->kw/adicionar_imagem/$item->id")?>">Adicionar uma imagem</a>
 </p>
 
-<div id="resposta"></div>
+<div class="mensagem mensagem-resposta"></div>
 
-<?php if(isset($fotos) && !empty($fotos) && $fotos !== false): ?>
+<?php if($imagens): ?>
 
 <p>
 	Listando todas as fotos para este item:
@@ -30,32 +30,32 @@ if(file_exists("application/views/backend/$this->kw/detalhes.php")) {
 	<em>Arraste as fotos para reordená-las.</em>
 </p>
 
-<div id="fotos" class="grupo">
-
 <input type="hidden" id="secao_cod" value="<?=$this->kw?>">
 <input type="hidden" id="obj_tipo" value="<?=$this->cskw?>">
-<input type="hidden" id="obj_id" value="<?=$o->id?>">
+<input type="hidden" id="obj_id" value="<?=$item->id?>">
 
-<?php foreach($fotos as $row):?>
+<div class="imagens js-sortable grupo" data-funcao="reordenar_imagens">
 
-<div class="foto" id="fot_<?=$row->id?>">
+<?php foreach($imagens as $row):?>
+
+<div class="imagem imagem-<?=$row->obj_tipo?>" id="fot_<?=$row->id?>">
 	<?php if(empty($row->legenda)): ?>
 	<h3><em>Sem legenda</em></h3>
 	<?php else: ?>
 	<h3><?=$row->legenda?></h3>
 	<?php endif; ?>
-	<img src="<?=base_url()?>imagens/fotos/<?=$row->thumb?>" alt="imagens/fotos/<?=$row->thumb?>" />
-	<a class="icone alterar" href="<?=site_url("admin/$this->kw/altfoto/$o->id/$row->id")?>">Alterar</a>
-	<a class="icone excluir" href="<?=site_url("admin/$this->kw/excimg/$row->id")?>">Excluir</a>
+	<img src="<?=base_url()?>imagens/enviadas/<?=$row->thumb?>" alt="imagens/enviadas/<?=$row->thumb?>" />
+	<a class="icone alterar" href="<?=site_url("admin/$this->kw/alterar_imagem/$item->id/$row->id")?>">Alterar</a>
+	<a class="icone excluir" href="<?=site_url("admin/$this->kw/excluir_imagem/$row->id")?>">Excluir</a>
 </div>
-	
+
 <?php endforeach; ?>
 
 </div>
 
 <?php else: ?>
 
-<p>Não há fotos cadastradas.</p>
+<p>Não há imagens cadastradas.</p>
 
 <?php endif; ?>
 

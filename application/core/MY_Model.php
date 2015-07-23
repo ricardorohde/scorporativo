@@ -104,11 +104,11 @@ class MY_Model extends CI_Model {
 	}
 
 	function add($adata = array()) {
-		return $this->add_admin(false,null,$adata);
+		return $this->add_adm(false,null,$adata);
 	}
 
-	function upt($id,$adata = array()) {
-		return $this->add_admin(true,$id,$adata);
+	function upt($adata = array(), $id) {
+		return $this->add_adm(true,$id,$adata);
 	}
 
 	function add_imagem($img_data, $id_item, $update = false, $id_imagem = null) {
@@ -117,13 +117,13 @@ class MY_Model extends CI_Model {
 		//colocamos a(s) imagem(s)
 		if(is_array($img_data['a1'])) {
 			if($tipo == 'slide') {
-				$this->img->setimg($img_data['a1'],null,'slide_');
+				$this->img->set_img($img_data['a1'],'slide_');
 				$data['med'] = $this->img->crop_centered($this->config->item('slide_width'),$this->config->item('slide_height'));
 			} else {
-				$this->img->setimg($img_data['a1'],null,'thumb_');
+				$this->img->set_img($img_data['a1'],'thumb_');
 				$data['thumb'] = $this->img->crop_centered(150);
 
-				$this->img->setimg($img_data['a1'],null,'med_');
+				$this->img->set_img($img_data['a1'],'med_');
 				$data['med'] = $this->img->resize(800,600);
 			}
 		}
@@ -202,10 +202,18 @@ class MY_Model extends CI_Model {
 			@unlink("imagens/enviadas/$row->big_2x");
 		}
 
-		if($destructive == 'true') {
-			$this->db->query("DELETE FROM {$this->_prefix}imagens WHERE obj_id=$id");
+		if($all) {
+			if($destructive == 'true') {
+				$this->db->query("DELETE FROM {$this->_prefix}imagens WHERE obj_id=$id AND obj_tipo='$tipo'");
+			} else {
+				$this->db->query("UPDATE {$this->_prefix}imagens SET mini=NULL, thumb=NULL, med=NULL, big=NULL, mini_2x=NULL, thumb_2x=NULL, med_2x=NULL, big_2x=NULL WHERE obj_id=$id AND obj_tipo='$tipo'");
+			}
 		} else {
-			$this->db->query("UPDATE {$this->_prefix}imagens SET mini=NULL, thumb=NULL, med=NULL, big=NULL, mini_2x=NULL, thumb_2x=NULL, med_2x=NULL, big_2x=NULL WHERE obj_id=$id");
+			if($destructive == 'true') {
+				$this->db->query("DELETE FROM {$this->_prefix}imagens WHERE id=$id");
+			} else {
+				$this->db->query("UPDATE {$this->_prefix}imagens SET mini=NULL, thumb=NULL, med=NULL, big=NULL, mini_2x=NULL, thumb_2x=NULL, med_2x=NULL, big_2x=NULL WHERE id=$id");
+			}
 		}
 
 		return TRUE;
@@ -225,6 +233,7 @@ class MY_Model extends CI_Model {
 						'select' => '*',
 						'from' => 'imagens',
 						'where' => '1=1',
+						//'debug' => true,
 						'orderby' => 'ordem ASC, data_cadastro ASC'
 						);
 
@@ -256,7 +265,7 @@ class MY_Model extends CI_Model {
 		return $this->get_entries($params);
 	}
 
-	function reorder_imagens() {
+	function reordenar_imagens() {
 		$tipo = $this->input->post('tipo');
 		$ordem = $this->input->post('ordem');
 		$obj = $this->input->post('obj');
@@ -274,7 +283,7 @@ class MY_Model extends CI_Model {
 				$str .= " AND obj_id=$obj ";
 			}
 			$str .= " AND obj_tipo='$tipo' ";
-			//echo $str;
+			echo $str;
 
 			$this->db->query($str);
 			$i++;
@@ -287,7 +296,7 @@ class MY_Model extends CI_Model {
 		}
 	}
 
-	function reorder() {
+	function reordenar() {
 		$ordem = $this->input->post('ordem');
 		$ordem = explode('&',$ordem);
 		//print_r($ordem);

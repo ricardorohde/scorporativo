@@ -36,7 +36,7 @@ class Produtos extends MY_Controller {
 		parent::home();
 	}
 
-	function _formsetup() {
+	function _form_setup() {
 		$this->form_validation->set_rules('nome', 'Nome', 'trim|required');
 	}
 

@@ -31,8 +31,6 @@
 
 <?php if(isset($entries) && !empty($entries) && $entries !== false): ?>
 
-<a class="icone imprimir" href="#">Imprimir</a>
-
 <p>
 	Listando registros de <?=$current?> até <?=$current+$per_page?> (total <?=$total_rows?> registros):
 </p>

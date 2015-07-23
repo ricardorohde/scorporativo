@@ -40,6 +40,8 @@ $config['_prefix'] = 'sc_';
 //domínio
 $config['dominio'] = 'guilhermemuller.com.br';
 //e-mail principal do site
+$config['email_principal'] = 'contato@guilhermemuller.com.br';
+//e-mail que recebe formulário de contato
 $config['email_contato'] = 'contato@guilhermemuller.com.br';
 //arquivo da logo
 $config['arquivo_logo'] = 'logo_scorporativo.png';

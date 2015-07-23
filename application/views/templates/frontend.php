@@ -9,7 +9,7 @@
 
 	<link rel="apple-touch-icon" href="apple-touch-icon.png">
 
-	<link rel="stylesheet" href="css/frontend/frontend.css">
+	<link rel="stylesheet" href="<?=base_url()?>css/frontend/frontend.css">
 </head>
 <body>
 

@@ -84,7 +84,7 @@ textarea
 	text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
 
 	&:hover {
-		
+
 	}
 
 	&:active {
@@ -97,7 +97,6 @@ textarea
 		margin-top: 1em;
 
 		&:hover {
-			text-shadow: 1px -1px 1px rgba(0,0,0,0.5);
 			background: #F90;
 		}
 	}
@@ -108,25 +107,6 @@ textarea
 		font-size: 1em;
 		background: #666;
 		padding: 0.2em 0.7em;
-	}
-}
-
-//mensagens
-
-.mensagem {
-	background: #F90;
-	color: #FFF;
-	padding: 0.5em 1em;
-	margin-bottom: 1em;
-	font-weight: normal;
-	box-shadow: 3px 3px 3px rgba(0,0,0,0.2);
-
-	&.mensagem-erro {
-		background: #900;
-	}
-
-	&.mensagem-info {
-		background: #329FFF;
 	}
 }
 

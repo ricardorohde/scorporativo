@@ -43,30 +43,28 @@ class Produtos_model extends MY_Model {
 		extract($args);
 
 		$params = array(
-						'from' => 'produtos_categorias',
-						'where' => "produto_id=$produto"
+						'select' => "pc.produto_id, pc.categoria_id, c.nome, c.slug, c.nivel",
+						'from' => 'produtos_categorias pc',
+						'join' => "JOIN {$this->_prefix}categorias c ON c.id=pc.categoria_id",
+						'where' => "pc.produto_id=$produto"
 						);
 
 		if($as_array) {
 			$results = $this->get_entries($params);
 			if($results) {
-				$categorias = array();
+				$result_array = array();
 
 				foreach($results as $row) {
-					$categorias[] = $row->categoria_id;
+					$result_array[] = $row->categoria_id;
 				}
 
-				return $categorias;
+				return $result_array;
 			} else {
 				return array();
 			}
-		} else {
-			$params['select'] = "p.produto_id, p.categoria_id, c.nome, c.slug, c.nivel";
-			$params['from'] = "produtos_categorias p";
-			$params['join'] = "JOIN {$this->_prefix}categorias c ON c.id=p.categoria_id";
-
-			return $this->get_entries($params);
 		}
+
+		return $this->get_entries($params);
 	}
 
 	function get_by_cod($cod = null) {
@@ -115,13 +113,17 @@ class Produtos_model extends MY_Model {
 		}
 		$this->db->query($str);
 
+		if(!$update) {
+			$id = $this->db->insert_id();
+		}
+
 		//tudo pronto
 		$this->db->trans_complete();
 
 		if ($this->db->trans_status() === FALSE) {
 			return false;
 		} else {
-			return true;
+			return $id;
 		}
 	}
 
@@ -155,6 +157,32 @@ class Produtos_model extends MY_Model {
 
 		unset($data);
 		//
+
+		//tudo ok
+		$this->db->trans_complete();
+
+		return $this->db->trans_status();
+	}
+
+	function upt_categorias() {
+		$item_id = $this->input->post('item_id');
+
+		$this->db->trans_start();
+
+		//primeiro excluímos as categorias já associadas ao produto
+		$this->db->query("DELETE FROM {$this->_prefix}produtos_categorias WHERE produto_id=$item_id");
+
+		//agora inserimos as categorias conforme foram marcadas
+		$categorias = $this->input->post('categorias');
+		foreach($categorias as $row) {
+			$data['produto_id'] = $item_id;
+			$data['categoria_id'] = $row;
+
+			$str = $this->db->insert_string($this->_prefix.'produtos_categorias',$data);
+			$this->db->query($str);
+
+			unset($data);
+		}
 
 		//tudo ok
 		$this->db->trans_complete();

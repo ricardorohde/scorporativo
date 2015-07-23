@@ -50,7 +50,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |		my-controller/my-method	-> my_controller/my_method
 */
 $route['default_controller'] = 'home';
-$route['404_override'] = '';
+$route['404_override'] = 'erro';
 $route['translate_uri_dashes'] = FALSE;
 
 $route['admin'] = "admin/login";
@@ -58,6 +58,9 @@ $route['admin/(.*)/adicionar'] = "admin/$1/gerenciar/novo";
 $route['admin/(.*)/alterar/(.*)'] = "admin/$1/gerenciar/alterar/$2";
 $route['admin/(.*)/add_imagem'] = "admin/$1/gerenciar_imagem/novo";
 $route['admin/(.*)/add_imagem/(.*)'] = "admin/$1/gerenciar_imagem/novo/$2";
+$route['admin/(.*)/adicionar_imagem'] = "admin/$1/gerenciar_imagem/novo";
+$route['admin/(.*)/adicionar_imagem/(.*)'] = "admin/$1/gerenciar_imagem/novo/$2";
 $route['admin/(.*)/alt_imagem/(.*)/(.*)'] = "admin/$1/gerenciar_imagem/alterar/$2/$3";
+$route['admin/(.*)/alterar_imagem/(.*)/(.*)'] = "admin/$1/gerenciar_imagem/alterar/$2/$3";
 
 $route['gera_senha/(.*)'] = "gera_senha/index/$1";

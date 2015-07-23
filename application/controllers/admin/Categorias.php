@@ -40,7 +40,7 @@ class Categorias extends MY_Controller {
 		parent::home();
 	}
 	
-	function _formsetup() {
+	function _form_setup() {
 		$this->data['grupos'] = $this->obj->get_all(array('nivel' => 'grupo'));
 		//$this->data['linhas'] = $this->obj->get_all(array('nivel' => 'linha'));
 		//$this->data['categorias'] = $this->obj->get_all(array('nivel' => 'categoria'));
@@ -59,11 +59,11 @@ class Categorias extends MY_Controller {
 		$this->form_validation->set_rules('ativo', 'Ativa?', 'numeric');
 		
 		if($this->acao == 'alterar') {
-			$this->form_validation->set_value_default('nome',$this->object->nome);
-			$this->form_validation->set_value_default('tipo',$this->object->tipo);
-			$this->form_validation->set_value_default('nivel',$this->object->nivel);
-			$this->form_validation->set_value_default('mae',$this->object->mae);
-			$this->form_validation->set_value_default('ativo',$this->object->ativo);
+			$this->form_validation->set_value_default('nome',$this->item->nome);
+			$this->form_validation->set_value_default('tipo',$this->item->tipo);
+			$this->form_validation->set_value_default('nivel',$this->item->nivel);
+			$this->form_validation->set_value_default('mae',$this->item->mae);
+			$this->form_validation->set_value_default('ativo',$this->item->ativo);
 		}
 	}
 

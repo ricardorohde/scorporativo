@@ -10,10 +10,8 @@
 
 <?php if(isset($entries) && !empty($entries) && $entries !== false): ?>
 
-<a class="icone imprimir" href="#">Imprimir</a>
-
 <p>
-	Listando registros de <?=$current?> até <?=$current+$perpage?> (total <?=$totalrows?> registro<?php if($totalrows > 1) echo 's';?>):
+	Listando registros de <?=$current?> até <?=$current+$per_page?> (total <?=$total_rows?> registro<?php if($total_rows > 1) echo 's';?>):
 </p>
 
 <?=$this->pagination->create_links()?>
@@ -27,7 +25,7 @@
 	</tr>
 
 <?php foreach($entries as $row): ?>
-	
+
 	<tr>
 		<td class="a-esq">
 			<a href="<?=site_url("admin/$this->kw/alterar/$row->id")?>"><?=$row->nome?></a>
@@ -39,12 +37,12 @@
 			<a class="icone excluir" href="<?=site_url("admin/$this->kw/excluir/$row->id")?>">Excluir</a>
 		</td>
 	</tr>
-	
+
 	<?php
 		$children = $this->obj->get_all(array('mae' => $row->id));
 		if(isset($children) && $children !== false):
 	?>
-	
+
 	<?php
 		foreach($children as $l):
 	?>
@@ -65,7 +63,7 @@
 			if($categorias !== false):
 			foreach($categorias as $c):
 		?>
-		
+
 		<tr class="subitem subitem-categoria">
 			<td class="a-esq subcat">
 				<a href="<?=site_url("admin/$this->kw/alterar/$c->id")?>"><?=$c->nome?></a>
@@ -83,7 +81,7 @@
 				if($subcategorias !== false):
 				foreach($subcategorias as $s):
 			?>
-			
+
 			<tr class="subitem subitem-subcategoria">
 				<td class="a-esq subcat">
 					<a href="<?=site_url("admin/$this->kw/alterar/$s->id")?>"><?=$s->nome?></a>
@@ -101,9 +99,9 @@
 		<?php endforeach; endif; ?>
 
 	<?php endforeach; ?>
-	
+
 	<?php endif; ?>
-	
+
 <?php endforeach; ?>
 
 </table>

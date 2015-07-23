@@ -11,8 +11,8 @@
 			</a>
 		</li>
 		<li>
-			<a <?=find_active("foto")?> href="<?=site_url("admin/$this->kw/fotos/$item->id")?>">
-				Fotos
+			<a <?=find_active("imagens")?> href="<?=site_url("admin/$this->kw/imagens/$item->id")?>">
+				Imagens
 			</a>
 		</li>
 	</ul>

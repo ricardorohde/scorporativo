@@ -12,34 +12,28 @@
 </h1>
 
 <?php if(isset($msg) && !empty($msg)): ?>
-<div class="mensagem info">
+<div class="mensagem mensagem-info">
 	<?=$msg?>
 </div>
 <?php endif; ?>
 
 <?php if(isset($_POST['submit'])): ?>
-<div class="mensagem erro">
+<div class="mensagem mensagem-erro">
 	<?=validation_errors()?>
 </div>
 <?php endif; ?>
 
 <?=form_open_multipart(current_url())?>
 
-	<fieldset>
-		
-		<?php $this->load->view("backend/$this->kw/form"); ?>
-		
+	<?php $this->load->view("backend/$this->kw/form"); ?>
+
+	<button name="submit" class="botao botao-submit">
 		<?php if($acao == 'novo'): ?>
-		<button name="submit" class="botao botao-submit">
 			Cadastrar
-		</button>
 		<?php else: ?>
-		<button name="submit" class="botao botao-submit">
 			Alterar
-		</button>
 		<?php endif; ?>
-		
-	</fieldset>
+	</button>
 
 <?=form_close()?>
 

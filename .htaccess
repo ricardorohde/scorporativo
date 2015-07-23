@@ -1,20 +1,3 @@
-# ----------------------------------------------------------------------
-# | Document modes                                                     |
-# ----------------------------------------------------------------------
-
-# Force Internet Explorer 8/9/10 to render pages in the highest mode
-# available in the various cases when it may not.
-#
-# https://hsivonen.fi/doctype/#ie8
-#
-# (!) Starting with Internet Explorer 11, document modes are deprecated.
-# If your business still relies on older web apps and services that were
-# designed for older versions of Internet Explorer, you might want to
-# consider enabling `Enterprise Mode` throughout your company.
-#
-# https://msdn.microsoft.com/en-us/library/ie/bg182625.aspx#docmode
-# http://blogs.msdn.com/b/ie/archive/2014/04/02/stay-up-to-date-with-enterprise-mode-for-internet-explorer-11.aspx
-
 <IfModule mod_headers.c>
 
     Header set X-UA-Compatible "IE=edge"
@@ -29,25 +12,9 @@
 
 </IfModule>
 
-# ----------------------------------------------------------------------
-# | File access                                                        |
-# ----------------------------------------------------------------------
-
-# Block access to directories without a default document.
-#
-# You should leave the following uncommented, as you shouldn't allow
-# anyone to surf through every directory on your server (which may
-# includes rather private places such as the CMS's directories).
-
 <IfModule mod_autoindex.c>
     Options -Indexes
 </IfModule>
-
-# Code Igniter redirects
-
-# If your web host doesn't allow the FollowSymlinks option, you may need to
-# comment it out and use `Options +SymLinksOfOwnerMatch`, but be aware of the
-# performance impact: http://goo.gl/Mluzd
 
 <IfModule mod_rewrite.c>
     RewriteEngine On
@@ -76,21 +43,6 @@
     ErrorDocument 404 index.php
 </IfModule>
 
-# The same content should never be available under two different URLs -
-# especially not with and without "www." at the beginning, since this can cause
-# SEO problems (duplicate content). That's why you should choose one of the
-# alternatives and redirect the other one.
-
-# By default option 1 (no "www.") is activated.
-# no-www.org/faq.php?q=class_b
-
-# If you'd prefer to use option 2, just comment out all option 1 lines
-# and uncomment option 2.
-
-# IMPORTANT: NEVER USE BOTH RULES AT THE SAME TIME!
-
-# ----------------------------------------------------------------------
-
 # Option 1:
 # Rewrite "www.example.com -> example.com".
 
@@ -111,20 +63,6 @@
 #   RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI}
 # </IfModule>
 
-# Block access to files that can expose sensitive information.
-#
-# By default, block access to backup and source files that may be
-# left by some text editors and can pose a security risk when anyone
-# has access to them.
-#
-# http://feross.org/cmsploit/
-#
-# (!) Update the `<FilesMatch>` regular expression from below to
-# include any files that might end up on your production server and
-# can expose sensitive information about your website. These files may
-# include: configuration files, files that contain metadata about the
-# project (e.g.: project dependencies), build scripts, etc..
-
 <FilesMatch "(^#.*#|\.(bak|conf|dist|fla|in[ci]|log|psd|sh|sql|sw[op])|~)$">
 
     # Apache < 2.3
@@ -140,15 +78,5 @@
     </IfModule>
 
 </FilesMatch>
-
-# ----------------------------------------------------------------------
-# | Server software information                                        |
-# ----------------------------------------------------------------------
-
-# Prevent Apache from adding a trailing footer line containing
-# information about the server to the server-generated documents
-# (e.g.: error messages, directory listings, etc.)
-#
-# https://httpd.apache.org/docs/current/mod/core.html#serversignature
 
 ServerSignature Off

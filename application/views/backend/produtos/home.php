@@ -19,7 +19,7 @@
 			<input type="text" name="nome" size="30" value="<?=$busca['nome']?>">
 		</div>
 
-		<button class="botao aplfiltros">
+		<button class="botao botao-filtros">
 			Pesquisar
 		</button>
 

@@ -1,5 +1,4 @@
-<?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
 
 class MY_Controller extends CI_Controller {
 
@@ -147,7 +146,7 @@ class MY_Controller extends CI_Controller {
 		$this->_render($this->template['crud_home'],$data);
 	}
 
-	function gerenciar($acao = 'novo',$id = null) {
+	function gerenciar($acao = 'novo',$id = null) {		
 		if(!$this->sess->check_session(array('close' => false, 'tipo' => 'admin'))) {
 			return false;
 		}
@@ -164,13 +163,13 @@ class MY_Controller extends CI_Controller {
 		}
 
 		if($acao == 'alterar') {
-			$this->itemId = $id;
-			$this->object = $this->obj->get_by_id($id);
+			$this->item_id = $id;
+			$this->item = $this->obj->get_by_id($id);
 		}
 
 		$this->acao = $acao;
 
-		$this->_formsetup();
+		$this->_form_setup();
 
 		$data['redirect'] = $this->_get_redirect();
 
@@ -181,13 +180,13 @@ class MY_Controller extends CI_Controller {
 			$adata = array();
 
 			if($acao == 'novo') {
-				if($id = $this->obj->add_adm($adata)) {
+				if($id = $this->obj->add($adata)) {
 					$this->session->set_userdata('msg', ucfirst($this->cskw).' cadastrad'.$this->artigo.' com sucesso!');
 				} else {
 					$this->session->set_userdata('msg', 'Erro ao cadastrar '.$this->artigo.' '.$this->cskw.' '. mysql_error());
 				}
 			} else {
-				if($this->obj->add_adm($adata,$id)) {
+				if($this->obj->upt($adata,$id)) {
 					$this->session->set_userdata('msg', ucfirst($this->cskw).' alterad'.$this->artigo.' com sucesso!');
 				} else {
 					$this->session->set_userdata('msg', 'Nada foi alterado. '.mysql_error());
@@ -234,6 +233,24 @@ class MY_Controller extends CI_Controller {
 		$this->_go_back();
 	}
 
+    function reordenar($filtros = null) {
+		if(!$this->sess->check_session(array('close' => false, 'tipo' => 'admin'))) {
+			return false;
+		}
+
+        $data['redirect'] = $this->_get_redirect();
+
+		$vars = parse_query($filtros);
+		$this->args = $vars;
+
+		$data['entries'] = $this->obj->get_all($this->args);
+
+		//carrega reorder.js
+		$data['footer_files'][] = 'backend/includes/reordenar_js';
+
+		$this->_render("backend/$this->kw/reordenar",$data);
+	}
+
 	function excluir($id = null) {
 		if(!$this->sess->check_session(array('close' => false, 'tipo' => 'admin'))) {
 			return false;
@@ -275,21 +292,17 @@ class MY_Controller extends CI_Controller {
 			return false;
 		}
 
-		if(empty($id) || !isset($this->obj)) {
-
-		}
-
 		$data['redirect'] = $this->_get_redirect();
 
-		$data['o'] = $this->obj->get_by_id($id);
-		if(isset($data['o']->nome)) {
-			$data['nome'] = $data['o']->nome;
-		} else if(isset($data['o']->codigo)) {
-			$data['nome'] = $data['o']->codigo;
-		} else if(isset($data['o']->empresa)) {
-			$data['nome'] = $data['o']->empresa;
-		} else if(isset($data['o']->titulo)) {
-			$data['nome'] = $data['o']->titulo;
+		$data['item'] = $this->obj->get_by_id($id);
+		if(isset($data['item']->nome)) {
+			$data['nome'] = $data['item']->nome;
+		} else if(isset($data['item']->codigo)) {
+			$data['nome'] = $data['item']->codigo;
+		} else if(isset($data['item']->empresa)) {
+			$data['nome'] = $data['item']->empresa;
+		} else if(isset($data['item']->titulo)) {
+			$data['nome'] = $data['item']->titulo;
 		}
 
 		$this->args['id'] = $id;
@@ -301,50 +314,48 @@ class MY_Controller extends CI_Controller {
 		$this->session->unset_userdata('msg');
 
 		//carrega imagens.js
-		$data['footerfiles'] = array('backend/includes/imagens_js');
+		$data['footer_files'][] = 'backend/includes/reordenar_js';
 
 		$this->_render($this->template['crud_imagens_home'], $data);
 	}
 
-	function gerenciar_foto($acao = 'novo', $iditem = null, $idfoto = null) {
+	function gerenciar_imagem($acao = 'novo', $item_id = null, $imagem_id = null) {
 		if(!$this->sess->check_session(array('close' => false, 'tipo' => 'admin'))) {
 			return false;
 		}
 
-		if(!is_numeric($iditem)) {
+		if(!is_numeric($item_id)) {
 			$this->_go_home();
 			return false;
 		}
 
-		$this->load->library('form_validation');
 		$this->acao = $acao;
 
-		$this->form_validation->set_error_delimiters('', '<br>');
-		$this->form_validation->set_rules('imagem','Foto','');
-		$this->form_validation->set_rules('legenda','Legenda','');
-		$this->form_validation->set_rules('link','Link','prep_url');
-		$this->form_validation->set_rules('categoria','Categoria','');
+		$this->form_validation->set_rules('imagem','Imagem','trim');
+		$this->form_validation->set_rules('legenda','Legenda','trim');
+		$this->form_validation->set_rules('link','Link','trim|prep_url');
+		$this->form_validation->set_rules('categoria','Categoria','trim');
 
 		if($acao == 'alterar') {
-			$data['foto'] = $this->obj->getFotoById($idfoto);
-			$this->form_validation->set_value_default('legenda',$data['foto']->legenda);
-			$this->form_validation->set_value_default('link',$data['foto']->link);
-			$this->form_validation->set_value_default('categoria',$data['foto']->categoria_id);
+			$data['imagem'] = $imagem = $this->obj->get_imagem($imagem_id);
+			$this->form_validation->set_value_default('legenda',$imagem->legenda);
+			$this->form_validation->set_value_default('link',$imagem->link);
+			$this->form_validation->set_value_default('categoria',$imagem->categoria_id);
 		}
 
 		$data['redirect'] = $this->_get_redirect();
 
 		if ($this->form_validation->run() == FALSE) {
-			$o = $this->obj->get_by_id($iditem);
-			$data['o'] = $o;
-			if(isset($data['o']->nome)) {
-				$data['nome'] = $data['o']->nome;
-			} else if(isset($data['o']->codigo)) {
-				$data['nome'] = $data['o']->codigo;
-			} else if(isset($data['o']->empresa)) {
-				$data['nome'] = $data['o']->empresa;
-			} else if(isset($data['o']->titulo)) {
-				$data['nome'] = $data['o']->titulo;
+			$item = $this->obj->get_by_id($item_id);
+			$data['item'] = $item;
+			if(isset($data['item']->nome)) {
+				$data['nome'] = $data['item']->nome;
+			} else if(isset($data['item']->codigo)) {
+				$data['nome'] = $data['item']->codigo;
+			} else if(isset($data['item']->empresa)) {
+				$data['nome'] = $data['item']->empresa;
+			} else if(isset($data['item']->titulo)) {
+				$data['nome'] = $data['item']->titulo;
 			}
 			$data['acao'] = $this->acao;
 
@@ -361,20 +372,20 @@ class MY_Controller extends CI_Controller {
 			//$data['a2'] = $this->up->upload('imagem2');
 
 			if($acao == 'novo') {
-				if($this->obj->add_foto($adata,$iditem)) {
-					$this->session->set_userdata('msg', 'Foto cadastrada com sucesso!');
+				if($this->obj->add_imagem($adata,$item_id)) {
+					$this->session->set_userdata('msg', 'Imagem cadastrada com sucesso!');
 				} else {
-					$this->session->set_userdata('msg', 'Houve um erro ao cadastrar a foto.');
+					$this->session->set_userdata('msg', 'Houve um erro ao cadastrar a imagem.');
 				}
 			} else {
-				if($this->obj->add_foto($adata,$iditem,true,$idfoto)) {
-					$this->session->set_userdata('msg', 'Foto alterada com sucesso!');
+				if($this->obj->add_imagem($adata,$item_id,true,$imagem_id)) {
+					$this->session->set_userdata('msg', 'Imagem alterada com sucesso!');
 				} else {
-					$this->session->set_userdata('msg', 'Houve um erro ao alterar a foto.');
+					$this->session->set_userdata('msg', 'Houve um erro ao alterar a imagem.');
 				}
 			}
 
-			redirect("admin/$this->kw/imagens/$iditem");
+			redirect("admin/$this->kw/imagens/$item_id");
 		}
 	}
 
@@ -384,9 +395,9 @@ class MY_Controller extends CI_Controller {
 		}
 
 		if($this->obj->excluir_imagens(array('id' => $id,'destructive' => $destructive))) {
-			$this->session->set_userdata('msg', 'Foto excluída.');
+			$this->session->set_userdata('msg', 'Imagem excluída.');
 		} else {
-			$this->session->set_userdata('msg', 'Erro ao excluir a foto: '.mysql_error());
+			$this->session->set_userdata('msg', 'Erro ao excluir a imagem: '.mysql_error());
 		}
 
 		$this->_go_back();
@@ -416,14 +427,13 @@ class MY_Controller extends CI_Controller {
 	}
 
 	function _get_redirect($args = array()) {
-
 		extract($args);
 
 		//lógica para pegar a última página acessada pelo cliente. Porém, não pode ser de partes específicas do admin
 		if(isset($_SERVER['HTTP_REFERER'])) {
 			$referer = $_SERVER['HTTP_REFERER'];
 
-			if(!strstr($referer,"$this->kw/detalhes") && !strstr($referer,"$this->kw/imagens") && !strstr($referer,"$this->kw/addfoto") && !strstr($referer,"$this->kw/adicionar") && !strstr($referer,"$this->kw/alterar")) {
+			if(!strstr($referer,"$this->kw/detalhes") && !strstr($referer,"$this->kw/imagens") && !strstr($referer,"$this->kw/adicionar_imagem") && !strstr($referer,"$this->kw/alterar_imagem") && !strstr($referer,"$this->kw/adicionar") && !strstr($referer,"$this->kw/alterar")) {
 				$redirect = $referer;
 			} else {
 				$sessreferer = $this->session->userdata('adm_referer');
@@ -475,22 +485,6 @@ class MY_Controller extends CI_Controller {
 		}
 
 		echo $this->obj->reordenar_imagens();
-	}
-
-	function reordenar($filtros = null) {
-		if(!$this->sess->check_session(array('close' => false, 'tipo' => 'admin'))) {
-			return false;
-		}
-
-		$vars = parse_query($filtros);
-		$this->args = $vars;
-
-		$data['entries'] = $this->obj->get_all($this->args);
-
-		//carrega reorder.js
-		$data['footerfiles'] = array('backend/includes/reorder_js');
-
-		$this->_render("backend/$this->kw/reordenar",$data);
 	}
 
 	function reordenar_ajax() {
