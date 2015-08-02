@@ -96,7 +96,7 @@
 		
 		<?php foreach($children as $srow): ?>
 		<tr class="subitem subitem-linha">
-			<td class="a-esq subcat">
+			<td class="a-esq td-subcat">
 				<span style="display: none"><?=$srow->id?></span>
 
 				<?php if($srow->editavel == '1'): ?>
@@ -106,6 +106,9 @@
 				<?php else: ?>
 				<?=$srow->nome?>
 				<?php endif; ?>
+			</td>
+			<td>
+				<?=$srow->menu?>
 			</td>
 			<td>
 				<?php if($srow->editavel == '1'): ?>

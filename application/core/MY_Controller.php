@@ -33,6 +33,7 @@ class MY_Controller extends CI_Controller {
 			$this->template = array();
 			$this->template['crud_home'] = 'templates/backend/crud_home';
 			$this->template['crud_form'] = 'templates/backend/crud_form';
+			$this->template['crud_reordenar'] = 'templates/backend/crud_reordenar';
 			$this->template['crud_imagens_home'] = 'templates/backend/crud_imagens_home';
 			$this->template['crud_imagens_form'] = 'templates/backend/crud_imagens_form';
 
@@ -248,7 +249,7 @@ class MY_Controller extends CI_Controller {
 		//carrega reorder.js
 		$data['footer_files'][] = 'backend/includes/reordenar_js';
 
-		$this->_render("backend/$this->kw/reordenar",$data);
+		$this->_render($this->template['crud_reordenar'],$data);
 	}
 
 	function excluir($id = null) {

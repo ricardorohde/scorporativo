@@ -13,6 +13,9 @@
 <div class="campo">
 	<label>Texto <span>a formatação do texto e o tamanho da fonte serão ajustados automaticamente quando este texto for publicado no site</span></label>
 	<textarea name="texto" style="height: 20em"><?=set_value('texto')?></textarea>
+	<p>
+		Use <kbd>Enter</kbd> para novo parágrafo (pula duas linhas) e <kbd>Shift + Enter</kbd> para quebra de linha (pula apenas uma linha).
+	</p>
 </div>
 
 <h2>Informações Complementares</h2>

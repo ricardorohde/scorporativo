@@ -21,7 +21,7 @@
 		<th scope="col">Nome</th>
 		<th scope="col">Nível</th>
 		<th scope="col">Tipo</th>
-		<th scope="col">Opções</th>
+		<th class="td-opcoes" scope="col">Opções</th>
 	</tr>
 
 <?php foreach($entries as $row): ?>
@@ -47,7 +47,7 @@
 		foreach($children as $l):
 	?>
 	<tr class="subitem subitem-linha">
-		<td class="a-esq subcat">
+		<td class="a-esq td-subcat">
 			<a href="<?=site_url("admin/$this->kw/alterar/$l->id")?>"><?=$l->nome?></a>
 		</td>
 		<td><?=ucfirst($l->nivel)?></td>
@@ -65,7 +65,7 @@
 		?>
 
 		<tr class="subitem subitem-categoria">
-			<td class="a-esq subcat">
+			<td class="a-esq td-subcat">
 				<a href="<?=site_url("admin/$this->kw/alterar/$c->id")?>"><?=$c->nome?></a>
 			</td>
 			<td><?=ucfirst($c->nivel)?></td>
@@ -83,7 +83,7 @@
 			?>
 
 			<tr class="subitem subitem-subcategoria">
-				<td class="a-esq subcat">
+				<td class="a-esq td-subcat">
 					<a href="<?=site_url("admin/$this->kw/alterar/$s->id")?>"><?=$s->nome?></a>
 				</td>
 				<td><?=ucfirst($s->nivel)?></td>

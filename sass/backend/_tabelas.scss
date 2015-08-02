@@ -96,4 +96,16 @@
 	tr.status-entregue td a {
 		color: #FFF;
 	}
+
+	.subitem-linha td {
+
+	}
+
+	.subitem-categoria td:first-child {
+		padding-left: 2.2em;
+	}
+
+	.subitem-subcategoria td:first-child {
+		padding-left: 4.2em;
+	}
 }

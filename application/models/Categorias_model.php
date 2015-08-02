@@ -15,12 +15,10 @@ class Categorias_model extends MY_Model {
 		$params = array(
 						'from' => 'categorias',
 						'orderby' => 'ordem ASC, nome ASC',
+						//'debug' => true,
 						'where' => "1=1"
 						);
 
-		if($parents == 1) {
-			$params['where'] .= ' AND (mae IS NULL OR mae=0) ';
-		}
 		if(isset($mae) && is_numeric($mae)) {
 			$params['where'] .= " AND mae=$mae ";
 		}

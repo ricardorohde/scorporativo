@@ -25,10 +25,10 @@ class Clientes extends MY_Controller {
 		$this->data['filtros'] = $filtros;
 
 		$vars = parse_query($filtros);
-		$this->args = $vars;
 
 		if(!isset($vars['nome'])) $vars['nome'] = null;
 
+		$this->args = $vars;
 		$this->data['busca'] = $vars;
 		//end busca
 

@@ -1,16 +1,19 @@
 //ícones
+
+.icone, a.icone, .td-subcat {
+	&:before {
+		font-family: FontAwesome;
+		margin-right: 0.25em;
+		display: inline-block;
+	}
+}
+
 .icone, a.icone {
 	display: inline-block;
 	text-decoration: none;
 	font-size: 0.875em;
 	margin-right: 1em;
 	vertical-align: middle;
-
-	&:before {
-		font-family: FontAwesome;
-		margin-right: 0.25em;
-		display: inline-block;
-	}
 
 	&.email:before {
 		content: "\f0e0";
@@ -75,4 +78,14 @@
 
 a.icone:hover {
 	text-decoration: underline;
+}
+
+.td-subcat {
+	&:before {
+		content: "\f0a9";
+		font-size: 1.125em;
+		margin-right: 0.5em;
+		margin-left: 0.5em;
+		opacity: 0.7;
+	}
 }

@@ -25,10 +25,10 @@ class Usuarios extends MY_Controller {
 	function home($filtros = null) {
 		//busca
 		$vars = parse_query($filtros);
-		$this->args = $vars;
-
+		
 		if(!isset($vars['nome'])) $vars['nome'] = null;
 
+		$this->args = $vars;
 		$this->data['busca'] = $vars;
 		//end busca
 

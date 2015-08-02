@@ -15,9 +15,6 @@ class Categorias extends MY_Controller {
 		$this->nenhum = 'nenhuma';
 		
 		$this->load->model(ucfirst($this->kw).'_model','obj');
-
-		$this->load->library('form_validation');
-		$this->form_validation->set_error_delimiters('','<br>');
 		
 		//$this->output->enable_profiler(TRUE);
 	}
@@ -25,16 +22,14 @@ class Categorias extends MY_Controller {
 	function home($filtros = null) {
 		//busca
 		$vars = parse_query($filtros);
-		$this->args = $vars;
 
 		if(!isset($vars['nivel'])) $vars['nivel'] = 'grupo';
-		
+
+		$this->args = $vars;
 		$this->data['busca'] = $vars;
 		//end busca
 
 		$this->data['grupos'] = $this->obj->get_all(array('nivel' => 'grupo'));
-		//$data['linhas'] = $this->obj->get_all(array('nivel' => 'linha'));
-		//$data['categorias'] = $this->obj->get_all(array('nivel' => 'categoria'));
 
 		$this->template['crud_home'] = "backend/$this->kw/home";
 		parent::home();
@@ -42,8 +37,8 @@ class Categorias extends MY_Controller {
 	
 	function _form_setup() {
 		$this->data['grupos'] = $this->obj->get_all(array('nivel' => 'grupo'));
-		//$this->data['linhas'] = $this->obj->get_all(array('nivel' => 'linha'));
-		//$this->data['categorias'] = $this->obj->get_all(array('nivel' => 'categoria'));
+		$this->data['linhas'] = $this->obj->get_all(array('nivel' => 'linha'));
+		$this->data['categorias'] = $this->obj->get_all(array('nivel' => 'categoria'));
 		
 		$nivel = $this->input->post('nivel');
 

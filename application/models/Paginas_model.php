@@ -29,6 +29,7 @@ class Paginas_model extends MY_Model {
 
 		if(isset($menu) && is_numeric($menu)) {
 			$params['where'] .= " AND menu=$menu ";
+			$parents = 0;
 		}
 
 		if(isset($parents) && $parents == 1) {
