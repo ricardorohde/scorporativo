@@ -11,11 +11,15 @@
 
 //cores
 $color-site-bg: #F2F2F2;
+
 $color-base: #174A88;
 $color-base-light: lighten($color-base,20%);
 $color-base-bg: lighten($color-base,60%);
 $color-base-dark: darken($color-base,20%);
+
 $color-compl: adjust-hue($color-base, 180deg);
+$color-compl-light: lighten($color-compl,20%);
+$color-compl-dark: darken($color-compl,20%);
 
 //
 //-- Imports

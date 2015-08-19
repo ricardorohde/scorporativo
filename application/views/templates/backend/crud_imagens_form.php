@@ -49,7 +49,7 @@ if(file_exists("application/views/backend/$this->kw/detalhes.php")) {
 
 	<div class="campo">
 		<label>Legenda <span>opcional</span></label>
-		<input type="text" name="legenda" value="<?=set_value('legenda')?>" style="width: 30em">
+		<input type="text" name="legenda" value="<?=set_value('legenda')?>">
 	</div>
 
 	<button name="submit" class="botao  botao-submit">

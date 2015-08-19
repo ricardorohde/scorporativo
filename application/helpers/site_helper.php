@@ -10,12 +10,12 @@ function find_active($needle, $args = null) {
 		$haystack = $args;
 	}
 
-	if($haystack == null) {
-		if(isset($_SERVER['PATH_INFO'])) {
+	if(!$haystack) {
+		if(isset($_SERVER['PATH_INFO']) && $_SERVER['PATH_INFO']) {
 			$haystack = $_SERVER['PATH_INFO'];
-		} else if(isset($_SERVER['QUERY_STRING'])) {
+		} else if(isset($_SERVER['QUERY_STRING']) && $_SERVER['QUERY_STRING']) {
 			$haystack = $_SERVER['QUERY_STRING'];
-		} else if(isset($_SERVER['REQUEST_URI'])) {
+		} else if(isset($_SERVER['REQUEST_URI']) && $_SERVER['REQUEST_URI']) {
 			$haystack = $_SERVER['REQUEST_URI'];
 		} else {
 			$haystack = $_SERVER['PHP_SELF'];

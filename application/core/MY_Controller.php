@@ -499,21 +499,27 @@ class MY_Controller extends CI_Controller {
 	//////////////////////////////////
 
 	function _send_mail($params) {
-		$replyto = $this->config->item('email_principal');
+		$reply_to = $this->config->item('email_principal');
 		$from = 'noreply@'.$this->config->item('dominio');
-		$fromname = $this->config->item('site_title');
+		$from_name = $this->config->item('site_title');
 		$preview = false;
-		$cdata = array();
+		$debug = false;
+		$content = array();
 		$base = 'emails/template';
 
 		extract($params);
 
+		if($debug) {
+			print "Params: ";
+			print_r($params);
+		}
+
 		$this->load->library('email');
 
-		$this->email->from($from, $fromname);
+		$this->email->from($from, $from_name);
 		$this->email->to($to);
 		if(!empty($replyto)) {
-			$this->email->reply_to($replyto);
+			$this->email->reply_to($reply_to);
 		}
 		if(isset($cc)) {
 			$this->email->cc($cc);
@@ -523,9 +529,14 @@ class MY_Controller extends CI_Controller {
 		}
 		if(isset($attach)) {
 			$this->email->attach($attach);
+
+			if($debug) {
+				print "Anexado(s) arquivo(s): ";
+				print_r($attach);
+			}
 		}
 
-		$data['content'] = $this->load->view('emails/'.$template,$cdata,true);
+		$data['content'] = $this->load->view('emails/'.$template,$content,true);
 		$msg = $this->load->view($base,$data,true);
 
 		if($preview) {
@@ -534,7 +545,17 @@ class MY_Controller extends CI_Controller {
 
 		$this->email->subject($subject);
 		$this->email->message($msg);
-		$send = $this->email->send();
+
+		if($debug) {
+			$send = $this->email->send(false);
+		} else {
+			$send = $this->email->send();
+		}
+
+		if($debug) {
+			echo $this->email->print_debugger();
+			die();
+		}
 
 		$this->email->clear();
 

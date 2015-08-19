@@ -2,6 +2,16 @@
 //-- Forms
 //
 
+%obrigatorio {
+	color: #C00;
+	font-size: 1.5em;
+	height: 1rem;
+	overflow: hidden;
+	display: inline-block;
+	text-decoration: none;
+	border: 0;
+}
+
 //estilos base
 
 label, select, button {
@@ -10,6 +20,10 @@ label, select, button {
 
 select option {
 	padding-right: 1em;
+}
+
+.obrigatorio {
+	@extend %obrigatorio;
 }
 
 .form-padrao {
@@ -28,13 +42,7 @@ select option {
 			}
 
 			abbr {
-				color: #C00;
-				font-size: 1.25em;
-				height: 0.8em;
-				overflow: hidden;
-				display: inline-block;
-				text-decoration: none;
-				border: 0;
+				@extend %obrigatorio;
 			}
 		}
 
@@ -65,28 +73,35 @@ select option {
 		border: 1px solid #CCC;
 		width: 100%;
 		box-shadow: 2px 2px 2px rgba(0,0,0,0.15);
+		transition: background 0.2s ease;
 
 		&:focus {
 			background: #FFC;
 		}
 	}
+
+	.botao {
+		margin-top: 0.5em;
+	}
 }
 
 //botões
 
-.botao {
+.botao, a.botao {
 	font-size: 1.25em;
 	text-align: center;
 	display: inline-block;
 	border: 0;
 	padding: 0.3em 0.7em;
-	background: #6D9B24;
+	background: $color-base;
 	color: #FFF;
 	box-shadow: 2px 2px 2px rgba(0,0,0,0.15);
 	text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+	text-decoration: none;
+	transition: background 0.2s ease;
 
 	&:hover {
-
+		background: $color-base-light;
 	}
 
 	&:active {
@@ -95,12 +110,8 @@ select option {
 	}
 
 	&.botao-submit {
-		background: #F60;
+		background: $color-compl;
 		margin-top: 1em;
-
-		&:hover {
-			background: #F90;
-		}
 	}
 }
 

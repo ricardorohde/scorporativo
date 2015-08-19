@@ -44,8 +44,7 @@
 		<th scope="col">Opções</th>
 	</tr>
 
-<?php foreach($entries as $row): ?>
-	
+	<?php foreach($entries as $row): ?>
 	<tr>
 		<td class="a-esq">
 			<a href="<?=site_url("admin/$this->kw/alterar/$row->id")?>"><?=$row->nome?></a>
@@ -58,8 +57,7 @@
 			<a class="icone excluir" href="<?=site_url("admin/$this->kw/excluir/$row->id")?>">Excluir</a>
 		</td>
 	</tr>
-	
-<?php endforeach; ?>
+	<?php endforeach; ?>
 
 </table>
 

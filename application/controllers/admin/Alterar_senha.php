@@ -22,7 +22,7 @@ class Alterar_senha extends MY_Controller {
 		$this->form_validation->set_rules('senha_conf','Confirme a Senha','required|matches[senha]|alpha_dash');
 
 		if ($this->form_validation->run()) {
-			if($this->obj->upt($usuario)) {
+			if($this->obj->upt(array(), $usuario)) {
 				$this->session->set_userdata('msg', 'Senha alterada com sucesso!');
 			} else {
 				$this->session->set_userdata('msg', 'Erro ao alterar a senha.');

@@ -1,0 +1,45 @@
+// boxes e margens
+
+.padding, %padding {
+	padding: 1.25em;
+}
+
+.box {
+	@extend %padding;
+	background: $color-base-bg;
+
+	p:last-child, ul:last-child, ol:last-child {
+		margin-bottom: 0;
+	}
+}
+
+.mb {
+	margin-bottom: 1.5em;
+}
+
+// voltar
+.site-voltar {
+	border-top: 1px solid #CCC;
+	margin-top: 1em;
+	padding-top: 1em;
+
+	a {
+		text-decoration: none;
+		font-size: 0.875em;
+		color: #000;
+		opacity: 0.5;
+		transition: opacity 0.2s ease;
+		display: inline-block;
+	}
+
+	a:hover {
+		opacity: 1;
+	}
+
+	a:before {
+		//font-family: FontAwesome;
+		margin-right: 0.5em;
+		//content: "\f104";
+		content: "\00ab";
+	}
+}

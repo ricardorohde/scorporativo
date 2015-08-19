@@ -10,10 +10,10 @@ class Login extends MY_Controller {
 		//$this->output->enable_profiler(TRUE);
 	}
 	
-	function index($redirect = null) {		
+	function index($redirect = null) {
 		$this->load->library('form_validation');
 		$this->form_validation->set_error_delimiters('','<br>');
-		
+			
 		$this->form_validation->set_rules('login','Login','trim|required');
 		$this->form_validation->set_rules('senha','Senha','trim|required');
 		

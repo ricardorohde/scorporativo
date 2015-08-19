@@ -44,7 +44,7 @@ if(file_exists("application/views/backend/$this->kw/detalhes.php")) {
 	<?php else: ?>
 	<h3><?=$row->legenda?></h3>
 	<?php endif; ?>
-	<img src="<?=base_url()?>imagens/enviadas/<?=$row->thumb?>" alt="imagens/enviadas/<?=$row->thumb?>" />
+	<img src="<?=base_url()?>imagens/enviadas/<?=$row->thumb?>" alt="imagens/enviadas/<?=$row->thumb?>">
 	<a class="icone alterar" href="<?=site_url("admin/$this->kw/alterar_imagem/$item->id/$row->id")?>">Alterar</a>
 	<a class="icone excluir" href="<?=site_url("admin/$this->kw/excluir_imagem/$row->id")?>">Excluir</a>
 </div>

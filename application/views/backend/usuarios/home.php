@@ -32,7 +32,7 @@
 <?php if(isset($entries) && !empty($entries) && $entries !== false): ?>
 
 <p>
-	Listando registros de <?=$current?> até <?=$current+$per_page?> (total <?=$total_rows?> registros):
+	Listando registros de <?=$current?> até <?=$current+$per_page?> (<?=$total_rows?> registro<?php if($total_rows > 1) echo 's';?> no total):
 </p>
 
 <?=$this->pagination->create_links()?>

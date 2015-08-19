@@ -2,8 +2,7 @@
 
 class Slideshow extends MY_Controller {
 
-	function __construct()
-	{
+	function __construct() {
 		parent::__construct();
 
 		$this->sess->check_session(array('close' => true,'tipo' => 'admin'));

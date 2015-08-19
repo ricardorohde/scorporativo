@@ -16,9 +16,6 @@ class Paginas extends MY_Controller {
 
 		$this->load->model(ucfirst($this->kw).'_model','obj');
 
-		$this->load->library('form_validation');
-		$this->form_validation->set_error_delimiters('','<br>');
-
 		//$this->output->enable_profiler(TRUE);
 	}
 

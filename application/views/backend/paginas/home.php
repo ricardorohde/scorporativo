@@ -39,103 +39,94 @@
 </p>
 
 <?=$this->pagination->create_links()?>
+	
+<table class="tabela">
+	<tr>
+		<th scope="col">Página</th>
+		<th scope="col">Menu</th>
+		<th scope="col">Editável</th>
+		<th scope="col">Opções</th>
+	</tr>
 
-	<?php if(isset($this->template['custom_crud_table'])): ?>
-	
-		<?php $this->load->view($this->template['custom_crud_table']); ?>
-	
-	<?php else: ?>
-	
-	<table class="tabela">
-		<tr>
-			<th scope="col">Página</th>
-			<th scope="col">Menu</th>
-			<th scope="col">Editável</th>
-			<th scope="col">Opções</th>
-		</tr>
-	
 	<?php
 		foreach($entries as $row):
 			$children = $this->obj->get_all(array('mae'=>$row->id));
 	?>
-		
-		<tr>
-			<td class="a-esq">
-				<span style="display: none"><?=$row->id?></span>
+	<tr>
+		<td class="a-esq">
+			<span style="display: none"><?=$row->id?></span>
 
-				<?php if($row->editavel == '1'): ?>
-				<a href="<?=site_url("admin/$this->kw/alterar/$row->id")?>">
-					<?=$row->nome?>
-				</a>
-				<?php else: ?>
+			<?php if($row->editavel == '1'): ?>
+			<a href="<?=site_url("admin/$this->kw/alterar/$row->id")?>">
 				<?=$row->nome?>
-				<?php endif; ?>
-			</td>
-			<td>
-				<?=$row->menu?>
-			</td>
-			<td>
-				<?php if($row->editavel == '1'): ?>
-				Sim
-				<?php else: ?>
-				Não
-				<?php endif; ?>
-			</td>
-			<td>
-				<?php if($row->editavel == '1'): ?>
+			</a>
+			<?php else: ?>
+			<?=$row->nome?>
+			<?php endif; ?>
+		</td>
+		<td>
+			<?=$row->menu?>
+		</td>
+		<td>
+			<?php if($row->editavel == '1'): ?>
+			Sim
+			<?php else: ?>
+			Não
+			<?php endif; ?>
+		</td>
+		<td>
+			<?php if($row->editavel == '1'): ?>
 
-				<a class="icone alterar" href="<?=site_url("admin/$this->kw/alterar/$row->id")?>">Alterar</a>
+			<a class="icone alterar" href="<?=site_url("admin/$this->kw/alterar/$row->id")?>">Alterar</a>
 
-				<?php else: ?>
-				--
-				<?php endif; ?>
-			</td>
-		</tr>
-		
-		<?php if(isset($children) && $children !== false): ?>
-		
-		<?php foreach($children as $srow): ?>
-		<tr class="subitem subitem-linha">
-			<td class="a-esq td-subcat">
-				<span style="display: none"><?=$srow->id?></span>
+			<?php else: ?>
+			--
+			<?php endif; ?>
+		</td>
+	</tr>
+	
+	<?php if(isset($children) && $children !== false): ?>
+	
+	<?php foreach($children as $srow): ?>
+	<tr class="subitem subitem-linha">
+		<td class="a-esq td-subcat">
+			<span style="display: none"><?=$srow->id?></span>
 
-				<?php if($srow->editavel == '1'): ?>
-				<a href="<?=site_url("admin/$this->kw/alterar/$srow->id")?>">
-					<?=$srow->nome?>
-				</a>
-				<?php else: ?>
+			<?php if($srow->editavel == '1'): ?>
+			<a href="<?=site_url("admin/$this->kw/alterar/$srow->id")?>">
 				<?=$srow->nome?>
-				<?php endif; ?>
-			</td>
-			<td>
-				<?=$srow->menu?>
-			</td>
-			<td>
-				<?php if($srow->editavel == '1'): ?>
-				Sim
-				<?php else: ?>
-				Não
-				<?php endif; ?>
-			</td>
-			<td>
-				<?php if($srow->editavel == '1'): ?>
+			</a>
+			<?php else: ?>
+			<?=$srow->nome?>
+			<?php endif; ?>
+		</td>
+		<td>
+			<?=$srow->menu?>
+		</td>
+		<td>
+			<?php if($srow->editavel == '1'): ?>
+			Sim
+			<?php else: ?>
+			Não
+			<?php endif; ?>
+		</td>
+		<td>
+			<?php if($srow->editavel == '1'): ?>
 
-				<a class="icone alterar" href="<?=site_url("admin/$this->kw/alterar/$srow->id")?>">Alterar</a>
+			<a class="icone alterar" href="<?=site_url("admin/$this->kw/alterar/$srow->id")?>">Alterar</a>
 
-				<?php else: ?>
-				--
-				<?php endif; ?>
-			</td>
-		</tr>
-		<?php endforeach; ?>
+			<?php else: ?>
+			--
+			<?php endif; ?>
+		</td>
+	</tr>
+	<?php endforeach; ?>
 
-		<?php endif; ?>
+	<?php endif; ?>
 
 	<?php endforeach; ?>
-	
-	</table>
-	
-	<?php endif; ?>
+
+</table>
 
 <?=$this->pagination->create_links()?>
 
