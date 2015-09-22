@@ -117,7 +117,14 @@ class MY_Controller extends CI_Controller {
 	}
 
 	//páginas ADM
-
+	
+	/**
+	 * Página index padrão para área administrativa
+	 *
+	 * Apenas redireciona para a home da seção atual
+	 *
+	 * @return	void
+	 */
 	function index() {
 		if(!$this->sess->check_session(array('close' => false, 'tipo' => 'admin'))) {
 			return false;
@@ -125,7 +132,15 @@ class MY_Controller extends CI_Controller {
 
 		redirect('admin/'.$this->kw.'/home');
 	}
-
+	
+	/**
+	 * Página home padrão para área administrativa
+	 *
+	 * Pega todos os registros segundo $this->args, que pode
+	 * ser passado pela classe filha
+	 *
+	 * @return	void
+	 */
 	function home() {
 		if(!$this->sess->check_session(array('close' => false, 'tipo' => 'admin'))) {
 			return false;
@@ -172,7 +187,7 @@ class MY_Controller extends CI_Controller {
 
 		$this->_form_setup();
 
-		$data['redirect'] = $this->_get_redirect();
+		$data['redirect'] = $redirect = $this->_get_redirect();
 
 		if ($this->form_validation->run()) {
 			$this->load->model('Upload','up');

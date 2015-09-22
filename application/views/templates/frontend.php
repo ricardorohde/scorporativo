@@ -11,11 +11,11 @@
 
 	<link rel="stylesheet" href="<?=base_url()?>css/frontend/frontend.css">
 </head>
-<body>
+<body class="bd-<?=$this->uri->segment(1,'home')?> bd-<?=$this->uri->segment(2,'generico')?> bd-<?=$this->site_lang?>">
 
 <div class="site">
 
-	<header class="site-cabecalho" role="banner">
+	<header class="site-cabecalho grupo">
 		<a class="site-logo" href="<?=site_url()?>">
 			<img src="<?=base_url()?>imagens/estrutura/<?=$this->config->item('arquivo_logo')?>" alt="Voltar para a página inicial - <?=$this->config->item('site_title')?>">
 		</a>
@@ -30,7 +30,7 @@
 			<?php endif; ?>
 		</div>
 
-		<nav class="menu-principal" role="navigation">
+		<nav class="menu-principal">
 			<?php if(isset($secoesmenu) && $secoesmenu): ?>
 			<ul class="grupo">
 				<?php foreach($secoesmenu as $row): ?>
@@ -49,13 +49,13 @@
 		</nav>
 	</header>
 	
-	<main class="site-conteudo" role="main">
+	<main class="site-conteudo">
 		
 		<?=$rendered_page?>
 
 	</main>
 
-	<footer class="site-rodape" role="contentinfo">
+	<footer class="site-rodape">
 		<div class="grupo">
 			<div class="rodape-esq grid2-1">
 				<?php if(isset($rodapeesq)): ?>
