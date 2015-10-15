@@ -64,7 +64,7 @@ class Produtos extends MY_Controller {
 			$data['footer_files'][] = "backend/includes/categorias_js";
 
 			//repopulação de dados
-			$pagdata['produto_categorias'] = $this->obj->get_produto_categorias(array('produto' => $item->id, 'as_array' => true));
+			$pagdata['produto_categorias'] = $this->obj->get_categorias(array('produto' => $item->id, 'as_array' => true));
 		}
 
 		$data['msg'] = $this->session->userdata('msg');

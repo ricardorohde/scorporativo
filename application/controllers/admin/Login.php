@@ -5,15 +5,13 @@ class Login extends MY_Controller {
 	function __construct() {
 		parent::__construct();
 		
-		$this->load->model('Auth','auth');
+		$this->load->model('Auth_model','auth');
+		$this->load->library('Form_validation');
 		
 		//$this->output->enable_profiler(TRUE);
 	}
 	
 	function index($redirect = null) {
-		$this->load->library('form_validation');
-		$this->form_validation->set_error_delimiters('','<br>');
-			
 		$this->form_validation->set_rules('login','Login','trim|required');
 		$this->form_validation->set_rules('senha','Senha','trim|required');
 		

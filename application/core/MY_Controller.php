@@ -25,7 +25,7 @@ class MY_Controller extends CI_Controller {
 		$this->data['site_title'] = $this->config->item('site_title');
 
 		//Session model
-		$this->load->model("Session",'sess');
+		$this->load->model("Session_model",'sess');
 
 		if($this->sess->check_session(array('close' => false, 'tipo' => 'admin'))
 		   && $this->uri->segment(1) == 'admin') {
@@ -38,7 +38,6 @@ class MY_Controller extends CI_Controller {
 			$this->template['crud_imagens_form'] = 'templates/backend/crud_imagens_form';
 
 			$this->load->library('form_validation');
-			$this->form_validation->set_error_delimiters('','<br>');
 
 			$this->args = array();
 		}

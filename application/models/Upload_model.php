@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Upload extends My_Model {
+class Upload_model extends My_Model {
 	
 	function __construct() {
         parent::__construct();

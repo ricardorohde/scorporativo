@@ -5,7 +5,9 @@ class Sessoes extends MY_Controller {
 	function __construct() {
 		parent::__construct();
 		
-		$this->load->model('Auth','auth');
+		//load dependencies
+		$this->load->model('Auth_model','auth');
+		$this->load->library('form_validation');
 		
 		//$this->output->enable_profiler(TRUE);
 	}
@@ -22,13 +24,10 @@ class Sessoes extends MY_Controller {
 
 		$data = array();
 		
-		$this->load->library('form_validation','','val');
-		$this->val->set_error_delimiters('','<br>');
+		$this->form_validation->set_rules('login','E-mail','trim|required|max_length[200]');
+		$this->form_validation->set_rules('senha','Senha','trim|required|max_length[200]');
 		
-		$this->val->set_rules('login','E-mail','trim|required|max_length[200]');
-		$this->val->set_rules('senha','Senha','trim|required|max_length[200]');
-		
-		if ($this->val->run() == FALSE) {
+		if ($this->form_validation->run() == FALSE) {
 			
 		} else {
 			if($this->auth->checkCredentials()) {
@@ -49,12 +48,9 @@ class Sessoes extends MY_Controller {
 	}
 
 	function recuperar_conta() {
-		$this->load->library('form_validation','','val');
-		$this->val->set_error_delimiters('','<br>');
+		$this->form_validation->set_rules('email', 'E-mail', 'trim|valid_email|required|callback__check_cadastro');
 
-		$this->val->set_rules('email', 'E-mail', 'trim|valid_email|required|callback__checkcadastro');
-
-		if($this->val->run()) {
+		if($this->form_validation->run()) {
 			$cdata['email'] = $email = $this->input->post('email');
 			$data = date('Y-m-d');
 			$salt = $this->config->item('static_salt');
@@ -93,14 +89,11 @@ class Sessoes extends MY_Controller {
 			return;
 		}
 
-		$this->load->library('form_validation','','val');
-		$this->val->set_error_delimiters('','<br>');
+		$this->form_validation->set_rules('email', 'E-mail', 'trim|valid_email|required|callback__check_cadastro');
+		$this->form_validation->set_rules('senha', 'Senha', 'trim|required|minlength[4]');
+		$this->form_validation->set_rules('senhaconf', 'Confirmação de Senha', 'trim|required|matches[senha]|minlength[4]');
 
-		$this->val->set_rules('email', 'E-mail', 'trim|valid_email|required|callback__checkcadastro');
-		$this->val->set_rules('senha', 'Senha', 'trim|required|minlength[4]');
-		$this->val->set_rules('senhaconf', 'Confirmação de Senha', 'trim|required|matches[senha]|minlength[4]');
-
-		if($this->val->run()) {
+		if($this->form_validation->run()) {
 			$email = $this->input->post('email');
 			$data = date('Y-m-d');
 			$salt = $this->config->item('static_salt');
@@ -151,11 +144,11 @@ class Sessoes extends MY_Controller {
 		$this->_render('frontend/sessoes/cadastrar_senha_falha');
 	}
 
-	function _checkcadastro($str) {
+	function _check_cadastro($str) {
 		$email = $str;
 		$query = $this->db->query("SELECT id FROM {$this->_prefix}clientes WHERE email='$str'");
 		if($query->num_rows() < 1) {
-			$this->val->set_message('_checkcadastro','Não encontramos um cadastro com este e-mail. Entre em contato conosco para resolver este problema.');
+			$this->form_validation->set_message('_check_cadastro','Não encontramos um cadastro com este e-mail. Entre em contato conosco para resolver este problema.');
 			return false;
 		} else {
 			return true;

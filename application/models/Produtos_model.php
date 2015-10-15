@@ -37,7 +37,7 @@ class Produtos_model extends MY_Model {
 		return $this->get_entries($params);
 	}
 
-	function get_produto_categorias($args = array()) {
+	function get_categorias($args = array()) {
 		$as_array = false;
 
 		extract($args);
