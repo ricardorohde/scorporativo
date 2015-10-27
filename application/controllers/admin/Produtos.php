@@ -13,8 +13,7 @@ class Produtos extends MY_Controller {
 		$this->artigo = 'o';
 		$this->um = 'um';
 		$this->nenhum = 'nenhum';
-
-        $this->load->helper('validation');
+		
         $this->load->model(ucfirst($this->kw).'_model','obj');
 
 		//$this->output->enable_profiler(TRUE);

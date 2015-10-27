@@ -37,6 +37,8 @@ class MY_Controller extends CI_Controller {
 			$this->template['crud_imagens_home'] = 'templates/backend/crud_imagens_home';
 			$this->template['crud_imagens_form'] = 'templates/backend/crud_imagens_form';
 
+			// carrega helper de validation e biblioteca form validation
+			$this->load->helper('validation');
 			$this->load->library('form_validation');
 
 			$this->args = array();

@@ -19,6 +19,8 @@ class Backup extends MY_Controller {
 	
 	function gerar($tipo = 'completo') {
 		$this->load->dbutil();
+		$this->load->helper('file');
+		$this->load->helper('download');
 		
 		$nome = date('Y-m-d') . '_bd' . $this->config->item('site_cod') . '.sql';
 		
@@ -33,12 +35,10 @@ class Backup extends MY_Controller {
 
 		$backup =& $this->dbutil->backup($prefs);
 		
-		// Load the file helper and write the file to your server
-		$this->load->helper('file');
+		// Write the file to your server
 		write_file('arquivos/'.$nome, $backup);
 		
-		// Load the download helper and send the file to your desktop
-		$this->load->helper('download');
+		// Send the file to your desktop
 		force_download($nome, $backup);
 	}
 

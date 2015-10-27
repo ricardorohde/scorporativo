@@ -1,5 +1,5 @@
 <script src="<?=base_url()?>js/vendor/tinymce/tinymce.min.js"></script>
-<script type="text/javascript">
+<script>
 tinymce.init({
     selector: "textarea:not(.mceNoEditor)",
     deseselector: "mceNoEditor",
