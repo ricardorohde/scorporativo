@@ -7,16 +7,16 @@ class Clientes_model extends MY_Model {
     }
 	
 	function get_all($args = array()) {	
-		$perpage = 20;
+		$per_page = 20;
 		
 		extract($args);
 		
 		$params = array(
 						'from' => 'clientes c',
-						'orderby' => 'c.nome ASC',
+						'order_by' => 'c.nome ASC',
 						'join' => "JOIN {$this->_prefix}usuarios u ON u.rel_id=c.id",
 						'where' => '1=1',
-						'perpage' => $perpage
+						'per_page' => $per_page
 						);
 		
 		if(isset($nome)) {

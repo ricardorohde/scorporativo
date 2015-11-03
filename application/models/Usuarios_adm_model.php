@@ -10,7 +10,7 @@ class Usuarios_adm_model extends MY_Model {
 		$params = array(
 						'select' => 'id, login, nome',
 						'from' => 'adm',
-						'orderby' => 'id ASC',
+						'order_by' => 'id ASC',
 						'per_page' => 20
 						);
 

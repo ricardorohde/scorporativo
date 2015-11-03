@@ -191,8 +191,8 @@ class MY_Controller extends CI_Controller {
 		$data['redirect'] = $redirect = $this->_get_redirect();
 
 		if ($this->form_validation->run()) {
-			$this->load->model('Upload','up');
-			$this->load->model('Imagens','img');
+			$this->load->model('Upload_model','up');
+			$this->load->model('Imagens_model','img');
 
 			$adata = array();
 
@@ -381,12 +381,12 @@ class MY_Controller extends CI_Controller {
 
 			$this->_render($this->template['crud_imagens_form'],$data);
 		} else {
-			$this->load->model('Imagens','img');
-			$this->load->model('Upload','up');
+			$this->load->model('Imagens_model','img');
+			$this->load->model('Upload_model','up');
 
 			$adata = array();
 			$adata['a1'] = $this->up->upload();
-			//$data['a2'] = $this->up->upload('imagem2');
+			//$adata['a2'] = $this->up->upload('imagem2');
 
 			if($acao == 'novo') {
 				if($this->obj->add_imagem($adata,$item_id)) {

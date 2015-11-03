@@ -41,7 +41,7 @@ if(file_exists("application/views/backend/$this->kw/detalhes.php")) {
 		<input type="hidden" name="MAX_FILE_SIZE" value="5242880">
 		<input type="file" class="input" name="imagem">
 		<?php else: ?>
-		Foto <a class="icone excluir" href="<?=site_url("admin/$this->kw/excluir_imagem/$imagem->id/false")?>">Excluir</a>
+		Imagem <a class="icone excluir" href="<?=site_url("admin/$this->kw/excluir_imagem/$imagem->id/false")?>">Excluir</a>
 		<br>
 		<img src="<?=base_url()?>imagens/enviadas/<?=$imagem->med?>" alt="Arquivo <?=$imagem->med?>">
 		<?php endif; ?>

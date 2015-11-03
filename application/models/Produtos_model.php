@@ -11,7 +11,7 @@ class Produtos_model extends MY_Model {
 	*/
 
 	function get_all($args = array()) {
-		$perpage = 20;
+		$per_page = 20;
 
 		extract($args);
 
@@ -19,9 +19,9 @@ class Produtos_model extends MY_Model {
 						'select' => 'p.id, p.nome, i.thumb, p.slug, p.preco',
 						'from' => 'produtos p',
 						'join' => "LEFT JOIN {$this->_prefix}imagens i ON i.obj_id=p.id AND obj_tipo='produto'",
-						'orderby' => 'p.nome ASC',
+						'order_by' => 'p.nome ASC',
 						'where' => '1=1',
-						'perpage' => $perpage
+						'per_page' => $per_page
 						);
 
 		if(isset($nome)) {

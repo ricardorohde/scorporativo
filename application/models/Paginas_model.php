@@ -14,7 +14,7 @@ class Paginas_model extends MY_Model {
 		
 		$params = array(
 						'from' => 'paginas',
-						'orderby' => 'menu ASC, ordem ASC, nome ASC',
+						'order_by' => 'menu ASC, ordem ASC, nome ASC',
 						'where' => '1=1',
 						'per_page' => $per_page
 						);

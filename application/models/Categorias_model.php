@@ -14,8 +14,9 @@ class Categorias_model extends MY_Model {
 
 		$params = array(
 						'from' => 'categorias',
-						'orderby' => 'ordem ASC, nome ASC',
+						'order_by' => 'ordem ASC, nome ASC',
 						//'debug' => true,
+						'per_page' => $per_page,
 						'where' => "1=1"
 						);
 
@@ -28,8 +29,8 @@ class Categorias_model extends MY_Model {
 		if(isset($tipo)) {
 			$params['where'] .= " AND tipo='$tipo' ";
 		}
-		if(isset($orderby)) {
-			$params['orderby'] = $orderby;
+		if(isset($order_by)) {
+			$params['order_by'] = $order_by;
 		}
 		if(isset($ativo)) {
 			$params['where'] .= " AND ativo=$ativo ";

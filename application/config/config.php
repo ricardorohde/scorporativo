@@ -42,7 +42,7 @@ $config['dominio'] = 'guilhermemuller.com.br';
 //e-mail principal do site
 $config['email_principal'] = 'contato@guilhermemuller.com.br';
 //e-mail que recebe formulário de contato
-$config['email_contato'] = 'contato@guilhermemuller.com.br';
+$config['email_contato'] = $config['email_principal'];
 //arquivo da logo
 $config['arquivo_logo'] = 'logo_scorporativo.png';
 //cor de fundo do template de e-mail

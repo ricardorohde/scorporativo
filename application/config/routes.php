@@ -63,4 +63,5 @@ $route['admin/(.*)/adicionar_imagem/(.*)'] = "admin/$1/gerenciar_imagem/novo/$2"
 $route['admin/(.*)/alt_imagem/(.*)/(.*)'] = "admin/$1/gerenciar_imagem/alterar/$2/$3";
 $route['admin/(.*)/alterar_imagem/(.*)/(.*)'] = "admin/$1/gerenciar_imagem/alterar/$2/$3";
 
-$route['gera_senha/(.*)'] = "gera_senha/index/$1";
+$route['manutencao/gera_senha/(.*)'] = "manutencao/gera_senha/index/$1";
+$route['manutencao/teste_email/(.*)'] = "manutencao/teste_email/index/$1";

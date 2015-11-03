@@ -28,8 +28,8 @@ class MY_Model extends CI_Model {
 			if(isset($where) && !empty($where)) {
 				$str .= "WHERE $where ";
 			}
-			if(isset($groupby) && !empty($groupby)) {
-				$str .= "GROUP BY $groupby ";
+			if(isset($group_by) && !empty($group_by)) {
+				$str .= "GROUP BY $group_by ";
 			}
 
 			if($debug_count) {
@@ -38,7 +38,7 @@ class MY_Model extends CI_Model {
 
 			$query = $this->db->query($str);
 
-			if(isset($groupby) && !empty($groupby)) {
+			if(isset($group_by) && !empty($group_by)) {
 				$this->total_rows = $query->num_rows();
 			} else {
 				$this->total_rows = $query->row()->numrows;
@@ -67,14 +67,14 @@ class MY_Model extends CI_Model {
 		if(isset($where) && !empty($where)) {
 			$str .= "WHERE $where ";
 		}
-		if(isset($groupby) && !empty($groupby)) {
-			$str .= "GROUP BY $groupby ";
+		if(isset($group_by) && !empty($group_by)) {
+			$str .= "GROUP BY $group_by ";
 		}
 		if(isset($having) && !empty($having)) {
 			$str .= "HAVING $having ";
 		}
-		if(isset($orderby) && !empty($orderby)) {
-			$str .= "ORDER BY $orderby ";
+		if(isset($order_by) && !empty($order_by)) {
+			$str .= "ORDER BY $order_by ";
 		}
 		if(isset($per_page) && $per_page > 0 && $change_page) {
 			$str .= "LIMIT $current, $per_page ";
@@ -234,7 +234,7 @@ class MY_Model extends CI_Model {
 						'from' => 'imagens',
 						'where' => '1=1',
 						//'debug' => true,
-						'orderby' => 'ordem ASC, data_cadastro ASC'
+						'order_by' => 'ordem ASC, data_cadastro ASC'
 						);
 
 		if(isset($id) && is_numeric($id)) {
@@ -340,7 +340,7 @@ class MY_Model extends CI_Model {
 		$params = array(
 						'select' => '*',
 						'from' => 'estados',
-						'orderby' => 'sigla ASC'
+						'order_by' => 'sigla ASC'
 						);
 
 		return $this->get_entries($params);

@@ -14,7 +14,7 @@ class Userlog_model extends MY_Model {
 		$params = array(
 						'select' => '*',
 						'from' => 'acessos',
-						'orderby' => 'data_cadastro DESC',
+						'order_by' => 'data_cadastro DESC',
 						'per_page' => $per_page
 						);
 		

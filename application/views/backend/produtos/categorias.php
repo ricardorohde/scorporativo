@@ -28,7 +28,7 @@
 	<ul class="categoria-linha grupo">
 		<?php
 			foreach($linhas as $l): //fe2
-				$categorias = $this->cat->get_all(array('nivel' => 'categoria', 'mae' => $l->id, 'orderby' => 'nome ASC'));
+				$categorias = $this->cat->get_all(array('nivel' => 'categoria', 'mae' => $l->id));
 		?>
 		<li class="campo check-linha">
 			<label class="checkbox">

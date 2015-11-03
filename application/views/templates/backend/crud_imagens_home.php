@@ -2,7 +2,7 @@
 	<a href="<?=$redirect?>">&laquo; Voltar</a>
 </p>
 
-<h1>Imagens: "<?=$nome?>"</h1>
+<h1>Imagens: <?=$nome?></h1>
 
 <?php if(isset($msg) && !empty($msg)): ?>
 <div class="mensagem"><?=$msg?></div>
