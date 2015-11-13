@@ -10,6 +10,16 @@
 	<link rel="apple-touch-icon" href="apple-touch-icon.png">
 
 	<link rel="stylesheet" href="<?=base_url()?>css/frontend/frontend.css">
+	
+	<?php
+	if(isset($head_files) && !empty($head_files)) {
+		foreach($head_files as $value) {
+			$this->load->view($value);
+		}
+	}
+	?>
+	
+	<?=$head_code?>
 </head>
 <body class="bd-<?=$this->uri->segment(1,'home')?> bd-<?=$this->uri->segment(2,'generico')?> bd-<?=$this->site_lang?>">
 
@@ -83,6 +93,15 @@
 <!-- JavaScripts -->
 <script src="<?=base_url()?>js/vendor/jquery-1.11.3.min.js"></script>
 <script src="<?=base_url()?>js/frontend/main.js"></script>
+<?php
+	if(isset($footer_files) && !empty($footer_files)) {
+		foreach($footer_files as $value) {
+			$this->load->view($value);
+		}
+	}
+?>
+
+<?=$footer_code?>
 
 <?php if($_SERVER['HTTP_HOST'] != 'localhost'): ?>
 <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->

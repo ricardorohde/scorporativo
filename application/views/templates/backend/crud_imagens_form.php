@@ -39,7 +39,7 @@ if(file_exists("application/views/backend/$this->kw/detalhes.php")) {
 		<?php if(empty($imagem->med)): ?>
 		<label>Imagem <span>formatos jpg, gif ou png, tamanho máximo 5mb</span></label>
 		<input type="hidden" name="MAX_FILE_SIZE" value="5242880">
-		<input type="file" class="input" name="imagem">
+		<input type="file" name="imagem">
 		<?php else: ?>
 		Imagem <a class="icone excluir" href="<?=site_url("admin/$this->kw/excluir_imagem/$imagem->id/false")?>">Excluir</a>
 		<br>
