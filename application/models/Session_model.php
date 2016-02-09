@@ -3,45 +3,61 @@
 class Session_model extends MY_Model {
 
 	function __construct() {
-        parent::__construct();
-    }
+		parent::__construct();
+
+		// inicia array de sessões, caso não exista
+		$sessoes = $this->session->userdata('sessoes');
+		if(!$sessoes) {
+			$sessoes = array(
+				'admin' => array('logado' => false),
+				'cliente' => array('logado' => false)
+			);
+		}
+		$this->session->set_userdata('sessoes', $sessoes);
+	}
 	
-	//args:
-	//$close: true/false
-	//$tipo: string
+	// args:
+	// $close: true/false
+	// $tipo: string
 	function check_session($args = array()) {
-		//die(print_r($this->session->userdata()));
+		//pr($this->session->userdata());
+		//die();
+
+		$sessoes = $this->session->userdata('sessoes');
 
 		extract($args);
 
-		if(!isset($tipo)) {
-			exit('nível não especificado.');
+		if(!isset($tipo) || !$sessoes) {
+			exit('Tipo não especificado.');
 		}
 		
-		$user_id = $this->session->userdata('id');
-		//echo "userid: $user_id<br>";
+		if(!isset($sessoes[$tipo]['id'])) {
+			//die('erro14');
+			return false;
+		}
 
-		//die(print_r($this->session->userdata()));
+		$usuario_id = $sessoes[$tipo]['id'];
+		//echo "userid: $usuario_id<br>";
+		//die();
 
-		if(!is_numeric($user_id)) {
+		if(!is_numeric($usuario_id)) {
 			if($close) {
 				//die('erro8');
-				$this->close(array('redirect' => true,'dest' => $tipo));
+				$this->close(array('redirect' => true,'tipo' => $tipo));
 			} else {
 				//die('erro3');
 				return false;
 			}
 		}
 		
-		$session_id = $this->session->userdata('session_id');
 		$user_ip = $_SERVER['REMOTE_ADDR'];
-		$stipo = $this->session->userdata('tipo');
-		$slogado = $this->session->userdata('logado');
+		$sessao_tipo = $sessoes[$tipo]['tipo'];
+		$sessao_logado = $sessoes[$tipo]['logado'];
 		
-		if($slogado != TRUE) {
+		if($sessao_logado != TRUE) {
 			if($close) {
 				//die('erro9');
-				$this->close(array('redirect' => true,'dest' => $tipo));
+				$this->close(array('redirect' => true, 'tipo' => $tipo));
 			} else {
 				//die('erro1');
 				return false;
@@ -49,15 +65,15 @@ class Session_model extends MY_Model {
 		}
 		
 		if($tipo == 'admin') {
-			$query = $this->db->query("SELECT * FROM {$this->_prefix}adm WHERE id=$user_id");
+			$query = $this->db->query("SELECT * FROM {$this->_prefix}adm WHERE id=$usuario_id");
 		} else {
-			$query = $this->db->query("SELECT * FROM {$this->_prefix}usuarios WHERE id=$user_id");
+			$query = $this->db->query("SELECT * FROM {$this->_prefix}usuarios WHERE id=$usuario_id");
 		}
 		
 		if($query->num_rows() != 1) {
 			if($close) {
 				//die('erro10');
-				$this->close(array('redirect' => true,'dest' => $tipo));
+				$this->close(array('redirect' => true, 'tipo' => $tipo));
 			} else {
 				//die('erro2');
 				return false;
@@ -65,37 +81,10 @@ class Session_model extends MY_Model {
 		}
 		$row = $query->row();
 		
-		/*if($tipo == 'admin') {
-			//database check
-			$this->db->select('ip_address')->from('sessoes')->where('session_id',$session_id);
-			$ipquery = $this->db->get();
-				
-			if($ipquery->num_rows() < 1) {
-				if($close) {
-					//die('erro11');
-					$this->close(array('redirect' => true,'dest' => $tipo));
-				} else {
-					//die('erro5');
-					return false;
-				}
-			}
-				
-			$iprow = $ipquery->row();				
-			if ($user_ip != $iprow->ip_address) {
-				if($close) {
-					//die('erro12');
-					$this->close(array('redirect' => true,'dest' => $tipo));
-				} else {
-					//die('erro4');
-					return false;
-				}
-			}
-		}*/
-		
-		if ($slogado != TRUE || $stipo != $tipo) {
+		if ($sessao_logado != TRUE || $sessao_tipo != $tipo) {
 			if($close) {
 				//die('erro13');
-				$this->close(array('redirect' => true,'dest' => $tipo));
+				$this->close(array('redirect' => true, 'tipo' => $tipo));
 			} else {
 				//die('erro6');
 				return false;
@@ -108,23 +97,21 @@ class Session_model extends MY_Model {
 		return false;
 	}
 	
-	//args:
-	//$redirect: string
-	//$dest: string
+	// args:
+	// $redirect: string
+	// $tipo: string
 	function close($args = array()) {
+		// default values
+		$tipo = 'cliente';
+		$redirect = true;
+
 		extract($args);
 		
-		$array = array('logged' => FALSE,
-					   'tipo' => null,
-					   'id' => null,
-					   'nome' => null,
-					   'usuario' => null,
-					   'ip' => null,
-					   'rel_id' => null,
-					   'email' => null,
-					   'validado' => null);
-		
-		$this->session->set_userdata($array);
+		// apaga só a sessão relevante
+		$sessoes = $this->session->userdata('sessoes');
+		$sessoes[$tipo] = array('logado' => false);
+
+		$this->session->set_userdata('sessoes',$sessoes);
 		//$this->session->sess_destroy();
 		
 		if($redirect) {
@@ -133,10 +120,10 @@ class Session_model extends MY_Model {
 			
 			$this->session->set_userdata('msg','Por favor, faça o login para acessar esta página.');
 			
-			if($dest == 'cliente') {
+			if($tipo == 'cliente') {
 				redirect("sessoes/login/$end");
 			} else {
-				redirect("$dest/login/index/$end");
+				redirect("$tipo/login/index/$end");
 			}
 		}
 	}

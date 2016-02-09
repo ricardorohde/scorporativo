@@ -2,13 +2,13 @@
 	Alterar Senha
 </h1>
 
-<?php if(isset($msg) && !empty($msg)): ?>
+<?php if(isset($msg) && $msg): ?>
 <div class="mensagem mensagem-info">
 	<?=$msg?>
 </div>
 <?php endif; ?>
 
-<?php if(isset($_POST['submit']) && $erro): ?>
+<?php if(validation_errors() && $erro): ?>
 <div class="mensagem mensagem-erro">
 	<?=validation_errors()?>
 </div>

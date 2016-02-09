@@ -33,9 +33,10 @@ class Upload_model extends My_Model {
 		$this->load->library('upload', $config);
 		
 		if (!$this->upload->do_upload($campo)) {
-			//die('erro');
+			//pr($this->upload->display_errors('',''));
 			return $this->upload->display_errors('','');
 		} else {
+			//pr($this->upload->data());
 			return $data = $this->upload->data();
 		}
 	}

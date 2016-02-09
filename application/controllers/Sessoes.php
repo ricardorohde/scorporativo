@@ -22,21 +22,21 @@ class Sessoes extends MY_Controller {
 			return;
 		}
 
-		$data = array();
+		$erro = '';
 		
 		$this->form_validation->set_rules('login','E-mail','trim|required|max_length[200]');
 		$this->form_validation->set_rules('senha','Senha','trim|required|max_length[200]');
 		
-		if ($this->form_validation->run() == FALSE) {
-			
-		} else {
-			if($this->auth->checkCredentials()) {
-				$this->auth->doLogin(array('redirect' => $redirect));
-				return true;
+		if($this->form_validation->run()) {
+			if($this->auth->check_credentials()) {
+				$this->auth->do_login(array('redirect' => $redirect));
+				return;
 			} else {
-				$data['erro'] = 'Usuário ou senha inválidos.';
+				$erro = 'Usuário ou senha inválidos.';
 			}
 		}
+
+		$data['erro'] = $erro;
 		
 		$this->_render('frontend/sessoes/login',$data);
 	}

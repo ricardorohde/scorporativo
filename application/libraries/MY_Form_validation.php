@@ -4,9 +4,6 @@ class MY_Form_validation extends CI_Form_validation {
 	
     function __construct() {
         parent::__construct();
-
-        $this->_error_prefix = '<span class="form-erro">';
-        $this->_error_suffix = '</span><br>';
     }
 
 	public function set_value_default($field = '', $default = '')

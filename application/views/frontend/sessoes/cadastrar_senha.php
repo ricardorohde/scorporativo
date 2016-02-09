@@ -6,9 +6,9 @@
 	Preencha os campos abaixo para cadastrar uma nova senha para a sua conta:
 </p>
 
-<?php if(isset($_POST['submit']) || isset($erro)): ?>
+<?php if(validation_errors() || $erro): ?>
 <div class="mensagem erro">
-	<?php if (isset($erro)) {echo $erro;} ?>
+	<?php if ($erro) $erro; ?>
 	<?=validation_errors()?>
 </div>
 <?php endif; ?>

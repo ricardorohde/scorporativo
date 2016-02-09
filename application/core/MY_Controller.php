@@ -27,8 +27,7 @@ class MY_Controller extends CI_Controller {
 		//Session model
 		$this->load->model("Session_model",'sess');
 
-		if($this->sess->check_session(array('close' => false, 'tipo' => 'admin'))
-		   && $this->uri->segment(1) == 'admin') {
+		if($this->uri->segment(1) == 'admin') {
 			//ADM defaults
 			$this->template = array();
 			$this->template['crud_home'] = 'templates/backend/crud_home';
@@ -40,9 +39,16 @@ class MY_Controller extends CI_Controller {
 			// carrega helper de validation e biblioteca form validation
 			$this->load->helper('validation');
 			$this->load->library('form_validation');
+			$this->form_validation->set_error_delimiters('','<br>');
+
+			$this->data['logado_adm'] = $this->sess->check_session(array('tipo' => 'admin', 'close' => false));
+			$sessoes = $this->session->userdata('sessoes');
+			$this->data['sessao_adm'] = $sessoes['admin'];
 
 			$this->args = array();
 		}
+
+		//$this->output->enable_profiler(TRUE);
     }
 
 	function _set_title($value, $args = array()) {
@@ -181,12 +187,12 @@ class MY_Controller extends CI_Controller {
 
 		if($acao == 'alterar') {
 			$this->item_id = $id;
-			$this->item = $this->obj->get_by_id($id);
+			$this->item = $data['item'] = $this->obj->get_by_id($id);
 		}
 
 		$this->acao = $acao;
 
-		$this->_form_setup();
+		$this->_form_set_rules();
 
 		$data['redirect'] = $redirect = $this->_get_redirect();
 
@@ -220,6 +226,10 @@ class MY_Controller extends CI_Controller {
 			} else {
 				$this->_go_home();
 			}
+		}
+
+		if($this->acao == 'alterar') {
+			$this->_form_set_defaults();
 		}
 
         $data['msg'] = $this->session->userdata('msg');
@@ -353,34 +363,9 @@ class MY_Controller extends CI_Controller {
 		$this->form_validation->set_rules('link','Link','trim|prep_url');
 		$this->form_validation->set_rules('categoria','Categoria','trim');
 
-		if($acao == 'alterar') {
-			$data['imagem'] = $imagem = $this->obj->get_imagem($imagem_id);
-			$this->form_validation->set_value_default('legenda',$imagem->legenda);
-			$this->form_validation->set_value_default('link',$imagem->link);
-			$this->form_validation->set_value_default('categoria',$imagem->categoria_id);
-		}
-
 		$data['redirect'] = $this->_get_redirect();
 
-		if ($this->form_validation->run() == FALSE) {
-			$item = $this->obj->get_by_id($item_id);
-			$data['item'] = $item;
-			if(isset($data['item']->nome)) {
-				$data['nome'] = $data['item']->nome;
-			} else if(isset($data['item']->codigo)) {
-				$data['nome'] = $data['item']->codigo;
-			} else if(isset($data['item']->empresa)) {
-				$data['nome'] = $data['item']->empresa;
-			} else if(isset($data['item']->titulo)) {
-				$data['nome'] = $data['item']->titulo;
-			}
-			$data['acao'] = $this->acao;
-
-			$data['msg'] = $this->session->userdata('msg');
-			$this->session->unset_userdata('msg');
-
-			$this->_render($this->template['crud_imagens_form'],$data);
-		} else {
+		if($this->form_validation->run()) {
 			$this->load->model('Imagens_model','img');
 			$this->load->model('Upload_model','up');
 
@@ -403,7 +388,33 @@ class MY_Controller extends CI_Controller {
 			}
 
 			redirect("admin/$this->kw/imagens/$item_id");
+			return;
 		}
+
+		if($acao == 'alterar') {
+			$data['imagem'] = $imagem = $this->obj->get_imagem($imagem_id);
+			$this->form_validation->set_value_default('legenda',$imagem->legenda);
+			$this->form_validation->set_value_default('link',$imagem->link);
+			$this->form_validation->set_value_default('categoria',$imagem->categoria_id);
+		}
+
+		$item = $this->obj->get_by_id($item_id);
+		$data['item'] = $item;
+		if(isset($data['item']->nome)) {
+			$data['nome'] = $data['item']->nome;
+		} else if(isset($data['item']->codigo)) {
+			$data['nome'] = $data['item']->codigo;
+		} else if(isset($data['item']->empresa)) {
+			$data['nome'] = $data['item']->empresa;
+		} else if(isset($data['item']->titulo)) {
+			$data['nome'] = $data['item']->titulo;
+		}
+		$data['acao'] = $this->acao;
+
+		$data['msg'] = $this->session->userdata('msg');
+		$this->session->unset_userdata('msg');
+
+		$this->_render($this->template['crud_imagens_form'],$data);
 	}
 
 	function excluir_imagem($id, $destructive = 'true') {

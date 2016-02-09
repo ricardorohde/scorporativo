@@ -53,7 +53,19 @@
  *
  * NOTE: If you change these, also change the error_reporting() code below
  */
-	define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
+$domains = array(
+	'localhost' => 'development',
+	'teste.com.br' => 'production'
+);
+
+// Have we defined a server for this host?
+if ( ! empty($domains[$_SERVER['HTTP_HOST']])) {
+	define('ENVIRONMENT', $domains[$_SERVER['HTTP_HOST']]);
+}
+// Else - be safe...
+else {
+	define('ENVIRONMENT', 'production');
+}
 
 /*
  *---------------------------------------------------------------
@@ -72,6 +84,9 @@ switch (ENVIRONMENT)
 
 	case 'testing':
 	case 'production':
+		//error_reporting(-1);
+		//ini_set('display_errors', 1);
+
 		ini_set('display_errors', 0);
 		if (version_compare(PHP_VERSION, '5.3', '>='))
 		{

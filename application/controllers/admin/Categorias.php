@@ -1,4 +1,5 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Categorias extends MY_Controller {
 
@@ -15,8 +16,6 @@ class Categorias extends MY_Controller {
 		$this->nenhum = 'nenhuma';
 		
 		$this->load->model(ucfirst($this->kw).'_model','obj');
-		
-		//$this->output->enable_profiler(TRUE);
 	}
 	
 	function home($filtros = null) {
@@ -35,7 +34,7 @@ class Categorias extends MY_Controller {
 		parent::home();
 	}
 	
-	function _form_setup() {
+	function _form_set_rules() {
 		$this->data['grupos'] = $this->obj->get_all(array('nivel' => 'grupo'));
 		$this->data['linhas'] = $this->obj->get_all(array('nivel' => 'linha'));
 		$this->data['categorias'] = $this->obj->get_all(array('nivel' => 'categoria'));
@@ -52,14 +51,14 @@ class Categorias extends MY_Controller {
 		}
 		
 		$this->form_validation->set_rules('ativo', 'Ativa?', 'numeric');
-		
-		if($this->acao == 'alterar') {
-			$this->form_validation->set_value_default('nome',$this->item->nome);
-			$this->form_validation->set_value_default('tipo',$this->item->tipo);
-			$this->form_validation->set_value_default('nivel',$this->item->nivel);
-			$this->form_validation->set_value_default('mae',$this->item->mae);
-			$this->form_validation->set_value_default('ativo',$this->item->ativo);
-		}
+	}
+
+	function _form_set_defaults() {
+		$this->form_validation->set_value_default('nome',$this->item->nome);
+		$this->form_validation->set_value_default('tipo',$this->item->tipo);
+		$this->form_validation->set_value_default('nivel',$this->item->nivel);
+		$this->form_validation->set_value_default('mae',$this->item->mae);
+		$this->form_validation->set_value_default('ativo',$this->item->ativo);
 	}
 
 	function filtros() {

@@ -4,7 +4,7 @@
 	Entre em contato conosco através do formulário abaixo:
 </p>
 
-<?php if(isset($_POST['submit'])): ?>
+<?php if(validation_errors()): ?>
 <div class="mensagem mensagem-erro">
 	<?=validation_errors()?>
 </div>

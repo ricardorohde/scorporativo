@@ -1,4 +1,5 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Slideshow extends MY_Controller {
 
@@ -15,8 +16,6 @@ class Slideshow extends MY_Controller {
 		$this->nenhum = 'nenhum';
 
 		$this->load->model(ucfirst($this->kw).'_model','obj');
-
-		//$this->output->enable_profiler(TRUE);
 	}
 
 	function index() {

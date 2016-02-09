@@ -11,65 +11,52 @@ class Auth_model extends MY_Model {
 		$senha = trim($this->input->post('senha'));
 		
 		if($tipo == 'admin') {
-			$str = "SELECT login, nome, senha, salt
+			$str = "SELECT login, nome, senha, salt, ativo
 					FROM {$this->_prefix}adm
 					WHERE login='$login'";
 		} else {
-			$str = "SELECT rel_id, email, senha, ativo
+			$str = "SELECT rel_id, email, senha, ativo, salt
 					FROM {$this->_prefix}usuarios
-					WHERE (email='$login' OR login='$login') AND tipo='$tipo'";
+					WHERE email='$login' AND tipo='$tipo'";
 		}
 		$query = $this->db->query($str);
 		
-		//login não existe
+		// login não existe
 		if($query->num_rows() != 1) {
 			return false;
 		}
+
+		$row = $query->row();
+		// verifica se usuário está bloqueado ou não
+		if(!$row->ativo) {
+			// cadastro bloqueado
+			$this->session->set_userdata('erro','Seu cadastro está bloqueado.');
+			return false;
+		}
 		
-		if($tipo == 'admin') {
-			$row = $query->row();
-			$static_salt = $this->config->item('static_salt');
-			$hashed_password = sha1($row->salt.$senha.$static_salt);
+		$static_salt = $this->config->item('static_salt');
+		$hashed_password = sha1($row->salt.$senha.$static_salt);
 
-			if($hashed_password === $row->senha) {
-				//login com sucesso
-				return true;
-			} else {
-				//senha inválida
-				return false;
-			}
+		if($hashed_password !== $row->senha) {
+			$this->session->set_userdata('erro','Usuário ou senha inválidos.');
+			return false;
 		} else {
-			$row = $query->row();
-
-			//verifica se usuário está bloqueado ou não
-			if($row->ativo == '0') {
-				//cadastro bloqueado
-				$this->session->set_userdata('erro','Seu cadastro está bloqueado.');
-				return false;
-			}
-
-			$static_salt = $this->config->item('static_salt');
-			$hashed_password = sha1($row->salt.$senha.$static_salt);
-
-			if($hashed_password !== $row->senha) {
-				$this->session->set_userdata('erro','Usuário ou senha inválidos.');
-				return false;
-			} else {
-				//login com sucesso
-				return true;
-			}
+			// login com sucesso
+			return true;
 		}
 	}
 	
-	//args:
-	//$redirect: string
+	// args:
+	// $redirect: string
 	function do_login($args = array()) {
 		$tipo = 'cliente'; // padrão
 
+		// pega array de sessões
+		$sessoes = $this->session->userdata('sessoes');
+
 		extract($args);
 		
-		$usuario = strtolower(trim($this->input->post('login')));
-		$sessid = $this->session->userdata('session_id');
+		$usuario = $this->input->post('login');
 		$ip = $_SERVER['REMOTE_ADDR'];
 		
 		//salvamos no access log
@@ -77,6 +64,7 @@ class Auth_model extends MY_Model {
 		$data['usuario'] = $usuario;
 		$this->db->insert('acessos',$data);
 		
+		// pega dados básicos do usuário
 		if($tipo == 'admin') {
 			$str = "SELECT nome, id
 					FROM {$this->_prefix}adm
@@ -84,44 +72,48 @@ class Auth_model extends MY_Model {
 		} else {
 			$str = "SELECT nome, id, rel_id, email, tipo
 					FROM {$this->_prefix}usuarios
-					WHERE (email='$usuario' OR login='$usuario') AND tipo='$tipo'";
+					WHERE email='$usuario' AND tipo='$tipo'";
 		}
 		$query = $this->db->query($str);
 		$row = $query->row();
 		$query->free_result();
+		//
 		
-		$array = array(
+		// parâmetros base da sessão
+		$sessao_conteudo = array(
 						'nome' => $row->nome,
 						'id' => $row->id,
 						'usuario' => $usuario,
-						'sessid' => $sessid,
 						'tipo' => $tipo,
+						'timestamp' => strtotime('now'),
 						'logado' => true
 						);
+		//
 		
 		if($tipo != 'admin') {
-			$array['rel_id'] = $row->rel_id;
-			$array['email'] = $row->email;
-			$array['tipo'] = $row->tipo;
+			$sessao_conteudo['rel_id'] = $row->rel_id;
+			$sessao_conteudo['email'] = $row->email;
+			$sessao_conteudo['tipo'] = $row->tipo;
 
-			//se não for admin, pegamos último acesso também
-			$query = $this->db->query("SELECT data FROM {$this->_prefix}acessos WHERE usuario='$usuario' ORDER BY data DESC LIMIT 1");
+			// se não for admin, pegamos último acesso também
+			$query = $this->db->query("SELECT data_cadastro FROM {$this->_prefix}acessos WHERE usuario='$usuario' ORDER BY data_cadastro DESC LIMIT 1");
 			if($query->num_rows() > 0) {
 				$row = $query->row();
 				$query->free_result();
 
-				$array['ultimo_acesso'] = $row->data;
+				$sessao_conteudo['ultimo_acesso'] = $row->data_cadastro;
 			} else {
-				$array['ultimo_acesso'] = null;
+				$sessao_conteudo['ultimo_acesso'] = null;
 			}
 		}
 						
-		//die(print_r($array));
+		//pr($sessao_conteudo);
 		
-		$this->session->set_userdata($array);
+		// coloca conteúdo na sessão
+		$sessoes[$tipo] = $sessao_conteudo;
+		$this->session->set_userdata('sessoes', $sessoes);
 
-		//$sdata = $this->session->all_userdata();
-		//die(print_r($sdata));
+		//pr($this->session->userdata());
 		
 		if(isset($redirect)) {
 			if($redirect == false) {
@@ -140,34 +132,34 @@ class Auth_model extends MY_Model {
 		}
 	}
 	
-	//args:
-	//tipo: string
-	//user: string
-	function check_block($args = array()) {
+	// args:
+	// tipo: string
+	// usuario: string
+	function is_blocked($args = array()) {
 		extract($args);
 
-		if(!isset($tipo) || !isset($user)) {
+		if(!isset($tipo) || !isset($usuario)) {
 			return false;
 		}
 		
 		if($tipo == 'admin') {
-			$query = $this->db->query("SELECT bloqueado FROM {$this->_prefix}adm WHERE login='$user'");
+			$query = $this->db->query("SELECT ativo FROM {$this->_prefix}adm WHERE login='$usuario'");
 		} else {
-			$query = $this->db->query("SELECT bloqueado FROM {$this->_prefix}usuarios WHERE email='$user'");
+			$query = $this->db->query("SELECT ativo FROM {$this->_prefix}usuarios WHERE email='$usuario'");
 		}
 		
-		//login não existe
+		// login não existe
 		if($query->num_rows() != 1) {
 			return false;
 		}
 		
 		$row = $query->row();
 		
-		if($row->bloqueado == 'true') {
-			//usuário desbloqueado
+		if(!$row->ativo) {
+			// usuário bloqueado
 			return true;
 		} else {
-			//usuário bloqueado
+			// usuário desbloqueado
 			return false;
 		}
 	}	

@@ -11,15 +11,15 @@
 	imagem: <?=$nome?>
 </h1>
 
-<?php if(isset($msg) && !empty($msg)): ?>
+<?php if(isset($msg) && $msg): ?>
 <div class="mensagem mensagem-info">
 	<?=$msg?>
 </div>
 <?php endif; ?>
 
-<?php if(isset($_POST['submit'])): ?>
+<?php if(validation_errors() || $erro): ?>
 <div class="mensagem mensagem-erro">
-	<?php if (isset($erro)) echo $erro; ?>
+	<?php if ($erro) echo $erro; ?>
 	<?=validation_errors()?>
 </div>
 <?php endif; ?>

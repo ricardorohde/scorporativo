@@ -7,15 +7,15 @@ class Login extends MY_Controller {
 		
 		$this->load->model('Auth_model','auth');
 		$this->load->library('Form_validation');
-		
-		//$this->output->enable_profiler(TRUE);
+
+		//pr($this->session->userdata());
 	}
 	
 	function index($redirect = null) {
-		$this->form_validation->set_rules('login','Login','trim|required');
+		$this->form_validation->set_rules('login','Login','trim|strtolower|required');
 		$this->form_validation->set_rules('senha','Senha','trim|required');
 		
-		if ($this->form_validation->run()) {
+		if($this->form_validation->run()) {
 			$tipo = 'admin';
 
 			if($this->auth->check_credentials($tipo)) {

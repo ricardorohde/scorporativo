@@ -6,9 +6,8 @@
 	<?php endif; ?>
 </h1>
 
-<?php if(isset($_POST['submit'])): ?>
+<?php if(validation_errors()): ?>
 <div class="mensagem mensagem-erro">
-	<?php if (isset($erro)) {echo $erro;}; ?>
 	<?=validation_errors()?>
 </div>
 <?php endif; ?>

@@ -1,4 +1,5 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Clientes extends MY_Controller {
 
@@ -14,10 +15,7 @@ class Clientes extends MY_Controller {
 		$this->um = 'um';
 		$this->nenhum = 'nenhum';
 
-        $this->load->helper('validation');
         $this->load->model(ucfirst($this->kw).'_model','obj');
-
-		//$this->output->enable_profiler(TRUE);
 	}
 
 	function home($filtros = null) {
@@ -36,7 +34,7 @@ class Clientes extends MY_Controller {
 		parent::home();
 	}
 
-	function _form_setup() {		
+	function _form_set_rules() {
 		$this->form_validation->set_rules('nome', 'Nome', 'trim|required');
 		$this->form_validation->set_rules('email', 'E-mail', 'trim|valid_email|required|callback__check_email');
 		if($this->acao == 'novo') {
@@ -46,14 +44,13 @@ class Clientes extends MY_Controller {
 			$this->form_validation->set_rules('senha', 'Senha', 'trim');
 			$this->form_validation->set_rules('senha_conf', 'Confirmação de senha', 'trim|matches[senha]');
 		}
-		
 		$this->form_validation->set_rules('ativo', 'ativo', 'required');
-		
-		if($this->acao == 'alterar') {
-			$this->form_validation->set_value_default('nome',$this->item->nome);
-			$this->form_validation->set_value_default('email',$this->item->email);
-			$this->form_validation->set_value_default('ativo',$this->item->ativo);
-		}
+	}
+
+	function _form_set_defaults() {
+		$this->form_validation->set_value_default('nome',$this->item->nome);
+		$this->form_validation->set_value_default('email',$this->item->email);
+		$this->form_validation->set_value_default('ativo',$this->item->ativo);
 	}
 
 	function filtros() {

@@ -6,9 +6,9 @@
 		<h2>Já estou cadastrado</h2>
 		<div class="form form-padrao">
 
-			<?php if(isset($_POST['submit']) || isset($erro)): ?>
+			<?php if(validation_errors() || $erro): ?>
 			<div class="mensagem mensagem-erro">
-				<?php if (isset($erro)) {echo $erro;} ?>
+				<?php if ($erro) echo $erro; ?>
 				<?=validation_errors()?>
 			</div>
 			<?php endif; ?>

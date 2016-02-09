@@ -11,13 +11,13 @@
 	<?=ucfirst($this->cskw);?>
 </h1>
 
-<?php if(isset($msg) && !empty($msg)): ?>
+<?php if(isset($msg) && $msg): ?>
 <div class="mensagem mensagem-info">
 	<?=$msg?>
 </div>
 <?php endif; ?>
 
-<?php if(isset($_POST['submit'])): ?>
+<?php if(validation_errors()): ?>
 <div class="mensagem mensagem-erro">
 	<?=validation_errors()?>
 </div>

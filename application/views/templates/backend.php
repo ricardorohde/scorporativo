@@ -34,10 +34,10 @@
 			<img src="<?=base_url()?>imagens/estrutura/<?=$this->config->item('arquivo_logo')?>" alt="Voltar para a página inicial - <?=$this->config->item('site_title')?>">
 		</a>
 
-		<?php if($this->session->userdata('logado') && $this->session->userdata('tipo') == 'admin'): ?>
+		<?php if($logado_adm): ?>
 		
 		<div class="usuario-meta">
-			Bem-vindo, <?=$this->session->userdata('nome')?> |
+			Bem-vindo, <?=$sessao_adm['nome']?> |
 			<a href="<?=site_url('admin/alterar_senha')?>">Alterar Senha</a> |
 			<a <?=find_active('admin/alterar_senha')?> href="<?=site_url('admin/login/logout')?>">Sair</a>
 		</div>
@@ -46,7 +46,7 @@
 
 		<a class="link-ver-site" href="<?=site_url()?>" rel="external">Abrir o site em outra janela &raquo;</a>
 
-		<?php if($this->session->userdata('logado') && $this->session->userdata('tipo') == 'admin'): ?>
+		<?php if($logado_adm): ?>
 		
 		<nav class="menu-principal" role="navigation">
 			<ul class="grupo">

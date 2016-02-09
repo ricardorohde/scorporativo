@@ -1,4 +1,5 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Paginas extends MY_Controller {
 
@@ -15,8 +16,6 @@ class Paginas extends MY_Controller {
 		$this->nenhum = 'nenhuma';
 
 		$this->load->model(ucfirst($this->kw).'_model','obj');
-
-		//$this->output->enable_profiler(TRUE);
 	}
 
 	function home($filtros = null) {
@@ -36,10 +35,10 @@ class Paginas extends MY_Controller {
 		parent::home();
 	}
 
-	function _form_setup() {
+	function _form_set_rules() {
 		$this->data['paginas']	 = $this->obj->get_all();
 		$this->data['footer_files'][] = 'backend/includes/tinymce_js';
-
+		
 		$this->form_validation->set_rules('mae', 'Página mãe', 'trim');
 		$this->form_validation->set_rules('nome', 'Nome', 'trim|required');
 		$this->form_validation->set_rules('editavel', 'Editável', 'trim');
@@ -48,19 +47,19 @@ class Paginas extends MY_Controller {
 		$this->form_validation->set_rules('codigo', 'Código', 'trim|required');
 		$this->form_validation->set_rules('titulo', 'Título', 'trim|required');
 		$this->form_validation->set_rules('texto', 'Texto', 'trim');
-		$this->form_validation->set_rules('ativo', 'Ativa', 'required');
+		$this->form_validation->set_rules('ativo', 'Ativa', 'required');		
+	}
 
-		if($this->acao == 'alterar') {
-			$this->form_validation->set_value_default('mae',$this->item->mae);
-			$this->form_validation->set_value_default('nome',$this->item->nome);
-			$this->form_validation->set_value_default('editavel',$this->item->editavel);
-			$this->form_validation->set_value_default('menu',$this->item->menu);
-			$this->form_validation->set_value_default('submenu',$this->item->submenu);
-			$this->form_validation->set_value_default('codigo',$this->item->codigo);
-			$this->form_validation->set_value_default('titulo',$this->item->titulo);
-			$this->form_validation->set_value_default('texto',$this->item->texto);
-			$this->form_validation->set_value_default('ativo',$this->item->ativo);
-		}
+	function _form_set_defaults() {
+		$this->form_validation->set_value_default('mae',$this->item->mae);
+		$this->form_validation->set_value_default('nome',$this->item->nome);
+		$this->form_validation->set_value_default('editavel',$this->item->editavel);
+		$this->form_validation->set_value_default('menu',$this->item->menu);
+		$this->form_validation->set_value_default('submenu',$this->item->submenu);
+		$this->form_validation->set_value_default('codigo',$this->item->codigo);
+		$this->form_validation->set_value_default('titulo',$this->item->titulo);
+		$this->form_validation->set_value_default('texto',$this->item->texto);
+		$this->form_validation->set_value_default('ativo',$this->item->ativo);
 	}
 
 	function filtros() {

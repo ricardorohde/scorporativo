@@ -1,4 +1,5 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Usuarios extends MY_Controller {
 
@@ -15,8 +16,6 @@ class Usuarios extends MY_Controller {
 		$this->nenhum = 'nenhum';
 
 		$this->load->model(ucfirst($this->kw).'_adm_model','obj');
-
-		//$this->output->enable_profiler(TRUE);
 	}
 
 	function home($filtros = null) {
@@ -39,12 +38,12 @@ class Usuarios extends MY_Controller {
 		$this->form_validation->set_rules('senha', 'Senha', 'trim|required');
 		$this->form_validation->set_rules('senhaconf', 'Confirmação de Senha', 'trim|required|matches[senha]');
 		//$this->form_validation->set_rules('ativo', 'Ativo', 'required');
+	}
 
-		if($this->acao == 'alterar') {
-			$this->form_validation->set_value_default('nome',$this->item->nome);
-			$this->form_validation->set_value_default('login',$this->item->login);
-			//$this->form_validation->set_value_default('ativo',$this->item->ativo);
-		}
+	function _form_set_defaults() {
+		$this->form_validation->set_value_default('nome',$this->item->nome);
+		$this->form_validation->set_value_default('login',$this->item->login);
+		//$this->form_validation->set_value_default('ativo',$this->item->ativo);
 	}
 
 	function filtros() {

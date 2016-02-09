@@ -5,9 +5,7 @@ class Backup extends MY_Controller {
 	function __construct() {
 		parent::__construct();
 		
-		$this->sess->check_session(array('close' => true,'tipo' => 'admin'));
-		
-		//$this->output->enable_profiler(TRUE);
+		$this->sess->check_session(array('close' => true, 'tipo' => 'admin'));
 	}
 	
 	function index() {

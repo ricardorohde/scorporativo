@@ -112,6 +112,8 @@ class MY_Model extends CI_Model {
 	}
 
 	function add_imagem($img_data, $id_item, $update = false, $id_imagem = null) {
+		//pr($img_data);
+
 		$tipo = $this->input->post('tipo');
 
 		//colocamos a(s) imagem(s)
