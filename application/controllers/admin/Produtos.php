@@ -34,7 +34,7 @@ class Produtos extends MY_Controller {
 		parent::home();
 	}
 
-	function _form_setup() {
+	function _form_set_rules() {
 		$this->form_validation->set_rules('nome', 'Nome', 'trim|required');
 	}
 
@@ -65,8 +65,7 @@ class Produtos extends MY_Controller {
 			$pagdata['produto_categorias'] = $this->obj->get_categorias(array('produto' => $item->id, 'as_array' => true));
 		}
 
-		$data['msg'] = $this->session->userdata('msg');
-		$this->session->unset_userdata('msg');
+		$data['msg'] = $this->sess->get_msg();
 
 		$data['pag'] = $this->load->view("backend/$this->kw/$pag",$pagdata,true);
 

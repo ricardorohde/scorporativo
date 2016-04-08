@@ -1,9 +1,12 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Userlog_model extends MY_Model {
 
 	function __construct() {
         parent::__construct();
+
+        $this->tbl = "acessos";
     }
 		
 	function get_all($args = array()) {
@@ -13,7 +16,7 @@ class Userlog_model extends MY_Model {
 
 		$params = array(
 						'select' => '*',
-						'from' => 'acessos',
+						'from' => $this->tbl,
 						'order_by' => 'data_cadastro DESC',
 						'per_page' => $per_page
 						);

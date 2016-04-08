@@ -1,4 +1,5 @@
-<?php  defined('BASEPATH') OR exit('No direct script access allowed');
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 function check_select($db_value, $field_value) {
 	if($db_value == $field_value) {

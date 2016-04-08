@@ -1,9 +1,12 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Categorias_model extends MY_Model {
 
 	function __construct() {
         parent::__construct();
+
+        $this->tbl = "categorias";
     }
 
 	function get_all($args = array()) {
@@ -13,7 +16,7 @@ class Categorias_model extends MY_Model {
 		extract($args);
 
 		$params = array(
-						'from' => 'categorias',
+						'from' => $this->tbl,
 						'order_by' => 'ordem ASC, nome ASC',
 						//'debug' => true,
 						'per_page' => $per_page,
@@ -75,9 +78,9 @@ class Categorias_model extends MY_Model {
 
 		if($update) {
 			$where = "id=$id";
-			$str = $this->db->update_string($this->_prefix.'categorias',$data,$where);
+			$str = $this->db->update_string($this->_prefix.$this->tbl,$data,$where);
 		} else {
-			$str = $this->db->insert_string($this->_prefix.'categorias',$data);
+			$str = $this->db->insert_string($this->_prefix.$this->tbl,$data);
 		}
 		$this->db->query($str);
 
@@ -100,8 +103,8 @@ class Categorias_model extends MY_Model {
 
 		$this->db->query("UPDATE {$this->_prefix}imagens SET categoria_id=NULL WHERE categoria_id=$id");
 		$this->db->query("UPDATE {$this->_prefix}conteudo SET categoria_id=NULL WHERE categoria_id=$id");
-		$this->db->query("DELETE FROM {$this->_prefix}categorias WHERE mae=$id");
-		$this->db->query("DELETE FROM {$this->_prefix}categorias WHERE id=$id");
+		$this->db->query("DELETE FROM {$this->_prefix}{$this->tbl} WHERE mae=$id");
+		$this->db->query("DELETE FROM {$this->_prefix}{$this->tbl} WHERE id=$id");
 
 		$this->db->trans_complete();
 

@@ -1,9 +1,12 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Paginas_model extends MY_Model {
 
 	function __construct() {
         parent::__construct();
+
+        $this->tbl = 'paginas';
     }
 	
 	function get_all($args = array()) {
@@ -13,7 +16,7 @@ class Paginas_model extends MY_Model {
 		extract($args);
 		
 		$params = array(
-						'from' => 'paginas',
+						'from' => $this->tbl,
 						'order_by' => 'menu ASC, ordem ASC, nome ASC',
 						'where' => '1=1',
 						'per_page' => $per_page
@@ -46,7 +49,7 @@ class Paginas_model extends MY_Model {
 	function get_by_cod($cod = null) {
 		$params = array(
 						'where' => "codigo='$cod'",
-						'from' => 'paginas',
+						'from' => $this->tbl,
 						'single' => true
 						);
 						
@@ -56,7 +59,7 @@ class Paginas_model extends MY_Model {
 	function get_by_id($id = null) {
 		$params = array(
 						'where' => "id=$id",
-						'from' => 'paginas',
+						'from' => $this->tbl,
 						'single' => true
 						);
 						
@@ -84,9 +87,9 @@ class Paginas_model extends MY_Model {
 		
 		if($update) {
 			$where = "id=$id";
-			$str = $this->db->update_string($this->_prefix.'paginas',$data,$where);
+			$str = $this->db->update_string($this->_prefix.$this->tbl,$data,$where);
 		} else {
-			$str = $this->db->insert_string($this->_prefix.'paginas',$data);
+			$str = $this->db->insert_string($this->_prefix.$this->tbl,$data);
 		}
 		$this->db->query($str);
 		

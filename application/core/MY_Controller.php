@@ -1,4 +1,5 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 class MY_Controller extends CI_Controller {
 
@@ -39,7 +40,6 @@ class MY_Controller extends CI_Controller {
 			// carrega helper de validation e biblioteca form validation
 			$this->load->helper('validation');
 			$this->load->library('form_validation');
-			$this->form_validation->set_error_delimiters('','<br>');
 
 			$this->data['logado_adm'] = $this->sess->check_session(array('tipo' => 'admin', 'close' => false));
 			$sessoes = $this->session->userdata('sessoes');
@@ -78,10 +78,10 @@ class MY_Controller extends CI_Controller {
 		if($this->uri->segment(1) != 'admin') {
 			//pegamos as seções
 			$this->load->model('Paginas_model','pag');
-			$this->data['secoesmenu'] = $this->pag->get_all(array('ativo' => 1, 'menu' => 1));
+			$this->data['secoes_menu'] = $this->pag->get_all(array('ativo' => 1, 'menu' => 1));
 
-			$this->data['rodapeesq'] = $this->pag->get_by_cod('rodapeesq');
-			$this->data['rodapedir'] = $this->pag->get_by_cod('rodapedir');
+			$this->data['rodape_esq'] = $this->pag->get_by_cod('rodape_esq');
+			$this->data['rodape_dir'] = $this->pag->get_by_cod('rodape_dir');
 			//fim
 		}
 
@@ -163,8 +163,7 @@ class MY_Controller extends CI_Controller {
 		}
 
 		$data['total_rows'] = $this->obj->total_rows;
-		$data['msg'] = $this->session->userdata('msg');
-		$this->session->unset_userdata('msg');
+		$data['msg'] = $this->sess->get_msg();
 
 		$this->_render($this->template['crud_home'],$data);
 	}
@@ -180,7 +179,7 @@ class MY_Controller extends CI_Controller {
 		}
 
 		if($acao == 'alterar' && ($id == null || !is_numeric($id))) {
-			$this->session->set_userdata('msg', 'Id d'.$this->artigo.' '.$this->cskw.' inválida.');
+			$this->sess->set_msg('Id d'.$this->artigo.' '.$this->cskw.' inválida.');
 			$this->_go_home();
 			return false;
 		}
@@ -204,15 +203,15 @@ class MY_Controller extends CI_Controller {
 
 			if($acao == 'novo') {
 				if($id = $this->obj->add($adata)) {
-					$this->session->set_userdata('msg', ucfirst($this->cskw).' cadastrad'.$this->artigo.' com sucesso!');
+					$this->sess->set_msg(ucfirst($this->cskw).' cadastrad'.$this->artigo.' com sucesso!');
 				} else {
-					$this->session->set_userdata('msg', 'Erro ao cadastrar '.$this->artigo.' '.$this->cskw.' '. mysql_error());
+					$this->sess->set_msg('Erro ao cadastrar '.$this->artigo.' '.$this->cskw.' '. mysql_error());
 				}
 			} else {
 				if($this->obj->upt($adata,$id)) {
-					$this->session->set_userdata('msg', ucfirst($this->cskw).' alterad'.$this->artigo.' com sucesso!');
+					$this->sess->set_msg(ucfirst($this->cskw).' alterad'.$this->artigo.' com sucesso!');
 				} else {
-					$this->session->set_userdata('msg', 'Nada foi alterado. '.mysql_error());
+					$this->sess->set_msg('Nada foi alterado. '.mysql_error());
 				}
 			}
 
@@ -232,8 +231,7 @@ class MY_Controller extends CI_Controller {
 			$this->_form_set_defaults();
 		}
 
-        $data['msg'] = $this->session->userdata('msg');
-        $this->session->unset_userdata('msg');
+        $data['msg'] = $this->sess->get_msg();
 
         $data['acao'] = $this->acao;
         $data['id'] = $id;
@@ -288,9 +286,9 @@ class MY_Controller extends CI_Controller {
 		}
 
 		if($this->obj->excluir($id)) {
-			$this->session->set_userdata('msg', ucfirst($this->cskw).' excluíd'.$this->artigo.'.');
+			$this->sess->set_msg(ucfirst($this->cskw).' excluíd'.$this->artigo.'.');
 		} else {
-			$this->session->set_userdata('msg', 'Erro ao excluir '.$this->artigo.' '.$this->cskw.'. '.mysql_error());
+			$this->sess->set_msg('Erro ao excluir '.$this->artigo.' '.$this->cskw.'. '.mysql_error());
 		}
 
 		$this->_go_back();
@@ -337,8 +335,7 @@ class MY_Controller extends CI_Controller {
 
 		$data['imagens'] = $this->obj->get_imagens($this->args);
 
-		$data['msg'] = $this->session->userdata('msg');
-		$this->session->unset_userdata('msg');
+		$data['msg'] = $this->sess->get_msg();
 
 		//carrega imagens.js
 		$data['footer_files'][] = 'backend/includes/reordenar_js';
@@ -375,15 +372,15 @@ class MY_Controller extends CI_Controller {
 
 			if($acao == 'novo') {
 				if($this->obj->add_imagem($adata,$item_id)) {
-					$this->session->set_userdata('msg', 'Imagem cadastrada com sucesso!');
+					$this->sess->set_msg('Imagem cadastrada com sucesso!');
 				} else {
-					$this->session->set_userdata('msg', 'Houve um erro ao cadastrar a imagem.');
+					$this->sess->set_msg('Houve um erro ao cadastrar a imagem.');
 				}
 			} else {
 				if($this->obj->add_imagem($adata,$item_id,true,$imagem_id)) {
-					$this->session->set_userdata('msg', 'Imagem alterada com sucesso!');
+					$this->sess->set_msg('Imagem alterada com sucesso!');
 				} else {
-					$this->session->set_userdata('msg', 'Houve um erro ao alterar a imagem.');
+					$this->sess->set_msg('Houve um erro ao alterar a imagem.');
 				}
 			}
 
@@ -411,8 +408,7 @@ class MY_Controller extends CI_Controller {
 		}
 		$data['acao'] = $this->acao;
 
-		$data['msg'] = $this->session->userdata('msg');
-		$this->session->unset_userdata('msg');
+		$data['msg'] = $this->sess->get_msg();
 
 		$this->_render($this->template['crud_imagens_form'],$data);
 	}
@@ -423,9 +419,9 @@ class MY_Controller extends CI_Controller {
 		}
 
 		if($this->obj->excluir_imagens(array('id' => $id,'destructive' => $destructive))) {
-			$this->session->set_userdata('msg', 'Imagem excluída.');
+			$this->sess->set_msg('Imagem excluída.');
 		} else {
-			$this->session->set_userdata('msg', 'Erro ao excluir a imagem: '.mysql_error());
+			$this->sess->set_msg('Erro ao excluir a imagem: '.mysql_error());
 		}
 
 		$this->_go_back();

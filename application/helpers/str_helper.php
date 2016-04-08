@@ -1,4 +1,5 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 function simplify($str, $nospaces = false, $limit = 0) {
 	//$str = utf8_decode($str);
@@ -78,6 +79,18 @@ function like_str($str) {
 	}
 
 	return $searchstr;
+}
+
+function lc($str) {
+	return mb_convert_case($str, MB_CASE_LOWER);
+}
+
+function tc($str) {
+	return mb_convert_case($str, MB_CASE_TITLE);
+}
+
+function uc($str) {
+	return mb_convert_case($str, MB_CASE_UPPER);
 }
 
 /* End of file str_helper.php */

@@ -1,4 +1,5 @@
-<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Minha_conta extends MY_Controller {
 	
@@ -21,8 +22,7 @@ class Minha_conta extends MY_Controller {
 		$this->load->model('clientes_model','cli');
 		$data['cliente'] = $this->cli->get_by_id($usuario_id);
 
-		$data['msg'] = $this->session->userdata('msg');
-		$this->session->unset_userdata('msg');
+		$data['msg'] = $this->sess->get_msg();
 		
 		$this->_set_title("Minha Conta");
 
@@ -48,9 +48,9 @@ class Minha_conta extends MY_Controller {
 
 		if($this->form_validation->run()) {
 			if($this->cli->upt($cliente_id)) {
-				$this->session->set_userdata('msg', 'Cadastro alterado com sucesso.');
+				$this->sess->set_msg('Cadastro alterado com sucesso.');
 			} else {
-				$this->session->set_userdata('msg', 'Erro ao alterar o cadastro. Por favor, contate-nos para que possamos resolver o problema.');
+				$this->sess->set_msg('Erro ao alterar o cadastro. Por favor, contate-nos para que possamos resolver o problema.');
 			}
 
 			redirect('minha_conta');			

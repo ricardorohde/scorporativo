@@ -1,9 +1,12 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Produtos_model extends MY_Model {
 
 	function __construct() {
         parent::__construct();
+
+        $this->tbl = "produtos";
     }
 
 	/*
@@ -17,7 +20,7 @@ class Produtos_model extends MY_Model {
 
 		$params = array(
 						'select' => 'p.id, p.nome, i.thumb, p.slug, p.preco',
-						'from' => 'produtos p',
+						'from' => "{$this->tbl} p",
 						'join' => "LEFT JOIN {$this->_prefix}imagens i ON i.obj_id=p.id AND obj_tipo='produto'",
 						'order_by' => 'p.nome ASC',
 						'where' => '1=1',
@@ -70,7 +73,7 @@ class Produtos_model extends MY_Model {
 	function get_by_cod($cod = null) {
 		$params = array(
 						'where' => "codigo='$cod'",
-						'from' => 'produtos',
+						'from' => $this->tbl,
 						'single' => true
 						);
 
@@ -80,7 +83,7 @@ class Produtos_model extends MY_Model {
 	function get_by_id($id = null) {
 		$params = array(
 						'where' => "id=$id",
-						'from' => 'produtos',
+						'from' => $this->tbl,
 						'single' => true
 						);
 
@@ -107,9 +110,9 @@ class Produtos_model extends MY_Model {
 
 		if($update) {
 			$where = "id=$id";
-			$str = $this->db->update_string($this->_prefix.'produtos',$data,$where);
+			$str = $this->db->update_string($this->_prefix.$this->tbl,$data,$where);
 		} else {
-			$str = $this->db->insert_string($this->_prefix.'produtos',$data);
+			$str = $this->db->insert_string($this->_prefix.$this->tbl,$data);
 		}
 		$this->db->query($str);
 
@@ -152,7 +155,7 @@ class Produtos_model extends MY_Model {
 			$data['slug'] = $slug;
 		}
 
-		$str = $this->db->update_string("produtos",$data,"id=$item_id");
+		$str = $this->db->update_string($this->tbl, $data, "id=$item_id");
 		$query = $this->db->query($str);
 
 		unset($data);
@@ -204,7 +207,7 @@ class Produtos_model extends MY_Model {
 		$this->excluir_imagens(array('id' => $id, 'tipo' => $this->cskw, 'all' => true));
 
 		$this->db->query("DELETE FROM {$this->_prefix}produtos_categorias WHERE produto_id=$id");
-		$this->db->query("DELETE FROM {$this->_prefix}produtos WHERE id=$id");
+		$this->db->query("DELETE FROM {$this->_prefix}{$this->tbl} WHERE id=$id");
 
 		$this->db->trans_complete();
 

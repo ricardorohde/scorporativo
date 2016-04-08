@@ -1,15 +1,18 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Usuarios_adm_model extends MY_Model {
 
 	function __construct() {
         parent::__construct();
+
+        $this->tbl = "adm";
     }
 
 	function get_all() {
 		$params = array(
 						'select' => 'id, login, nome',
-						'from' => 'adm',
+						'from' => $this->tbl,
 						'order_by' => 'id ASC',
 						'per_page' => 20
 						);
@@ -21,7 +24,7 @@ class Usuarios_adm_model extends MY_Model {
 		$params = array(
 				 		'select' => 'id, login, nome, nivel',
 						'where' => "id='$id'",
-						'from' => 'adm',
+						'from' => $this->tbl,
 						'single' => true
 						);
 
@@ -31,7 +34,7 @@ class Usuarios_adm_model extends MY_Model {
 	function get_by_login($login = null) {
 		$params = array(
 						'where' => "login='$login'",
-						'from' => 'adm',
+						'from' => $this->tbl,
 						'single' => true
 						);
 
@@ -66,9 +69,9 @@ class Usuarios_adm_model extends MY_Model {
 			} else {
 				$where = "login='$id'";
 			}
-			$str = $this->db->update_string($this->_prefix.'adm',$data,$where);
+			$str = $this->db->update_string($this->_prefix.$this->tbl,$data,$where);
 		} else {
-			$str = $this->db->insert_string($this->_prefix.'adm',$data);
+			$str = $this->db->insert_string($this->_prefix.$this->tbl,$data);
 		}
 		$this->db->query($str);
 
@@ -82,7 +85,7 @@ class Usuarios_adm_model extends MY_Model {
 		
 		$this->db->trans_start();
 
-		$this->db->query("DELETE FROM {$this->_prefix}adm WHERE id='$id'");
+		$this->db->query("DELETE FROM {$this->_prefix}{$this->tbl} WHERE id='$id'");
 
 		//tudo ok
 		$this->db->trans_complete();

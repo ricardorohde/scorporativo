@@ -1,9 +1,12 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Clientes_model extends MY_Model {
 
 	function __construct() {
         parent::__construct();
+
+        $this->tbl = 'clientes';
     }
 	
 	function get_all($args = array()) {	
@@ -12,7 +15,7 @@ class Clientes_model extends MY_Model {
 		extract($args);
 		
 		$params = array(
-						'from' => 'clientes c',
+						'from' => "{$this->tbl} c",
 						'order_by' => 'c.nome ASC',
 						'join' => "JOIN {$this->_prefix}usuarios u ON u.rel_id=c.id",
 						'where' => '1=1',
@@ -35,7 +38,7 @@ class Clientes_model extends MY_Model {
 	function get_by_id($id = null) {
 		$params = array(
 						'where' => "c.id=$id",
-						'from' => 'clientes c',
+						'from' => "{$this->tbl} c",
 						'join' => "JOIN {$this->_prefix}usuarios u ON u.rel_id=c.id",
 						'single' => true
 						);
@@ -46,7 +49,7 @@ class Clientes_model extends MY_Model {
 	function get_by_email($email = null) {
 		$params = array(
 						'where' => "c.email='$email'",
-						'from' => 'clientes c',
+						'from' => "{$this->tbl} c",
 						'join' => "JOIN {$this->_prefix}usuarios u ON u.rel_id=c.id AND u.tipo='cliente'",
 						'single' => true
 						);
@@ -63,9 +66,9 @@ class Clientes_model extends MY_Model {
 		
 		if($update) {
 			$where = "id=$id";
-			$str = $this->db->update_string($this->_prefix.'clientes',$data,$where);
+			$str = $this->db->update_string($this->_prefix.$this->tbl,$data,$where);
 		} else {
-			$str = $this->db->insert_string($this->_prefix.'clientes',$data);
+			$str = $this->db->insert_string($this->_prefix.$this->tbl,$data);
 			
 		}
 		$this->db->query($str);
@@ -148,7 +151,7 @@ class Clientes_model extends MY_Model {
 		$this->db->trans_start();
 		
 		$this->db->query("DELETE FROM {$this->_prefix}usuarios WHERE rel_id=$id AND tipo='cliente'");
-		$this->db->query("DELETE FROM {$this->_prefix}clientes WHERE id=$id");
+		$this->db->query("DELETE FROM {$this->_prefix}{$this->tbl} WHERE id=$id");
 		
 		$this->db->trans_complete();
 		

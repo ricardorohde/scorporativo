@@ -1,4 +1,5 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Backup extends MY_Controller {
 	
@@ -9,8 +10,7 @@ class Backup extends MY_Controller {
 	}
 	
 	function index() {
-		$data['msg'] = $this->session->userdata('msg');
-		$this->session->unset_userdata('msg');
+		$data['msg'] = $this->sess->get_msg();
 		
 		$this->_render('backend/backup',$data);
 	}

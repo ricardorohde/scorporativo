@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 23, 2015 at 11:19 PM
+-- Generation Time: Apr 08, 2016 at 12:04 PM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -32,7 +32,38 @@ CREATE TABLE IF NOT EXISTS `sc_acessos` (
   `usuario` varchar(100) NOT NULL,
   `ip` varchar(15) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=26 ;
+
+--
+-- Dumping data for table `sc_acessos`
+--
+
+INSERT INTO `sc_acessos` (`id`, `data_cadastro`, `usuario`, `ip`) VALUES
+(1, '2016-02-09 17:28:45', 'admin', '::1'),
+(2, '2016-02-09 17:29:25', 'admin', '::1'),
+(3, '2016-02-09 17:31:59', 'admin', '::1'),
+(4, '2016-02-09 17:32:48', 'admin', '::1'),
+(5, '2016-02-09 17:34:43', 'admin', '::1'),
+(6, '2016-02-09 17:35:27', 'admin', '::1'),
+(7, '2016-02-09 17:36:10', 'admin', '::1'),
+(8, '2016-02-09 17:36:14', 'admin', '::1'),
+(9, '2016-02-09 17:36:29', 'admin', '::1'),
+(10, '2016-02-09 17:37:58', 'admin', '::1'),
+(11, '2016-02-09 17:38:20', 'admin', '::1'),
+(12, '2016-02-09 17:38:30', 'admin', '::1'),
+(13, '2016-02-09 17:38:40', 'admin', '::1'),
+(14, '2016-02-09 17:38:47', 'admin', '::1'),
+(15, '2016-02-09 17:39:26', 'admin', '::1'),
+(16, '2016-02-09 17:39:38', 'admin', '::1'),
+(17, '2016-02-09 17:42:57', 'admin', '::1'),
+(18, '2016-02-09 17:53:32', 'muller.guilherme@gmail.com', '::1'),
+(19, '2016-02-09 17:53:51', 'muller.guilherme@gmail.com', '::1'),
+(20, '2016-02-09 17:54:14', 'muller.guilherme@gmail.com', '::1'),
+(21, '2016-02-09 17:54:26', 'muller.guilherme@gmail.com', '::1'),
+(22, '2016-02-09 17:59:55', 'muller.guilherme@gmail.com', '::1'),
+(23, '2016-02-19 19:49:04', 'admin', '::1'),
+(24, '2016-04-08 10:00:22', 'admin', '::1'),
+(25, '2016-04-08 10:03:51', 'muller.guilherme@gmail.com', '::1');
 
 -- --------------------------------------------------------
 
@@ -47,7 +78,7 @@ CREATE TABLE IF NOT EXISTS `sc_adm` (
   `senha` char(40) NOT NULL,
   `salt` char(21) NOT NULL,
   `nivel` tinyint(3) unsigned NOT NULL DEFAULT '1',
-  `bloqueado` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `ativo` tinyint(3) unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   UNIQUE KEY `login` (`login`),
   KEY `nivel` (`nivel`)
@@ -57,8 +88,8 @@ CREATE TABLE IF NOT EXISTS `sc_adm` (
 -- Dumping data for table `sc_adm`
 --
 
-INSERT INTO `sc_adm` (`id`, `nome`, `login`, `senha`, `salt`, `nivel`, `bloqueado`) VALUES
-(1, 'Administrador', 'admin', '97ac7d540b3e20ce0c8c14120b801bfded2ab5fc', '0.67589800 1437499538', 1, 0);
+INSERT INTO `sc_adm` (`id`, `nome`, `login`, `senha`, `salt`, `nivel`, `ativo`) VALUES
+(1, 'Administrador', 'admin', '97ac7d540b3e20ce0c8c14120b801bfded2ab5fc', '0.67589800 1437499538', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -92,7 +123,14 @@ CREATE TABLE IF NOT EXISTS `sc_clientes` (
   `nome` varchar(200) NOT NULL,
   `email` varchar(200) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `sc_clientes`
+--
+
+INSERT INTO `sc_clientes` (`id`, `data_cadastro`, `tipo`, `nome`, `email`) VALUES
+(1, '2016-02-09 17:52:30', 'fisica', 'Guilherme Müller', 'muller.guilherme@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -203,7 +241,15 @@ CREATE TABLE IF NOT EXISTS `sc_imagens` (
   KEY `obj_tipo` (`obj_tipo`),
   KEY `obj_id` (`obj_id`),
   KEY `ordem` (`ordem`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `sc_imagens`
+--
+
+INSERT INTO `sc_imagens` (`id`, `data_cadastro`, `mini`, `thumb`, `med`, `big`, `mini_2x`, `thumb_2x`, `med_2x`, `big_2x`, `ordem`, `obj_id`, `obj_tipo`, `legenda`, `categoria_id`, `link`) VALUES
+(1, '2016-02-19 19:50:58', NULL, NULL, 'slide_92a5fa6eefe1578eb54a7f67e7ebab98.jpg', NULL, NULL, NULL, NULL, NULL, 2, 0, 'slide', '', NULL, ''),
+(2, '2016-02-19 19:51:06', NULL, NULL, 'slide_ae8d84004205f814b59d8f98d1b7e0da.jpg', NULL, NULL, NULL, NULL, NULL, 1, 0, 'slide', '', NULL, '');
 
 -- --------------------------------------------------------
 
@@ -237,8 +283,8 @@ INSERT INTO `sc_paginas` (`id`, `nome`, `titulo`, `codigo`, `texto`, `mae`, `ord
 (2, 'Quem Somos', 'Quem Somos', 'quem_somos', '', NULL, 2, 1, 'padrao', 0, 1, 1),
 (4, 'Serviços', 'Serviços', 'servicos', '', NULL, 3, 1, 'padrao', 0, 1, 1),
 (5, 'Contato', 'Contato', 'contato', '', NULL, 4, 1, 'padrao', 0, 1, 1),
-(6, 'Rodapé - Coluna Esquerda', 'Rodapé - Coluna Esquerda', 'rodapeesq', '<p>email@email.com.br 41 3333-4444</p>', NULL, 0, 0, 'padrao', 0, 1, 1),
-(7, 'Rodapé - Coluna Direita', 'Rodapé - Coluna Direita', 'rodapedir', '<p>Rua Teste, 123 <br /> Curitiba, PR <br /> 80000-000</p>', NULL, 0, 0, 'padrao', 0, 1, 1);
+(6, 'Rodapé - Coluna Esquerda', 'Rodapé - Coluna Esquerda', 'rodape_esq', '<p>email@email.com.br 41 3333-4444</p>', NULL, 0, 0, 'padrao', 0, 1, 1),
+(7, 'Rodapé - Coluna Direita', 'Rodapé - Coluna Direita', 'rodape_dir', '<p>Rua Teste, 123 <br /> Curitiba, PR <br /> 80000-000</p>', NULL, 0, 0, 'padrao', 0, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -306,7 +352,14 @@ CREATE TABLE IF NOT EXISTS `sc_usuarios` (
   `nivel` tinyint(4) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   KEY `rel_id` (`rel_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `sc_usuarios`
+--
+
+INSERT INTO `sc_usuarios` (`id`, `rel_id`, `data_cadastro`, `nome`, `tipo`, `email`, `senha`, `salt`, `ativo`, `nivel`) VALUES
+(1, 1, '2016-02-09 17:52:30', 'Guilherme Müller', 'cliente', 'muller.guilherme@gmail.com', '3fe4de2a4f4f169a1a24b1f1cf70cb52af17e676', '0.59539100 1455040350', 1, 1);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

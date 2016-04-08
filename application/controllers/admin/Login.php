@@ -1,4 +1,5 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Login extends MY_Controller {
 
@@ -31,8 +32,7 @@ class Login extends MY_Controller {
 			}
 		}
 		
-		$data['msg'] = $this->session->userdata('msg');
-		$this->session->unset_userdata('msg');
+		$data['msg'] = $this->sess->get_msg();
 		
 		$this->_render('backend/login',$data);
 	}

@@ -41,9 +41,9 @@
 		</div>
 
 		<nav class="menu-principal">
-			<?php if(isset($secoesmenu) && $secoesmenu): ?>
+			<?php if(isset($secoes_menu) && $secoes_menu): ?>
 			<ul class="grupo">
-				<?php foreach($secoesmenu as $row): ?>
+				<?php foreach($secoes_menu as $row): ?>
 				<li>
 					<a <?=find_active($row->codigo,$this->uri->segment(1,'home'))?>  href="<?=site_url($row->codigo)?>">
 						<?=$row->nome?>
@@ -68,13 +68,13 @@
 	<footer class="site-rodape">
 		<div class="grupo">
 			<div class="rodape-esq grid2-1">
-				<?php if(isset($rodapeesq)): ?>
-				<?=$rodapeesq->texto?>
+				<?php if(isset($rodape_esq)): ?>
+				<?=$rodape_esq->texto?>
 				<?php endif; ?>
 			</div>
 			<div class="rodape-dir grid2-1 ultima a-dir">
-				<?php if(isset($rodapedir)): ?>
-				<?=$rodapedir->texto?>
+				<?php if(isset($rodape_dir)): ?>
+				<?=$rodape_dir->texto?>
 				<?php endif; ?>
 			</div>
 		</div>

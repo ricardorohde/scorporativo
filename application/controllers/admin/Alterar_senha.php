@@ -1,4 +1,5 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Alterar_senha extends MY_Controller {
 
@@ -13,7 +14,7 @@ class Alterar_senha extends MY_Controller {
 	function index() {
 		$this->load->model('Usuarios_adm_model','obj');
 
-		$usuario = $this->session->userdata('usuario');
+		$usuario = $this->sess->get_value('usuario', 'admin');
 		$this->object = $this->obj->get_by_login($usuario);
 
 		$this->form_validation->set_rules('senha','Senha','required|alpha_dash');
@@ -21,17 +22,16 @@ class Alterar_senha extends MY_Controller {
 
 		if ($this->form_validation->run()) {
 			if($this->obj->upt(array(), $usuario)) {
-				$this->session->set_userdata('msg', 'Senha alterada com sucesso!');
+				$this->sess->set_msg('Senha alterada com sucesso!');
 			} else {
-				$this->session->set_userdata('msg', 'Erro ao alterar a senha.');
+				$this->sess->set_msg('Erro ao alterar a senha.');
 			}
             $data['erro'] = false;
 		} else {
             $data['erro'] = true;
         }
 
-		$data['msg'] = $this->session->userdata('msg');
-		$this->session->unset_userdata('msg');
+		$data['msg'] = $this->sess->get_msg();
 
 		$this->_render('backend/alterar_senha',$data);
 	}

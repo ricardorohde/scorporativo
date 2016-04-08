@@ -1,4 +1,5 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 function get_date_diff($date1, $date2, $format = 'days') {
 	$diff = strtotime($date2) - strtotime($date1);
