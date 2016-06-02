@@ -1,5 +1,5 @@
 <p>
-	Para começar, digite o nome do produto:
+	Para começar, digite o nome:
 </p>
 
 <div class="campo">

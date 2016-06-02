@@ -20,9 +20,12 @@ class Session_model extends MY_Model {
 	// args:
 	// $close: true/false
 	// $tipo: string
-	function check_session($args = array()) {
+	function check_session($tipo = 'cliente', $args = array()) {
 		//pr($this->session->userdata());
 		//die();
+
+		// defaults
+		$close = true;
 
 		$sessoes = $this->get_value('sessoes');
 
@@ -35,7 +38,7 @@ class Session_model extends MY_Model {
 		if(!isset($sessoes[$tipo]['id'])) {
 			if($close) {
 				//die('erro14');
-				$this->close(array('redirect' => true,'tipo' => $tipo));
+				$this->close($tipo, array('redirect' => true));
 			} else {
 				//die('erro15');
 				return false;
@@ -49,7 +52,7 @@ class Session_model extends MY_Model {
 		if(!is_numeric($usuario_id)) {
 			if($close) {
 				//die('erro8');
-				$this->close(array('redirect' => true,'tipo' => $tipo));
+				$this->close($tipo, array('redirect' => true));
 			} else {
 				//die('erro3');
 				return false;
@@ -63,7 +66,7 @@ class Session_model extends MY_Model {
 		if($sessao_logado !== TRUE) {
 			if($close) {
 				//die('erro9');
-				$this->close(array('redirect' => true, 'tipo' => $tipo));
+				$this->close($tipo, array('redirect' => true));
 			} else {
 				//die('erro1');
 				return false;
@@ -79,7 +82,7 @@ class Session_model extends MY_Model {
 		if($query->num_rows() != 1) {
 			if($close) {
 				//die('erro10');
-				$this->close(array('redirect' => true, 'tipo' => $tipo));
+				$this->close($tipo, array('redirect' => true));
 			} else {
 				//die('erro2');
 				return false;
@@ -90,7 +93,7 @@ class Session_model extends MY_Model {
 		if ($sessao_logado != TRUE || $sessao_tipo != $tipo) {
 			if($close) {
 				//die('erro13');
-				$this->close(array('redirect' => true, 'tipo' => $tipo));
+				$this->close($tipo, array('redirect' => true));
 			} else {
 				//die('erro6');
 				return false;
@@ -154,23 +157,21 @@ class Session_model extends MY_Model {
 	}
 
 	function get_msg() {
-		$msg = $this->get_value('msg', 'geral');
-		$this->del_value('msg', 'geral');
+		$msg = $this->get_value('msg');
+		$this->del_value('msg');
 
 		return $msg;
 	}
 
 	function set_msg($value) {
-		$this->set_value('msg', $value, 'geral');
+		$this->set_value('msg', $value);
 	}
 
 	//args:
 	//$redirect: string
 	//$dest: string
-	function close($args = array()) {
-		//print "teste";
+	function close($tipo = 'cliente', $args = array()) {
 		// default values
-		$tipo = 'cliente';
 		$redirect = true;
 
 		extract($args);

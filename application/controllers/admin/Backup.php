@@ -6,7 +6,7 @@ class Backup extends MY_Controller {
 	function __construct() {
 		parent::__construct();
 		
-		$this->sess->check_session(array('close' => true, 'tipo' => 'admin'));
+		$this->sess->check_session('admin');
 	}
 	
 	function index() {

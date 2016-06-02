@@ -6,7 +6,7 @@ class Usuarios extends MY_Controller {
 	function __construct() {
 		parent::__construct();
 
-		$this->sess->check_session(array('close' => true,'tipo' => 'admin'));
+		$this->sess->check_session('admin');
 
 		$this->cskw = 'usuário';
 		$this->ckw = 'usuários';
@@ -20,6 +20,8 @@ class Usuarios extends MY_Controller {
 
 	function home($filtros = null) {
 		//busca
+		$this->data['filtros'] = $filtros;
+		
 		$vars = parse_query($filtros);
 		
 		if(!isset($vars['nome'])) $vars['nome'] = null;
@@ -32,18 +34,16 @@ class Usuarios extends MY_Controller {
 		parent::home();
 	}
 
-	function _form_setup() {
+	function _form_set_rules() {
 		$this->form_validation->set_rules('nome', 'Nome', 'trim|required');
 		$this->form_validation->set_rules('login', 'Login', 'trim|required|alpha_dash|callback__check_login');
 		$this->form_validation->set_rules('senha', 'Senha', 'trim|required');
 		$this->form_validation->set_rules('senhaconf', 'Confirmação de Senha', 'trim|required|matches[senha]');
-		//$this->form_validation->set_rules('ativo', 'Ativo', 'required');
 	}
 
 	function _form_set_defaults() {
 		$this->form_validation->set_value_default('nome',$this->item->nome);
 		$this->form_validation->set_value_default('login',$this->item->login);
-		//$this->form_validation->set_value_default('ativo',$this->item->ativo);
 	}
 
 	function filtros() {

@@ -6,7 +6,7 @@ class Paginas extends MY_Controller {
 	function __construct() {
 		parent::__construct();
 
-		$this->sess->check_session(array('close' => true,'tipo' => 'admin'));
+		$this->sess->check_session('admin');
 
 		$this->cskw = 'página';
 		$this->ckw = 'páginas';

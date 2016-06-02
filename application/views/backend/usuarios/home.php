@@ -26,7 +26,9 @@
 	</fieldset>
 	<?=form_close()?>
 
-	<a class="icone cross" href="<?=site_url("admin/$this->kw")?>">Limpar Pesquisa</a>
+	<?php if($filtros): ?>
+	<a class="icone cross" href="<?=site_url("admin/$this->kw")?>">Voltar à listagem completa</a>
+	<?php endif; ?>
 </div>
 
 <?php if(isset($entries) && !empty($entries) && $entries !== false): ?>

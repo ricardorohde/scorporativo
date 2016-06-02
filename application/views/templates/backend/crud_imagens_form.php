@@ -17,9 +17,8 @@
 </div>
 <?php endif; ?>
 
-<?php if(validation_errors() || $erro): ?>
+<?php if(validation_errors()): ?>
 <div class="mensagem mensagem-erro">
-	<?php if ($erro) echo $erro; ?>
 	<?=validation_errors()?>
 </div>
 <?php endif; ?>

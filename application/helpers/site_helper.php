@@ -101,8 +101,6 @@ function limpa($str, $args = array()) {
 	return $str;
 }
 
-// útil para debug simples
-// ideia do César Kohl
 function pr($str) {
 	print "<pre>";
 	print_r($str);

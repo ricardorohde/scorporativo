@@ -6,7 +6,7 @@ class Alterar_senha extends MY_Controller {
 	function __construct() {
 		parent::__construct();
 
-		$this->sess->check_session(array('close' => true, 'tipo' => 'admin'));
+		$this->sess->check_session('admin');
 
 		$this->kw = 'alterar_senha';
 	}

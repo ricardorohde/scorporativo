@@ -6,7 +6,7 @@ class Minha_conta extends MY_Controller {
 	function __construct() {
 		parent::__construct();
 		
-		$this->sess->check_session(array('close' => true, 'tipo' => 'cliente'));
+		$this->sess->check_session();
 
 		$sessoes = $this->session->userdata('sessoes');
 		$this->sessao_dados = $sessoes['cliente'];

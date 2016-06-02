@@ -9,7 +9,7 @@ class Home extends MY_Controller {
 		//pr($this->session->userdata());
 		//die();
 
-		$this->sess->check_session(array('close' => true,'tipo' => 'admin'));
+		$this->sess->check_session('admin');
 	}
 	
 	function index() {

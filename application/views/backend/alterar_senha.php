@@ -8,7 +8,7 @@
 </div>
 <?php endif; ?>
 
-<?php if(validation_errors() && $erro): ?>
+<?php if(validation_errors()): ?>
 <div class="mensagem mensagem-erro">
 	<?=validation_errors()?>
 </div>
@@ -17,7 +17,7 @@
 <?=form_open(current_url())?>
 
 	<p>
-		Login: <?=$this->session->userdata('usuario')?>
+		Login: <?=$this->sess->get_value('usuario', 'admin')?>
 	</p>
 
 	<fieldset class="grupo">

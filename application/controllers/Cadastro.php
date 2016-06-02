@@ -9,7 +9,7 @@ class Cadastro extends MY_Controller {
 	
 	function index() {
 		//se a pessoa já está logada, passar para a parte de minha conta
-		if($this->sess->check_session(array('close' => false, 'tipo' => 'cliente'))) {
+		if($this->sess->check_session('cliente', array('close' => false))) {
 			redirect('minha_conta');
 			return;
 		}

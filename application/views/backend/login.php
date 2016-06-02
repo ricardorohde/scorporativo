@@ -1,6 +1,6 @@
 <div class="form-login">
 	
-	<?php if(validation_errors() || $msg): ?>
+	<?php if(validation_errors() || $msg || $erro): ?>
 	<div class="mensagem mensagem-erro">
 		<?=validation_errors()?>
 		<?php if(isset($erro)) echo $erro; ?>

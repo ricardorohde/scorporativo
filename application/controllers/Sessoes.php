@@ -18,7 +18,7 @@ class Sessoes extends MY_Controller {
 	}
 
 	function login($redirect = null) {
-		if($this->sess->check_session(array('close' => false, 'tipo' => 'cliente'))) {
+		if($this->sess->check_session('cliente', array('close' => false))) {
 			redirect('minha_conta');
 			return;
 		}

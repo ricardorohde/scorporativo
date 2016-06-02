@@ -3,8 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class MY_Controller extends CI_Controller {
 
-    function __construct()
-    {
+    function __construct() {
 		parent::__construct();
 		$this->data = array();
 		$this->site_lang = 'pt';
@@ -29,7 +28,9 @@ class MY_Controller extends CI_Controller {
 		$this->load->model("Session_model",'sess');
 
 		if($this->uri->segment(1) == 'admin') {
-			//ADM defaults
+			//pr($this->session->userdata());
+
+			// ADM defaults
 			$this->template = array();
 			$this->template['crud_home'] = 'templates/backend/crud_home';
 			$this->template['crud_form'] = 'templates/backend/crud_form';
@@ -41,7 +42,7 @@ class MY_Controller extends CI_Controller {
 			$this->load->helper('validation');
 			$this->load->library('form_validation');
 
-			$this->data['logado_adm'] = $this->sess->check_session(array('tipo' => 'admin', 'close' => false));
+			$this->data['logado_adm'] = $this->sess->check_session('admin', array('close' => false));
 			$sessoes = $this->session->userdata('sessoes');
 			$this->data['sessao_adm'] = $sessoes['admin'];
 
@@ -133,9 +134,7 @@ class MY_Controller extends CI_Controller {
 	 * @return	void
 	 */
 	function index() {
-		if(!$this->sess->check_session(array('close' => false, 'tipo' => 'admin'))) {
-			return false;
-		}
+		if(!$this->sess->check_session('admin', array('close' => false))) return false;
 
 		redirect('admin/'.$this->kw.'/home');
 	}
@@ -149,9 +148,7 @@ class MY_Controller extends CI_Controller {
 	 * @return	void
 	 */
 	function home() {
-		if(!$this->sess->check_session(array('close' => false, 'tipo' => 'admin'))) {
-			return false;
-		}
+		if(!$this->sess->check_session('admin', array('close' => false))) return false;
 
 		$data['entries'] = $this->obj->get_all($this->args);
 		$data['current'] = $this->obj->current;
@@ -169,9 +166,7 @@ class MY_Controller extends CI_Controller {
 	}
 
 	function gerenciar($acao = 'novo',$id = null) {		
-		if(!$this->sess->check_session(array('close' => false, 'tipo' => 'admin'))) {
-			return false;
-		}
+		if(!$this->sess->check_session('admin', array('close' => false))) return false;
 
 		if($acao != 'novo' && $acao != 'alterar') {
 			$this->_go_home();
@@ -239,9 +234,7 @@ class MY_Controller extends CI_Controller {
 	}
 
     function upt($pag = null) {
-        if(!$this->sess->check_session(array('close' => false, 'tipo' => 'admin'))) {
-			return false;
-		}
+        if(!$this->sess->check_session('admin', array('close' => false))) return false;
 
 		if(!$pag) {
 			die('página não especificada');
@@ -250,18 +243,16 @@ class MY_Controller extends CI_Controller {
 		$func = 'upt_'.$pag;
 
 		if($this->obj->$func()) {
-			$this->session->set_userdata('msg','Dados atualizados.');
+			$this->session->set_msg('Dados atualizados.');
 		} else {
-			$this->session->set_userdata('msg','Nenhuma informação alterada.');
+			$this->session->set_msg('Nenhuma informação alterada.');
 		}
 
 		$this->_go_back();
 	}
 
     function reordenar($filtros = null) {
-		if(!$this->sess->check_session(array('close' => false, 'tipo' => 'admin'))) {
-			return false;
-		}
+		if(!$this->sess->check_session('admin', array('close' => false))) return false;
 
         $data['redirect'] = $this->_get_redirect();
 
@@ -277,12 +268,12 @@ class MY_Controller extends CI_Controller {
 	}
 
 	function excluir($id = null) {
-		if(!$this->sess->check_session(array('close' => false, 'tipo' => 'admin'))) {
-			return false;
-		}
+		if(!$this->sess->check_session('admin', array('close' => false))) return false;
 
 		if(empty($id) || !isset($this->obj)) {
-			return false;
+			$this->sess->set_msg(ucfirst($this->cskw).' inválid'.$this->artigo.'.');
+			$this->_go_back();
+			return;
 		}
 
 		if($this->obj->excluir($id)) {
@@ -295,9 +286,7 @@ class MY_Controller extends CI_Controller {
 	}
 
 	function excluir_varios() {
-		if(!$this->sess->check_session(array('close' => false, 'tipo' => 'admin'))) {
-			return false;
-		}
+		if(!$this->sess->check_session('admin', array('close' => false))) return false;
 
 		$selecionados = $this->input->post('selecionados');
 
@@ -313,9 +302,7 @@ class MY_Controller extends CI_Controller {
 	}
 
 	function imagens($id = null) {
-		if(!$this->sess->check_session(array('close' => false, 'tipo' => 'admin'))) {
-			return false;
-		}
+		if(!$this->sess->check_session('admin', array('close' => false))) return false;
 
 		$data['redirect'] = $this->_get_redirect();
 
@@ -344,9 +331,7 @@ class MY_Controller extends CI_Controller {
 	}
 
 	function gerenciar_imagem($acao = 'novo', $item_id = null, $imagem_id = null) {
-		if(!$this->sess->check_session(array('close' => false, 'tipo' => 'admin'))) {
-			return false;
-		}
+		if(!$this->sess->check_session('admin', array('close' => false))) return false;
 
 		if(!is_numeric($item_id)) {
 			$this->_go_home();
@@ -414,9 +399,7 @@ class MY_Controller extends CI_Controller {
 	}
 
 	function excluir_imagem($id, $destructive = 'true') {
-		if(!$this->sess->check_session(array('close' => false, 'tipo' => 'admin'))) {
-			return false;
-		}
+		if(!$this->sess->check_session('admin', array('close' => false))) return false;
 
 		if($this->obj->excluir_imagens(array('id' => $id,'destructive' => $destructive))) {
 			$this->sess->set_msg('Imagem excluída.');
@@ -428,15 +411,13 @@ class MY_Controller extends CI_Controller {
 	}
 
     function get_json() {
-        if(!$this->sess->check_session(array('close' => false, 'tipo' => 'admin'))) {
-			return false;
-		}
+        if(!$this->sess->check_session('admin', array('close' => false))) return false;
 
 		$resultados = array();
 		$item = $this->input->post('item');
 
 		$args['nome'] = $item;
-		$busca = $this->obj->getAll($args);
+		$busca = $this->obj->get_all($args);
 
 		if(!$busca) {
 			$json = json_encode($resultados);
@@ -481,9 +462,7 @@ class MY_Controller extends CI_Controller {
 	}
 
 	function _go_home() {
-		if(!$this->sess->check_session(array('close' => false, 'tipo' => 'admin'))) {
-			return false;
-		}
+		if(!$this->sess->check_session('admin', array('close' => false))) return false;
 
 		if(isset($this->kw)) {
 			redirect("admin/$this->kw");
@@ -504,17 +483,13 @@ class MY_Controller extends CI_Controller {
 	}
 
 	function reordenar_imagens() {
-		if(!$this->sess->check_session(array('close' => false, 'tipo' => 'admin'))) {
-			return false;
-		}
+		if(!$this->sess->check_session('admin', array('close' => false))) return false;
 
 		echo $this->obj->reordenar_imagens();
 	}
 
 	function reordenar_ajax() {
-		if(!$this->sess->check_session(array('close' => false, 'tipo' => 'admin'))) {
-			return false;
-		}
+		if(!$this->sess->check_session('admin', array('close' => false))) return false;
 
 		echo $this->obj->reordenar();
 	}
