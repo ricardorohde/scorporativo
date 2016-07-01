@@ -15,21 +15,22 @@ class Clientes_model extends MY_Model {
 		extract($args);
 		
 		$params = array(
+						'select' => "*",
 						'from' => "{$this->tbl} c",
-						'order_by' => 'c.nome ASC',
 						'join' => "JOIN {$this->_prefix}usuarios u ON u.rel_id=c.id",
 						'where' => '1=1',
+						'order_by' => 'c.nome ASC',
 						'per_page' => $per_page
 						);
 		
 		if(isset($nome)) {
 			$this->load->helper('str');
-			$likestr = likestr($nome);
-			$params['where'] .= " AND c.nome LIKE '$likestr' ";
+			$like_str = like_str($nome);
+			$params['where'] .= " AND c.nome LIKE '$like_str' ";
 		}
 
 		if(isset($ativo) && is_numeric($ativo)) {
-			$params['where'] .= " AND ativo=$ativo ";
+			$params['where'] .= " AND c.ativo=$ativo ";
 		}
 						
 		return $this->get_entries($params);
@@ -37,9 +38,10 @@ class Clientes_model extends MY_Model {
 	
 	function get_by_id($id = null) {
 		$params = array(
-						'where' => "c.id=$id",
+						'select' => "*",
 						'from' => "{$this->tbl} c",
 						'join' => "JOIN {$this->_prefix}usuarios u ON u.rel_id=c.id",
+						'where' => "c.id=$id",
 						'single' => true
 						);
 						
@@ -48,9 +50,10 @@ class Clientes_model extends MY_Model {
 
 	function get_by_email($email = null) {
 		$params = array(
-						'where' => "c.email='$email'",
+						'select' => "*",
 						'from' => "{$this->tbl} c",
 						'join' => "JOIN {$this->_prefix}usuarios u ON u.rel_id=c.id AND u.tipo='cliente'",
+						'where' => "c.email='$email'",
 						'single' => true
 						);
 						

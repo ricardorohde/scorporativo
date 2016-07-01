@@ -31,7 +31,7 @@
 		</a>
 		
 		<div class="usuario-meta">
-			<?php if($this->session->userdata('logado') && $this->session->userdata('tipo') == 'cliente'): ?>
+			<?php if($this->sess->check_session('cliente', array('close' => false))): ?>
 
 			<?=$this->session->userdata('nome')?> | <a href="<?=site_url('minha_conta')?>">Minha Conta</a> | <a href="<?=site_url('sessoes/logout')?>">Sair</a>
 

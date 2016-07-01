@@ -22,19 +22,19 @@ class Produtos_model extends MY_Model {
 						'select' => 'p.id, p.nome, i.thumb, p.slug, p.preco',
 						'from' => "{$this->tbl} p",
 						'join' => "LEFT JOIN {$this->_prefix}imagens i ON i.obj_id=p.id AND obj_tipo='produto'",
-						'order_by' => 'p.nome ASC',
 						'where' => '1=1',
+						'order_by' => 'p.nome ASC',
 						'per_page' => $per_page
 						);
 
 		if(isset($nome)) {
 			$this->load->helper('str');
-			$likestr = likestr($nome);
-			$params['where'] .= " AND p.nome LIKE '$likestr' ";
+			$like_str = like_str($nome);
+			$params['where'] .= " AND p.nome LIKE '$like_str' ";
 		}
 
 		if(isset($ativo) && is_numeric($ativo)) {
-			$params['where'] .= " AND ativo=$ativo ";
+			$params['where'] .= " AND p.ativo=$ativo ";
 		}
 
 		return $this->get_entries($params);
@@ -72,8 +72,9 @@ class Produtos_model extends MY_Model {
 
 	function get_by_cod($cod = null) {
 		$params = array(
-						'where' => "codigo='$cod'",
+						'select' => "*",
 						'from' => $this->tbl,
+						'where' => "codigo='$cod'",
 						'single' => true
 						);
 
@@ -82,8 +83,9 @@ class Produtos_model extends MY_Model {
 
 	function get_by_id($id = null) {
 		$params = array(
-						'where' => "id=$id",
+						'select' => "*",
 						'from' => $this->tbl,
+						'where' => "id=$id",
 						'single' => true
 						);
 

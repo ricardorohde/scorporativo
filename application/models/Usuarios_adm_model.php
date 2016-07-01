@@ -23,8 +23,8 @@ class Usuarios_adm_model extends MY_Model {
 	function get_by_id($id = null) {
 		$params = array(
 				 		'select' => 'id, login, nome, nivel',
+				 		'from' => $this->tbl,
 						'where' => "id='$id'",
-						'from' => $this->tbl,
 						'single' => true
 						);
 
@@ -33,8 +33,9 @@ class Usuarios_adm_model extends MY_Model {
 
 	function get_by_login($login = null) {
 		$params = array(
-						'where' => "login='$login'",
+						'select' => "*",
 						'from' => $this->tbl,
+						'where' => "login='$login'",
 						'single' => true
 						);
 

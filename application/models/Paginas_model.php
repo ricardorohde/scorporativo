@@ -16,9 +16,10 @@ class Paginas_model extends MY_Model {
 		extract($args);
 		
 		$params = array(
+						'select' => "*",
 						'from' => $this->tbl,
-						'order_by' => 'menu ASC, ordem ASC, nome ASC',
 						'where' => '1=1',
+						'order_by' => 'menu ASC, ordem ASC, nome ASC',
 						'per_page' => $per_page
 						);
 		
@@ -48,8 +49,9 @@ class Paginas_model extends MY_Model {
 	
 	function get_by_cod($cod = null) {
 		$params = array(
-						'where' => "codigo='$cod'",
+						'select' => "*",
 						'from' => $this->tbl,
+						'where' => "codigo='$cod'",
 						'single' => true
 						);
 						
@@ -58,8 +60,9 @@ class Paginas_model extends MY_Model {
 	
 	function get_by_id($id = null) {
 		$params = array(
-						'where' => "id=$id",
+						'select' => "*",
 						'from' => $this->tbl,
+						'where' => "id=$id",
 						'single' => true
 						);
 						

@@ -16,11 +16,11 @@ class Categorias_model extends MY_Model {
 		extract($args);
 
 		$params = array(
+						'select' => "*",
 						'from' => $this->tbl,
+						'where' => "1=1",
 						'order_by' => 'ordem ASC, nome ASC',
-						//'debug' => true,
-						'per_page' => $per_page,
-						'where' => "1=1"
+						'per_page' => $per_page
 						);
 
 		if(isset($mae) && is_numeric($mae)) {
@@ -44,8 +44,9 @@ class Categorias_model extends MY_Model {
 
 	function get_by_id($id = null) {
 		$params = array(
-						'where' => "id=$id",
+						'select' => "*",
 						'from' => 'categorias',
+						'where' => "id=$id",
 						'single' => true
 						);
 

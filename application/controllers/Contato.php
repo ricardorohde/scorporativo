@@ -28,10 +28,10 @@ class Contato extends MY_Controller {
 
 			$email_params = array('to' => $to
 								 ,'template' => 'contato'
-								 ,'replyto' => $email
+								 ,'reply_to' => $email
 								 ,'subject' => $subject
 								 //,'preview' => true
-								 ,'cdata' => $emdata
+								 ,'content' => $emdata
 							);
 			$send = $this->_send_mail($email_params);
 

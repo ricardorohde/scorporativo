@@ -516,7 +516,7 @@ class MY_Controller extends CI_Controller {
 
 		$this->email->from($from, $from_name);
 		$this->email->to($to);
-		if(!empty($replyto)) {
+		if(!empty($reply_to)) {
 			$this->email->reply_to($reply_to);
 		}
 		if(isset($cc)) {
